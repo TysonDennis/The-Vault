@@ -29,6 +29,8 @@ public class Camera : MonoBehaviour
     private PlayerControls controls;
     [SerializeField]
     private InputAction zoom;
+    [SerializeField]
+    private InputAction rotate;
 
     private void Awake()
     {
@@ -38,18 +40,30 @@ public class Camera : MonoBehaviour
     private void OnEnable()
     {
         zoom = controls.Kaitlyn.Zoom;
+        controls.Kaitlyn.Rotate.started += DoRotate;
         controls.Kaitlyn.Enable();
     }
 
     private void OnDisable()
     {
+        controls.Kaitlyn.Rotate.started -= DoRotate;
         controls.Kaitlyn.Disable();
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = player.transform.position + new Vector3(xPos, yPos, zPos);;
-        //zPos = Mathf.Clamp(zPos, minZ, maxZ);
+        transform.position = player.transform.position + new Vector3(xPos, yPos, zPos);
+        zPos += zoom.ReadValue<float>() * sensitivity;
+        zPos = Mathf.Clamp(zPos, minZ, maxZ);
+        transform.rotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
+    }
+
+    private void DoRotate(InputAction.CallbackContext obj)
+    {
+        if (!Mouse.current.leftButton.isPressed)
+            return;
+        float inputValue = obj.ReadValue<Vector2>().x;
+        transform.rotation = Quaternion.Euler(0f, inputValue * sensitivity + transform.rotation.eulerAngles.y, 0f);
     }
 }

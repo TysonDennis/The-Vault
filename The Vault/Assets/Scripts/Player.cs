@@ -16,9 +16,6 @@ public class Player : MonoBehaviour
     //holds Kaitlyn's terminal velocity
     [SerializeField]
     float terminalVelocity;
-    //holds the check for if Kaitlyn is standing on ground
-    [SerializeField]
-    bool isGrounded;
     //holds the player's controls
     [SerializeField]
     private PlayerControls controls;
@@ -31,6 +28,9 @@ public class Player : MonoBehaviour
     //holds the camera
     [SerializeField]
     private Camera playerCamera;
+    //holds Kaitlyn's jump force
+    [SerializeField]
+    float JumpForce;
 
     //gets Kaitlyn's rigidbody and controls
     void Awake()
@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     //enables Kaitlyn's movement
     private void OnEnable()
     {
+        controls.Kaitlyn.Jump.started += DoJump;
         move = controls.Kaitlyn.Move;
         controls.Kaitlyn.Enable();
     }
@@ -49,6 +50,7 @@ public class Player : MonoBehaviour
     //disables Kaitlyn's movement
     private void OnDisable()
     {
+        controls.Kaitlyn.Jump.started -= DoJump;
         controls.Kaitlyn.Disable();
     }
 
@@ -105,6 +107,33 @@ public class Player : MonoBehaviour
         else
         {
             rb.angularVelocity = Vector3.zero;
+        }
+    }
+
+    //makes Kaitlyn jump, if she is touching the ground
+    private void DoJump(InputAction.CallbackContext obj)
+    {
+        //only lets Kaitlyn jump if she's in contact with the ground
+        if (IsGrounded())
+        {
+            forceDirection += Vector3.up * JumpForce;
+        }
+    }
+
+    //checks if Kaitlyn is standing on solid ground
+    private bool IsGrounded()
+    {
+        //contains the raycast's origin and direction
+        Ray ray = new Ray(this.transform.position + Vector3.up, Vector3.down);
+        //sets to true if the raycast hits something
+        if (Physics.Raycast(ray, out RaycastHit hit, 3f))
+        {
+            return true;
+        }
+        //sets to false if it doesn't hit
+        else
+        {
+            return false;
         }
     }
 }

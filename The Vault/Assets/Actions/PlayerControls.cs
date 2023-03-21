@@ -44,6 +44,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Rotate"",
+                    ""type"": ""Value"",
+                    ""id"": ""c9fb4c28-a112-4ab8-b0b6-ec0f8f76490d"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""6f401a6c-a042-46b4-bef4-a939a636c389"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -167,6 +185,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7383112b-304c-4f85-9208-080f41d0d107"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ba49c55a-f90c-4bfa-9529-cb2731a1d87d"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -177,6 +217,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Kaitlyn = asset.FindActionMap("Kaitlyn", throwIfNotFound: true);
         m_Kaitlyn_Move = m_Kaitlyn.FindAction("Move", throwIfNotFound: true);
         m_Kaitlyn_Zoom = m_Kaitlyn.FindAction("Zoom", throwIfNotFound: true);
+        m_Kaitlyn_Rotate = m_Kaitlyn.FindAction("Rotate", throwIfNotFound: true);
+        m_Kaitlyn_Jump = m_Kaitlyn.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -238,12 +280,16 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IKaitlynActions m_KaitlynActionsCallbackInterface;
     private readonly InputAction m_Kaitlyn_Move;
     private readonly InputAction m_Kaitlyn_Zoom;
+    private readonly InputAction m_Kaitlyn_Rotate;
+    private readonly InputAction m_Kaitlyn_Jump;
     public struct KaitlynActions
     {
         private @PlayerControls m_Wrapper;
         public KaitlynActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Kaitlyn_Move;
         public InputAction @Zoom => m_Wrapper.m_Kaitlyn_Zoom;
+        public InputAction @Rotate => m_Wrapper.m_Kaitlyn_Rotate;
+        public InputAction @Jump => m_Wrapper.m_Kaitlyn_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Kaitlyn; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -259,6 +305,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Zoom.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnZoom;
                 @Zoom.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnZoom;
                 @Zoom.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnZoom;
+                @Rotate.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnRotate;
+                @Rotate.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnRotate;
+                @Rotate.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnRotate;
+                @Jump.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_KaitlynActionsCallbackInterface = instance;
             if (instance != null)
@@ -269,6 +321,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Zoom.started += instance.OnZoom;
                 @Zoom.performed += instance.OnZoom;
                 @Zoom.canceled += instance.OnZoom;
+                @Rotate.started += instance.OnRotate;
+                @Rotate.performed += instance.OnRotate;
+                @Rotate.canceled += instance.OnRotate;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -277,5 +335,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
+        void OnRotate(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }
