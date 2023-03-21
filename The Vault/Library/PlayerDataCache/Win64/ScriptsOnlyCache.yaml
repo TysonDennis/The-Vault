@@ -4,7 +4,6 @@ ScriptsOnlyBuild:
     - Camera
     - Player
     Unity.InputSystem.dll:
-    - UnityEngine.InputSystem.InputActionAsset
     - UnityEngine.InputSystem.InputSettings
     - UnityEngine.InputSystem.InputSystemObject
     - UnityEngine.InputSystem.RemoteInputPlayerConnection
@@ -14,11 +13,21 @@ ScriptsOnlyBuild:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
     - UnityEditor.TestTools.TestRunner.TestRun.TestJobDataHolder
+    UnityEngine.UI.dll:
+    - UnityEngine.EventSystems.EventSystem
+    - UnityEngine.EventSystems.StandaloneInputModule
+    - UnityEngine.UI.CanvasScaler
+    - UnityEngine.UI.GraphicRaycaster
+    - UnityEngine.UI.Image
   serializedClasses:
     Unity.InputSystem:
     - UnityEngine.InputSystem.InputAction
     - UnityEngine.InputSystem.InputSettings/iOSSettings
     - UnityEngine.InputSystem.iOS.PrivacyDataUsage
+    UnityEngine.CoreModule:
+    - UnityEngine.Events.PersistentCallGroup
+    UnityEngine.UI:
+    - UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
   methodsToPreserve: []
   sceneClasses:
     Assets/Scenes/TestScene1.unity:
@@ -42,6 +51,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 54
       Script: {instanceID: 0}
+    - Class: 64
+      Script: {instanceID: 0}
     - Class: 65
       Script: {instanceID: 0}
     - Class: 81
@@ -53,9 +64,19 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 5882}
+      Script: {instanceID: 1632}
     - Class: 114
-      Script: {instanceID: 26338}
+      Script: {instanceID: 2794}
+    - Class: 114
+      Script: {instanceID: 3028}
+    - Class: 114
+      Script: {instanceID: 5950}
+    - Class: 114
+      Script: {instanceID: 6332}
+    - Class: 114
+      Script: {instanceID: 6454}
+    - Class: 114
+      Script: {instanceID: 6882}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 135
@@ -67,6 +88,14 @@ ScriptsOnlyBuild:
     - Class: 157
       Script: {instanceID: 0}
     - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
       Script: {instanceID: 0}
   scriptHashData:
   - hash:
@@ -671,7 +700,7 @@ ScriptsOnlyBuild:
     className: GroupTrack
   - hash:
       serializedVersion: 2
-      Hash: f43ad6301f757ffd52c0533b6e202b5f
+      Hash: ca5d063697b58cb5be960fd0d0e2252c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Player
@@ -723,6 +752,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: AspectRatioFitter
+  - hash:
+      serializedVersion: 2
+      Hash: 5ebde97008180495cfeefe114af669e0
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Camera
   - hash:
       serializedVersion: 2
       Hash: 760787567e1b60d64a3e421ab83ee14a
@@ -1023,13 +1058,7 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
-  - hash:
-      serializedVersion: 2
-      Hash: 0365760effb217bc00ab87a96c42e932
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Camera
   platform: 19
   scenePathNames:
   - Assets/Scenes/TestScene1.unity
-  playerPath: C:/Users/Tyson/Documents/The-Vault/The Vault/Builds/The Vault.exe
+  playerPath: C:/Users/s0521385/Documents/GitHub/The-Vault/The Vault/Builds/The Vault.exe
