@@ -31,18 +31,24 @@ public class Player : MonoBehaviour
     //holds Kaitlyn's jump force
     [SerializeField]
     float JumpForce;
+    //holds the player's capsule collider
+    [SerializeField]
+    private CapsuleCollider capsule;
 
-    //gets Kaitlyn's rigidbody and controls
+    //gets Kaitlyn's rigidbody, collider, and controls
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         controls = new PlayerControls();
+        capsule = GetComponent<CapsuleCollider>();
     }
 
     //enables Kaitlyn's movement
     private void OnEnable()
     {
         controls.Kaitlyn.Jump.started += DoJump;
+        controls.Kaitlyn.Crouch.started += DoCrouch;
+        controls.Kaitlyn.Crouch.canceled += DoStand;
         move = controls.Kaitlyn.Move;
         controls.Kaitlyn.Enable();
     }
@@ -51,6 +57,8 @@ public class Player : MonoBehaviour
     private void OnDisable()
     {
         controls.Kaitlyn.Jump.started -= DoJump;
+        controls.Kaitlyn.Crouch.started -= DoCrouch;
+        controls.Kaitlyn.Crouch.canceled -= DoStand;
         controls.Kaitlyn.Disable();
     }
 
@@ -135,5 +143,19 @@ public class Player : MonoBehaviour
         {
             return false;
         }
+    }
+
+    //lets Kaitlyn crouch
+    private void DoCrouch(InputAction.CallbackContext obj)
+    {
+        capsule.height = 1.5f;
+        WalkSpeed = 1f;
+    }
+
+    //lets Kaitlyn stand up straight after crouching
+    private void DoStand(InputAction.CallbackContext obj)
+    {
+        capsule.height = 3f;
+        WalkSpeed = 2f;
     }
 }

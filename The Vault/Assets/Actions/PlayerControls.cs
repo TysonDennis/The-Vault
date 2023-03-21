@@ -62,6 +62,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""4a0480c4-1d41-4f19-8e8f-8e7ffbcb56fc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -207,6 +216,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a332326c-bab7-4a2d-a4be-24d0cd3f50ca"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -219,6 +239,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Kaitlyn_Zoom = m_Kaitlyn.FindAction("Zoom", throwIfNotFound: true);
         m_Kaitlyn_Rotate = m_Kaitlyn.FindAction("Rotate", throwIfNotFound: true);
         m_Kaitlyn_Jump = m_Kaitlyn.FindAction("Jump", throwIfNotFound: true);
+        m_Kaitlyn_Crouch = m_Kaitlyn.FindAction("Crouch", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -282,6 +303,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Kaitlyn_Zoom;
     private readonly InputAction m_Kaitlyn_Rotate;
     private readonly InputAction m_Kaitlyn_Jump;
+    private readonly InputAction m_Kaitlyn_Crouch;
     public struct KaitlynActions
     {
         private @PlayerControls m_Wrapper;
@@ -290,6 +312,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Zoom => m_Wrapper.m_Kaitlyn_Zoom;
         public InputAction @Rotate => m_Wrapper.m_Kaitlyn_Rotate;
         public InputAction @Jump => m_Wrapper.m_Kaitlyn_Jump;
+        public InputAction @Crouch => m_Wrapper.m_Kaitlyn_Crouch;
         public InputActionMap Get() { return m_Wrapper.m_Kaitlyn; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -311,6 +334,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnJump;
+                @Crouch.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnCrouch;
+                @Crouch.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnCrouch;
+                @Crouch.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnCrouch;
             }
             m_Wrapper.m_KaitlynActionsCallbackInterface = instance;
             if (instance != null)
@@ -327,6 +353,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Crouch.started += instance.OnCrouch;
+                @Crouch.performed += instance.OnCrouch;
+                @Crouch.canceled += instance.OnCrouch;
             }
         }
     }
@@ -337,5 +366,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnZoom(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
     }
 }
