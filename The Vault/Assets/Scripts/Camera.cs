@@ -7,18 +7,19 @@ public class Camera : MonoBehaviour
 {
     //holds the player
     [SerializeField]
-    Transform player;
+    private Transform player;
     //holds the camera's positions relative to Kaitlyn
     [SerializeField]
-    Vector3 offset;
-    //z for zoom
+    float xPos;
     [SerializeField]
-    float offsetDistance;
+    float yPos;
+    [SerializeField]
+    float zPos;
     //holds the minimum and maximum zoom levels
     [SerializeField]
-    float minOffset;
+    float minZ;
     [SerializeField]
-    float maxOffset;
+    float maxZ;
     //holds the sensitivity
     [SerializeField]
     float sensitivity;
@@ -33,7 +34,6 @@ public class Camera : MonoBehaviour
     private void Awake()
     {
         controls = new PlayerControls();
-        offset = transform.position - player.transform.position;
     }
 
     private void OnEnable()
@@ -52,17 +52,17 @@ public class Camera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = player.transform.position + new Vector3(xPos, yPos, zPos);
+        zPos = Vector3.Distance(player.transform.position, transform.position);
         zPos += zoom.ReadValue<float>() * sensitivity;
         zPos = Mathf.Clamp(zPos, minZ, maxZ);
+        transform.position = player.transform.position + new Vector3(xPos, yPos, zPos);
         //transform.rotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
     }
 
     private void DoRotate(InputAction.CallbackContext obj)
     {
-        //transform.RotateAround(player.transform.position, Vector3.up, obj.ReadValue<Vector2>().x * sensitivity * Time.deltaTime);
-        //transform.RotateAround(player.transform.position, Vector3.up, obj.ReadValue<Vector2>().y * sensitivity * Time.deltaTime);
         float inputValue = obj.ReadValue<Vector2>().x;
         transform.rotation = Quaternion.Euler(0f, inputValue * sensitivity * 1000 + transform.rotation.eulerAngles.y, 0f);
+        //transform.RotateAround(player.transform.position, Vector3.up, inputValue * sensitivity * 1000);
     }
 }
