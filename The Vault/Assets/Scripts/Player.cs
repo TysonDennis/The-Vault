@@ -49,6 +49,8 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Jump.started += DoJump;
         controls.Kaitlyn.Crouch.started += DoCrouch;
         controls.Kaitlyn.Crouch.canceled += DoStand;
+        controls.Kaitlyn.Sprint.started += DoSprint;
+        controls.Kaitlyn.Sprint.canceled += DoStand;
         move = controls.Kaitlyn.Move;
         controls.Kaitlyn.Enable();
     }
@@ -59,6 +61,8 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Jump.started -= DoJump;
         controls.Kaitlyn.Crouch.started -= DoCrouch;
         controls.Kaitlyn.Crouch.canceled -= DoStand;
+        controls.Kaitlyn.Sprint.started -= DoSprint;
+        controls.Kaitlyn.Sprint.canceled -= DoStand;
         controls.Kaitlyn.Disable();
     }
 
@@ -150,6 +154,7 @@ public class Player : MonoBehaviour
     {
         capsule.height = 1.5f;
         WalkSpeed = 1f;
+        movementForce = 1f;
     }
 
     //lets Kaitlyn stand up straight after crouching
@@ -157,5 +162,13 @@ public class Player : MonoBehaviour
     {
         capsule.height = 3f;
         WalkSpeed = 2f;
+        movementForce = 1f;
+    }
+
+    //allows Kaitlyn to run
+    private void DoSprint(InputAction.CallbackContext obj)
+    {
+        WalkSpeed = 10f;
+        movementForce = 2.5f;
     }
 }

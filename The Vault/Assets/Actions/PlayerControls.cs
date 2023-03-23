@@ -71,6 +71,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""119291f8-539a-4661-9ec1-b9a44cbabe17"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -216,6 +225,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bb7ba14c-f4f4-4947-936c-94695b8bc016"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -229,6 +249,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Kaitlyn_Rotate = m_Kaitlyn.FindAction("Rotate", throwIfNotFound: true);
         m_Kaitlyn_Jump = m_Kaitlyn.FindAction("Jump", throwIfNotFound: true);
         m_Kaitlyn_Crouch = m_Kaitlyn.FindAction("Crouch", throwIfNotFound: true);
+        m_Kaitlyn_Sprint = m_Kaitlyn.FindAction("Sprint", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -293,6 +314,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Kaitlyn_Rotate;
     private readonly InputAction m_Kaitlyn_Jump;
     private readonly InputAction m_Kaitlyn_Crouch;
+    private readonly InputAction m_Kaitlyn_Sprint;
     public struct KaitlynActions
     {
         private @PlayerControls m_Wrapper;
@@ -302,6 +324,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Rotate => m_Wrapper.m_Kaitlyn_Rotate;
         public InputAction @Jump => m_Wrapper.m_Kaitlyn_Jump;
         public InputAction @Crouch => m_Wrapper.m_Kaitlyn_Crouch;
+        public InputAction @Sprint => m_Wrapper.m_Kaitlyn_Sprint;
         public InputActionMap Get() { return m_Wrapper.m_Kaitlyn; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -326,6 +349,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Crouch.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnCrouch;
+                @Sprint.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnSprint;
+                @Sprint.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnSprint;
+                @Sprint.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnSprint;
             }
             m_Wrapper.m_KaitlynActionsCallbackInterface = instance;
             if (instance != null)
@@ -345,6 +371,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
+                @Sprint.started += instance.OnSprint;
+                @Sprint.performed += instance.OnSprint;
+                @Sprint.canceled += instance.OnSprint;
             }
         }
     }
@@ -356,5 +385,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnRotate(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
     }
 }

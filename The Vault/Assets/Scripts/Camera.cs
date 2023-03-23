@@ -8,7 +8,7 @@ public class Camera : MonoBehaviour
     //holds the player
     [SerializeField]
     private Transform player;
-    //holds the camera's positions relative to Kaitlyn
+    //holds the camera's positions
     [SerializeField]
     float xPos;
     [SerializeField]
@@ -26,25 +26,33 @@ public class Camera : MonoBehaviour
     //holds the player's controls
     [SerializeField]
     private PlayerControls controls;
+    //holds the camera-based input actions
     [SerializeField]
     private InputAction zoom;
     [SerializeField]
     private InputAction rotate;
 
+    //activates upon start
     private void Awake()
     {
+        //accesses the action asset that controls Kaitlyn
         controls = new PlayerControls();
+        //sets the initial position of the camera relative to Kaitlyn
+        transform.position = player.transform.position + new Vector3(0f, 3f, -3f);
     }
 
+    //enables the functions of the input actions
     private void OnEnable()
     {
-        zoom = controls.Kaitlyn.Zoom;
+        controls.Kaitlyn.Zoom.started += DoZoom;
         controls.Kaitlyn.Rotate.started += DoRotate;
         controls.Kaitlyn.Enable();
     }
 
+    //disables the functions of the input actions
     private void OnDisable()
     {
+        controls.Kaitlyn.Zoom.started -= DoZoom;
         controls.Kaitlyn.Rotate.started -= DoRotate;
         controls.Kaitlyn.Disable();
     }
@@ -52,17 +60,26 @@ public class Camera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        zPos = Vector3.Distance(player.transform.position, transform.position);
-        zPos += zoom.ReadValue<float>() * sensitivity;
-        zPos = Mathf.Clamp(zPos, minZ, maxZ);
-        transform.position = player.transform.position + new Vector3(xPos, yPos, zPos);
-        //transform.rotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
+        //holds the sines and cosines of the camera's azimuth and altitude
+        float sx = Mathf.Sin(xPos), sy = Mathf.Sin(yPos), cx = Mathf.Cos(xPos), cy = Mathf.Cos(yPos);
+        //sets the position and rotation of the camera
+        transform.SetPositionAndRotation(new Vector3(sy, sx, cx * cy) * zPos + player.transform.position, Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up));
     }
 
+    //rotates the camera
     private void DoRotate(InputAction.CallbackContext obj)
     {
-        float inputValue = obj.ReadValue<Vector2>().x;
-        transform.rotation = Quaternion.Euler(0f, inputValue * sensitivity * 1000 + transform.rotation.eulerAngles.y, 0f);
-        //transform.RotateAround(player.transform.position, Vector3.up, inputValue * sensitivity * 1000);
+        float inputValueAzimuth = obj.ReadValue<Vector2>().x * sensitivity * 17.45f;
+        float inputValueAltitude = obj.ReadValue<Vector2>().y * sensitivity * 17.45f;
+        yPos += inputValueAzimuth;
+        xPos += inputValueAltitude;
+    }
+
+    //zooms the camera
+    private void DoZoom (InputAction.CallbackContext obj)
+    {
+        float inputValue = obj.ReadValue<float>() * sensitivity;
+        zPos += inputValue;
+        zPos = Mathf.Clamp(zPos, minZ, maxZ);
     }
 }
