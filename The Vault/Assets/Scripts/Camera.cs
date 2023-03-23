@@ -10,17 +10,15 @@ public class Camera : MonoBehaviour
     Transform player;
     //holds the camera's positions relative to Kaitlyn
     [SerializeField]
-    float xPos;
-    [SerializeField]
-    float yPos;
+    Vector3 offset;
     //z for zoom
     [SerializeField]
-    float zPos;
+    float offsetDistance;
     //holds the minimum and maximum zoom levels
     [SerializeField]
-    float minZ;
+    float minOffset;
     [SerializeField]
-    float maxZ;
+    float maxOffset;
     //holds the sensitivity
     [SerializeField]
     float sensitivity;
@@ -35,6 +33,7 @@ public class Camera : MonoBehaviour
     private void Awake()
     {
         controls = new PlayerControls();
+        offset = transform.position - player.transform.position;
     }
 
     private void OnEnable()
@@ -56,14 +55,14 @@ public class Camera : MonoBehaviour
         transform.position = player.transform.position + new Vector3(xPos, yPos, zPos);
         zPos += zoom.ReadValue<float>() * sensitivity;
         zPos = Mathf.Clamp(zPos, minZ, maxZ);
-        transform.rotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
+        //transform.rotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
     }
 
     private void DoRotate(InputAction.CallbackContext obj)
     {
-        if (!Mouse.current.leftButton.isPressed)
-            return;
+        //transform.RotateAround(player.transform.position, Vector3.up, obj.ReadValue<Vector2>().x * sensitivity * Time.deltaTime);
+        //transform.RotateAround(player.transform.position, Vector3.up, obj.ReadValue<Vector2>().y * sensitivity * Time.deltaTime);
         float inputValue = obj.ReadValue<Vector2>().x;
-        transform.rotation = Quaternion.Euler(0f, inputValue * sensitivity + transform.rotation.eulerAngles.y, 0f);
+        transform.rotation = Quaternion.Euler(0f, inputValue * sensitivity * 1000 + transform.rotation.eulerAngles.y, 0f);
     }
 }
