@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
     //holds the player's capsule collider
     [SerializeField]
     private CapsuleCollider capsule;
+    //holds the player's attack strength
+    public int strength;
 
     //gets Kaitlyn's rigidbody, collider, and controls
     void Awake()
@@ -43,7 +45,7 @@ public class Player : MonoBehaviour
         capsule = GetComponent<CapsuleCollider>();
     }
 
-    //enables Kaitlyn's movement
+    //enables Kaitlyn's moveset
     private void OnEnable()
     {
         controls.Kaitlyn.Jump.started += DoJump;
@@ -51,11 +53,12 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Crouch.canceled += DoStand;
         controls.Kaitlyn.Sprint.started += DoSprint;
         controls.Kaitlyn.Sprint.canceled += DoStand;
+        controls.Kaitlyn.Attack.started += DoAttack;
         move = controls.Kaitlyn.Move;
         controls.Kaitlyn.Enable();
     }
 
-    //disables Kaitlyn's movement
+    //disables Kaitlyn's moveset
     private void OnDisable()
     {
         controls.Kaitlyn.Jump.started -= DoJump;
@@ -63,6 +66,7 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Crouch.canceled -= DoStand;
         controls.Kaitlyn.Sprint.started -= DoSprint;
         controls.Kaitlyn.Sprint.canceled -= DoStand;
+        controls.Kaitlyn.Attack.started -= DoAttack;
         controls.Kaitlyn.Disable();
     }
 
@@ -135,7 +139,7 @@ public class Player : MonoBehaviour
     //checks if Kaitlyn is standing on solid ground
     private bool IsGrounded()
     {
-        //contains the raycast's origin and direction
+        //contains the ground check raycast's origin and direction
         Ray ray = new Ray(this.transform.position + Vector3.up, Vector3.down);
         //sets to true if the raycast hits something
         if (Physics.Raycast(ray, out RaycastHit hit, 3f))
@@ -149,7 +153,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    //lets Kaitlyn crouch
+    //lets Kaitlyn crouch, reducing her height and top speed
     private void DoCrouch(InputAction.CallbackContext obj)
     {
         capsule.height = 1.5f;
@@ -157,7 +161,7 @@ public class Player : MonoBehaviour
         movementForce = 1f;
     }
 
-    //lets Kaitlyn stand up straight after crouching
+    //lets Kaitlyn stand up straight after crouching or sprinting, resetting her height, top speed, and acceleration
     private void DoStand(InputAction.CallbackContext obj)
     {
         capsule.height = 3f;
@@ -165,10 +169,26 @@ public class Player : MonoBehaviour
         movementForce = 1f;
     }
 
-    //allows Kaitlyn to run
+    //allows Kaitlyn to run, increasing her top speed and acceleration
     private void DoSprint(InputAction.CallbackContext obj)
     {
         WalkSpeed = 10f;
         movementForce = 2.5f;
+    }
+
+    //lets Kaitlyn attack
+    private void DoAttack(InputAction.CallbackContext obj)
+    {
+        //sets the origin at the player's position and the direction at in front of Kaitlyn
+        Ray ray = new Ray(this.transform.position, this.transform.forward);
+        //checks if there's something 1.665 m in front of Kaitlyn
+        if(Physics.Raycast(ray, out RaycastHit hit, 1.665f))
+        {
+            //checks if that thing is tagged as damageable, and if so, communicates to the damageable script
+            if(hit.transform.gameObject.tag == "Damageable")
+            {
+                hit.transform.gameObject.SendMessage("TakeDamage", strength);
+            }
+        }
     }
 }

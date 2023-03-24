@@ -1,6 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - Breakable
     - Camera
     - Player
     Unity.InputSystem.dll:
@@ -91,40 +92,40 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
-    - Class: 89
-      Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1596}
+      Script: {instanceID: 1680}
     - Class: 114
-      Script: {instanceID: 2310}
+      Script: {instanceID: 2394}
     - Class: 114
-      Script: {instanceID: 2808}
+      Script: {instanceID: 2892}
     - Class: 114
-      Script: {instanceID: 3050}
+      Script: {instanceID: 3134}
     - Class: 114
-      Script: {instanceID: 4144}
+      Script: {instanceID: 4228}
     - Class: 114
-      Script: {instanceID: 4630}
+      Script: {instanceID: 4714}
     - Class: 114
-      Script: {instanceID: 4936}
+      Script: {instanceID: 5020}
     - Class: 114
-      Script: {instanceID: 5816}
+      Script: {instanceID: 5900}
     - Class: 114
-      Script: {instanceID: 6100}
+      Script: {instanceID: 6184}
     - Class: 114
-      Script: {instanceID: 6504}
+      Script: {instanceID: 6588}
     - Class: 114
-      Script: {instanceID: 6644}
+      Script: {instanceID: 6728}
     - Class: 114
-      Script: {instanceID: 6698}
+      Script: {instanceID: 6782}
     - Class: 114
-      Script: {instanceID: 7526}
+      Script: {instanceID: 7610}
     - Class: 114
-      Script: {instanceID: 8326}
+      Script: {instanceID: 8410}
+    - Class: 114
+      Script: {instanceID: 25518}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -930,7 +931,7 @@ ScriptsOnlyBuild:
     className: GroupTrack
   - hash:
       serializedVersion: 2
-      Hash: e703af1083b3db59e63d71c952fae108
+      Hash: a5ac84076e6ec465f54ac8917f1b75df
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Player
@@ -1402,7 +1403,13 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 6e83f286a6322192e7f29e9caa470594
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Breakable
   platform: 19
   scenePathNames:
   - Assets/Scenes/TestScene1.unity
-  playerPath: C:/Users/Tyson/Documents/The-Vault/The Vault/Builds/The Vault.exe
+  playerPath: C:/Users/s0521385/Documents/GitHub/The-Vault/The Vault/Builds/The Vault.exe
