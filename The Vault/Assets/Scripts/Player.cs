@@ -37,11 +37,18 @@ public class Player : MonoBehaviour
     //holds the player's attack strength
     public int strength;
     //accesses the transform that Kaitlyn gives to the items she grabs
-    [SerializeField]
     public Transform holdSpace;
-    //checks if Kaitlyn is not holding something
+    //stores the rigidbody of the object picked up
     [SerializeField]
-    private bool emptyHand;
+    Rigidbody _heldObject;
+    //holds the spring force of throwable objects
+    [SerializeField]
+    float springForce;
+    //holds the damping force of throwable objects
+    [SerializeField]
+    float dampingForce;
+    [SerializeField]
+    private Grabbable grabbable;
 
     //gets Kaitlyn's rigidbody, collider, and controls
     void Awake()
@@ -49,7 +56,6 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         controls = new PlayerControls();
         capsule = GetComponent<CapsuleCollider>();
-        emptyHand = true;
     }
 
     //enables Kaitlyn's moveset
@@ -79,6 +85,7 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Disable();
     }
 
+    //called once a frame
     private void FixedUpdate()
     {
         //holds Kaitlyn's movement
@@ -185,61 +192,56 @@ public class Player : MonoBehaviour
         movementForce = 2.5f;
     }
 
-    //lets Kaitlyn attack
+    //lets Kaitlyn attack and throw
     private void DoAttack(InputAction.CallbackContext obj)
     {
-        //sets the origin at the player's position and the direction at in front of Kaitlyn
-        Ray ray = new Ray(this.transform.position, this.transform.forward);
-        //checks if there's something 1.665 m in front of Kaitlyn
-        if (Physics.Raycast(ray, out RaycastHit hit, 1.665f))
+        //checks if Kaitlyn's hands are empty
+        if(grabbable == null) 
+        { 
+            //sets the origin at the player's position and the direction at in front of Kaitlyn
+            Ray ray = new Ray(this.transform.position, this.transform.forward);
+            //checks if there's something 1.665 m in front of Kaitlyn
+            if (Physics.Raycast(ray, out RaycastHit hit, 1.665f))
+            {
+                //holds the rigidbody of the grabbable object
+                Rigidbody otherRB = hit.rigidbody;
+                //checks if that thing is tagged as damageable, and if so, communicates to the damageable script
+                if (hit.transform.gameObject.tag == "Damageable")
+                {
+                    hit.transform.gameObject.SendMessage("TakeDamage", strength);
+                }
+            }
+        }
+        //throws if Kaitlyn is holding something
+        else
         {
-            //holds the rigidbody of the grabbable object
-            Rigidbody otherRB;
-            //gets the rigidbody of the grabbable object
-            otherRB = hit.collider.gameObject.GetComponent<Rigidbody>();
-            //checks if that thing is tagged as damageable, and if so, communicates to the damageable script
-            if (hit.transform.gameObject.tag == "Damageable" && emptyHand == true)
-            {
-                hit.transform.gameObject.SendMessage("TakeDamage", strength);
-            }
-            //checks if Kaitlyn is holding something
-            else if (emptyHand == false)
-            {
-                hit.transform.parent = null;
-                otherRB.useGravity = true;
-                emptyHand = true;
-            }
+            grabbable.Throw();
         }
     }
 
-    //lets Kaitlyn grab objects
+    //lets Kaitlyn grab, carry, and drop objects
     private void DoGrab(InputAction.CallbackContext obj)
     {
-        //sets the origin at the player's position and the direction at in front of Kaitlyn
-        Ray ray = new Ray(this.transform.position, this.transform.forward);
-        //checks if there's something 1.665 m in front of Kaitlyn
-        if (Physics.Raycast(ray, out RaycastHit hit, 1.665f))
+        //checks if Kaitlyn's holding something
+        if(grabbable == null) 
+        { 
+            //sets the origin at the player's position and the direction at in front of Kaitlyn
+            Ray ray = new Ray(this.transform.position, this.transform.forward);
+            //checks if there's something 1.665 m in front of Kaitlyn
+            if (Physics.Raycast(ray, out RaycastHit hit, 1.665f))
+            {
+                //grabs if that object in front of Kaitlyn has a grabbable script
+                if(hit.transform.TryGetComponent(out grabbable))
+                {
+                    grabbable.Grab(holdSpace);
+                }
+            }
+        }
+        //if Kaitlyn is holding something, she drops it
+        else
         {
-            //holds the rigidbody of the grabbable object
-            Rigidbody otherRB;
-            //gets the rigidbody of the grabbable object
-            otherRB = hit.collider.gameObject.GetComponent<Rigidbody>();
-            //checks if that thing is tagged as grabbable, and if Kaitlyn is holding something
-            if (hit.transform.gameObject.tag == "Grabbable" && emptyHand == true)
-            {
-                hit.transform.SetPositionAndRotation(holdSpace.transform.position, holdSpace.transform.rotation);
-                hit.transform.parent = holdSpace.transform;
-                otherRB.useGravity = false;
-                emptyHand = false;
-            }
-            //checks if Kaitlyn is holding something
-            else if (emptyHand == false)
-            {
-                hit.transform.parent = null;
-                otherRB.useGravity = true;
-                emptyHand = true;
-                Vector3 forceDirection = this.transform.forward;
-            }
+            grabbable.Drop();
+            grabbable = null;
         }
     }
 }

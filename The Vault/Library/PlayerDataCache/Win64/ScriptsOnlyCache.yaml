@@ -3,6 +3,8 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - Breakable
     - Camera
+    - Grabbable
+    - PhysicsButton
     - Player
     Unity.InputSystem.dll:
     - UnityEngine.InputSystem.InputActionAsset
@@ -54,6 +56,7 @@ ScriptsOnlyBuild:
     - TMPro.VertexGradient
     UnityEngine.CoreModule:
     - UnityEngine.Events.PersistentCallGroup
+    - UnityEngine.Events.UnityEvent
     UnityEngine.TextCoreFontEngineModule:
     - UnityEngine.TextCore.FaceInfo
     - UnityEngine.TextCore.Glyph
@@ -97,35 +100,39 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1680}
+      Script: {instanceID: 1596}
     - Class: 114
-      Script: {instanceID: 2394}
+      Script: {instanceID: 2310}
     - Class: 114
-      Script: {instanceID: 2892}
+      Script: {instanceID: 2808}
     - Class: 114
-      Script: {instanceID: 3134}
+      Script: {instanceID: 3050}
     - Class: 114
-      Script: {instanceID: 4228}
+      Script: {instanceID: 4144}
     - Class: 114
-      Script: {instanceID: 4714}
+      Script: {instanceID: 4630}
     - Class: 114
-      Script: {instanceID: 5020}
+      Script: {instanceID: 4936}
     - Class: 114
-      Script: {instanceID: 5900}
+      Script: {instanceID: 5150}
     - Class: 114
-      Script: {instanceID: 6184}
+      Script: {instanceID: 5818}
     - Class: 114
-      Script: {instanceID: 6588}
+      Script: {instanceID: 6102}
     - Class: 114
-      Script: {instanceID: 6728}
+      Script: {instanceID: 6506}
     - Class: 114
-      Script: {instanceID: 6782}
+      Script: {instanceID: 6646}
     - Class: 114
-      Script: {instanceID: 7610}
+      Script: {instanceID: 6700}
     - Class: 114
-      Script: {instanceID: 8410}
+      Script: {instanceID: 7528}
     - Class: 114
-      Script: {instanceID: 25518}
+      Script: {instanceID: 8328}
+    - Class: 114
+      Script: {instanceID: 46034}
+    - Class: 114
+      Script: {instanceID: 68652}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -787,6 +794,12 @@ ScriptsOnlyBuild:
     className: UnityOnPointerClickMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 6e83f286a6322192e7f29e9caa470594
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Breakable
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -931,7 +944,7 @@ ScriptsOnlyBuild:
     className: GroupTrack
   - hash:
       serializedVersion: 2
-      Hash: a5ac84076e6ec465f54ac8917f1b75df
+      Hash: b11af5f0ab427551d95e1c338095ea16
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Player
@@ -1405,11 +1418,17 @@ ScriptsOnlyBuild:
     className: UnityOnSliderValueChangedMessageListener
   - hash:
       serializedVersion: 2
-      Hash: 6e83f286a6322192e7f29e9caa470594
+      Hash: 525faf41f2ed80f80d858566ba819995
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: Breakable
+    className: Grabbable
+  - hash:
+      serializedVersion: 2
+      Hash: 5a6759f543e3bb988975f02488a0ba45
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PhysicsButton
   platform: 19
   scenePathNames:
   - Assets/Scenes/TestScene1.unity
-  playerPath: C:/Users/s0521385/Documents/GitHub/The-Vault/The Vault/Builds/The Vault.exe
+  playerPath: C:/Users/Tyson/Documents/The-Vault/The Vault/Builds/The Vault.exe
