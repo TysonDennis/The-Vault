@@ -36,6 +36,12 @@ public class Player : MonoBehaviour
     private CapsuleCollider capsule;
     //holds the player's attack strength
     public int strength;
+    //accesses the transform that Kaitlyn gives to the items she grabs
+    [SerializeField]
+    public Transform holdSpace;
+    //checks if Kaitlyn is not holding something
+    [SerializeField]
+    private bool emptyHand;
 
     //gets Kaitlyn's rigidbody, collider, and controls
     void Awake()
@@ -43,6 +49,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         controls = new PlayerControls();
         capsule = GetComponent<CapsuleCollider>();
+        emptyHand = true;
     }
 
     //enables Kaitlyn's moveset
@@ -54,6 +61,7 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Sprint.started += DoSprint;
         controls.Kaitlyn.Sprint.canceled += DoStand;
         controls.Kaitlyn.Attack.started += DoAttack;
+        controls.Kaitlyn.Grab.started += DoGrab;
         move = controls.Kaitlyn.Move;
         controls.Kaitlyn.Enable();
     }
@@ -67,6 +75,7 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Sprint.started -= DoSprint;
         controls.Kaitlyn.Sprint.canceled -= DoStand;
         controls.Kaitlyn.Attack.started -= DoAttack;
+        controls.Kaitlyn.Grab.started -= DoGrab;
         controls.Kaitlyn.Disable();
     }
 
@@ -182,12 +191,54 @@ public class Player : MonoBehaviour
         //sets the origin at the player's position and the direction at in front of Kaitlyn
         Ray ray = new Ray(this.transform.position, this.transform.forward);
         //checks if there's something 1.665 m in front of Kaitlyn
-        if(Physics.Raycast(ray, out RaycastHit hit, 1.665f))
+        if (Physics.Raycast(ray, out RaycastHit hit, 1.665f))
         {
+            //holds the rigidbody of the grabbable object
+            Rigidbody otherRB;
+            //gets the rigidbody of the grabbable object
+            otherRB = hit.collider.gameObject.GetComponent<Rigidbody>();
             //checks if that thing is tagged as damageable, and if so, communicates to the damageable script
-            if(hit.transform.gameObject.tag == "Damageable")
+            if (hit.transform.gameObject.tag == "Damageable" && emptyHand == true)
             {
                 hit.transform.gameObject.SendMessage("TakeDamage", strength);
+            }
+            //checks if Kaitlyn is holding something
+            else if (emptyHand == false)
+            {
+                hit.transform.parent = null;
+                otherRB.useGravity = true;
+                emptyHand = true;
+            }
+        }
+    }
+
+    //lets Kaitlyn grab objects
+    private void DoGrab(InputAction.CallbackContext obj)
+    {
+        //sets the origin at the player's position and the direction at in front of Kaitlyn
+        Ray ray = new Ray(this.transform.position, this.transform.forward);
+        //checks if there's something 1.665 m in front of Kaitlyn
+        if (Physics.Raycast(ray, out RaycastHit hit, 1.665f))
+        {
+            //holds the rigidbody of the grabbable object
+            Rigidbody otherRB;
+            //gets the rigidbody of the grabbable object
+            otherRB = hit.collider.gameObject.GetComponent<Rigidbody>();
+            //checks if that thing is tagged as grabbable, and if Kaitlyn is holding something
+            if (hit.transform.gameObject.tag == "Grabbable" && emptyHand == true)
+            {
+                hit.transform.SetPositionAndRotation(holdSpace.transform.position, holdSpace.transform.rotation);
+                hit.transform.parent = holdSpace.transform;
+                otherRB.useGravity = false;
+                emptyHand = false;
+            }
+            //checks if Kaitlyn is holding something
+            else if (emptyHand == false)
+            {
+                hit.transform.parent = null;
+                otherRB.useGravity = true;
+                emptyHand = true;
+                Vector3 forceDirection = this.transform.forward;
             }
         }
     }
