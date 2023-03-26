@@ -57,11 +57,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Actions\PlayerControls.cs" />
+    <Compile Include="Assets\Scripts\Grabbable.cs" />
     <Compile Include="Assets\Scripts\Breakable.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\Camera.cs" />
-    <Compile Include="Assets\Scripts\Grabbable.cs" />
     <Compile Include="Assets\Scripts\PhysicsButton.cs" />
+    <Compile Include="Assets\Scripts\ScriptableObjects\KaitlynSO.cs" />
+    <Compile Include="Assets\Scripts\Spawnpoint.cs" />
+    <Compile Include="Assets\Scripts\HUD.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

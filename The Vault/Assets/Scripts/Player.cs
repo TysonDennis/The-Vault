@@ -41,21 +41,20 @@ public class Player : MonoBehaviour
     //stores the rigidbody of the object picked up
     [SerializeField]
     Rigidbody _heldObject;
-    //holds the spring force of throwable objects
-    [SerializeField]
-    float springForce;
-    //holds the damping force of throwable objects
-    [SerializeField]
-    float dampingForce;
+    //communicates to the grabbable script
     [SerializeField]
     private Grabbable grabbable;
+    //stores the KaitlynSO
+    [SerializeField]
+    private KaitlynSO kaitlyn;
 
-    //gets Kaitlyn's rigidbody, collider, and controls
+    //gets Kaitlyn's rigidbody, collider, and controls, while setting her HP to max
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         controls = new PlayerControls();
         capsule = GetComponent<CapsuleCollider>();
+        kaitlyn.HP = kaitlyn.maxHP;
     }
 
     //enables Kaitlyn's moveset
@@ -216,6 +215,7 @@ public class Player : MonoBehaviour
         else
         {
             grabbable.Throw();
+            grabbable = null;
         }
     }
 
