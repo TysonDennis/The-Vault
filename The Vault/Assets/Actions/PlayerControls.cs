@@ -98,6 +98,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""2cc9c7a0-c8cb-4a91-b905-82932c1c2196"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -276,6 +285,65 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Grab"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f9314f49-d870-4208-80ca-6422954012df"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""e1c7aeb4-6ac1-4278-ba5c-316b769bc3e3"",
+            ""actions"": [
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""761c07c6-f28a-47ee-88cf-7ebd00a82d08"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""7249a076-e769-41bf-a5d5-6f5a31ea0532"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""9ea310e4-7e7c-454e-aff9-1062e9438c70"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f436ec90-bb7b-4713-8de3-c1e318ff7073"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -292,6 +360,11 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Kaitlyn_Sprint = m_Kaitlyn.FindAction("Sprint", throwIfNotFound: true);
         m_Kaitlyn_Attack = m_Kaitlyn.FindAction("Attack", throwIfNotFound: true);
         m_Kaitlyn_Grab = m_Kaitlyn.FindAction("Grab", throwIfNotFound: true);
+        m_Kaitlyn_Pause = m_Kaitlyn.FindAction("Pause", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_Pause = m_Menu.FindAction("Pause", throwIfNotFound: true);
+        m_Menu_Click = m_Menu.FindAction("Click", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -359,6 +432,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Kaitlyn_Sprint;
     private readonly InputAction m_Kaitlyn_Attack;
     private readonly InputAction m_Kaitlyn_Grab;
+    private readonly InputAction m_Kaitlyn_Pause;
     public struct KaitlynActions
     {
         private @PlayerControls m_Wrapper;
@@ -371,6 +445,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Kaitlyn_Sprint;
         public InputAction @Attack => m_Wrapper.m_Kaitlyn_Attack;
         public InputAction @Grab => m_Wrapper.m_Kaitlyn_Grab;
+        public InputAction @Pause => m_Wrapper.m_Kaitlyn_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Kaitlyn; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -404,6 +479,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Grab.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnGrab;
                 @Grab.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnGrab;
                 @Grab.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnGrab;
+                @Pause.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_KaitlynActionsCallbackInterface = instance;
             if (instance != null)
@@ -432,10 +510,54 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Grab.started += instance.OnGrab;
                 @Grab.performed += instance.OnGrab;
                 @Grab.canceled += instance.OnGrab;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
     public KaitlynActions @Kaitlyn => new KaitlynActions(this);
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private IMenuActions m_MenuActionsCallbackInterface;
+    private readonly InputAction m_Menu_Pause;
+    private readonly InputAction m_Menu_Click;
+    public struct MenuActions
+    {
+        private @PlayerControls m_Wrapper;
+        public MenuActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pause => m_Wrapper.m_Menu_Pause;
+        public InputAction @Click => m_Wrapper.m_Menu_Click;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        public void SetCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterface != null)
+            {
+                @Pause.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnPause;
+                @Click.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnClick;
+                @Click.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnClick;
+                @Click.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnClick;
+            }
+            m_Wrapper.m_MenuActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+                @Click.started += instance.OnClick;
+                @Click.performed += instance.OnClick;
+                @Click.canceled += instance.OnClick;
+            }
+        }
+    }
+    public MenuActions @Menu => new MenuActions(this);
     public interface IKaitlynActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -446,5 +568,11 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnGrab(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+    }
+    public interface IMenuActions
+    {
+        void OnPause(InputAction.CallbackContext context);
+        void OnClick(InputAction.CallbackContext context);
     }
 }

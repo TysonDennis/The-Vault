@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
     //stores the KaitlynSO
     [SerializeField]
     private KaitlynSO kaitlyn;
+    //stores the bool for checking if the game's paused
+    public bool IsPaused;
 
     //gets Kaitlyn's rigidbody, collider, and controls, while setting her HP to max
     void Awake()
@@ -55,6 +57,7 @@ public class Player : MonoBehaviour
         controls = new PlayerControls();
         capsule = GetComponent<CapsuleCollider>();
         kaitlyn.HP = kaitlyn.maxHP;
+        IsPaused = false;
     }
 
     //enables Kaitlyn's moveset
@@ -67,8 +70,12 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Sprint.canceled += DoStand;
         controls.Kaitlyn.Attack.started += DoAttack;
         controls.Kaitlyn.Grab.started += DoGrab;
+        controls.Kaitlyn.Pause.started += DoPause;
+        controls.Menu.Pause.started += DoPause;
+        controls.Menu.Click.started += DoClick;
         move = controls.Kaitlyn.Move;
         controls.Kaitlyn.Enable();
+        controls.Menu.Enable();
     }
 
     //disables Kaitlyn's moveset
@@ -81,7 +88,11 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Sprint.canceled -= DoStand;
         controls.Kaitlyn.Attack.started -= DoAttack;
         controls.Kaitlyn.Grab.started -= DoGrab;
+        controls.Kaitlyn.Pause.started -= DoPause;
+        controls.Menu.Pause.started -= DoPause;
+        controls.Menu.Click.started -= DoClick;
         controls.Kaitlyn.Disable();
+        controls.Menu.Disable();
     }
 
     //called once a frame
@@ -243,5 +254,28 @@ public class Player : MonoBehaviour
             grabbable.Drop();
             grabbable = null;
         }
+    }
+
+    //alternates between paused and unpaused
+    private void DoPause(InputAction.CallbackContext obj)
+    {
+        if(IsPaused == false)
+        {
+            IsPaused = true;
+            controls.Kaitlyn.Disable();
+            controls.Menu.Enable();
+        }
+        else
+        {
+            IsPaused = false;
+            controls.Kaitlyn.Enable();
+            controls.Menu.Disable();
+        }
+    }
+
+    //clicks on buttons on the pause menu UI
+    private void DoClick(InputAction.CallbackContext obj)
+    {
+
     }
 }

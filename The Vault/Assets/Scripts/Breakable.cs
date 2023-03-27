@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,9 @@ public class Breakable : MonoBehaviour
     //stores the object's max health
     [SerializeField]
     private int maxHealth;
+    //stores the particle system
+    [SerializeField]
+    private ParticleSystem particle;
 
     //sets health to max health upon spawning
     void OnEnable()
@@ -24,7 +28,8 @@ public class Breakable : MonoBehaviour
         if(health == 0)
         {
             //despawns if health is zero
-            Destroy(this.gameObject);
+            gameObject.GetComponent<Collider>().enabled = false;
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
     }
 
@@ -32,5 +37,14 @@ public class Breakable : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
+        particle.Play();
+        StartCoroutine(StopParticles());
+    }
+
+    //stops the particle system
+    private IEnumerator StopParticles()
+    {
+        yield return new WaitForSeconds(0.1f);
+        particle.Stop();
     }
 }
