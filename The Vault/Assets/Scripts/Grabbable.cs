@@ -21,12 +21,13 @@ public class Grabbable : MonoBehaviour
     private float sidewaysForce;
     //holds Kaitlyn's transforms
     [SerializeField]
-    private Transform player;
+    private GameObject player;
 
     //gets the grabbable object's rigidbody
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     //places the object within the hold space, once grabbed

@@ -4,8 +4,12 @@ ScriptsOnlyBuild:
     - Breakable
     - Camera
     - Grabbable
+    - HUD
+    - KaitlynSO
+    - ObjectSpawn
     - PhysicsButton
     - Player
+    - Spawnpoint
     Unity.InputSystem.dll:
     - UnityEngine.InputSystem.InputActionAsset
     - UnityEngine.InputSystem.InputActionReference
@@ -27,6 +31,7 @@ ScriptsOnlyBuild:
     - UnityEditor.TestTools.TestRunner.TestRun.TestJobDataHolder
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
+    - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
@@ -55,7 +60,9 @@ ScriptsOnlyBuild:
     - TMPro.TMP_Style
     - TMPro.VertexGradient
     UnityEngine.CoreModule:
+    - UnityEngine.Events.ArgumentCache
     - UnityEngine.Events.PersistentCallGroup
+    - UnityEngine.Events.PersistentListenerMode
     - UnityEngine.Events.UnityEvent
     UnityEngine.TextCoreFontEngineModule:
     - UnityEngine.TextCore.FaceInfo
@@ -63,8 +70,19 @@ ScriptsOnlyBuild:
     - UnityEngine.TextCore.GlyphMetrics
     - UnityEngine.TextCore.GlyphRect
     UnityEngine.UI:
+    - UnityEngine.UI.AnimationTriggers
+    - UnityEngine.UI.Button/ButtonClickedEvent
+    - UnityEngine.UI.ColorBlock
     - UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
-  methodsToPreserve: []
+    - UnityEngine.UI.Navigation
+    - UnityEngine.UI.SpriteState
+  methodsToPreserve:
+  - assembly: Assembly-CSharp
+    fullTypeName: Player
+    methodName: TakeDamage
+  - assembly: Assembly-CSharp
+    fullTypeName: Player
+    methodName: Delete
   sceneClasses:
     Assets/Scenes/TestScene1.unity:
     - Class: 1
@@ -95,6 +113,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
+    - Class: 89
+      Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 108
@@ -104,35 +124,45 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 2310}
     - Class: 114
-      Script: {instanceID: 2808}
+      Script: {instanceID: 2740}
     - Class: 114
-      Script: {instanceID: 3050}
+      Script: {instanceID: 2810}
     - Class: 114
-      Script: {instanceID: 4144}
+      Script: {instanceID: 3052}
     - Class: 114
-      Script: {instanceID: 4630}
+      Script: {instanceID: 3204}
     - Class: 114
-      Script: {instanceID: 4936}
+      Script: {instanceID: 3398}
     - Class: 114
-      Script: {instanceID: 5150}
+      Script: {instanceID: 4006}
     - Class: 114
-      Script: {instanceID: 5818}
+      Script: {instanceID: 4064}
     - Class: 114
-      Script: {instanceID: 6102}
+      Script: {instanceID: 4152}
     - Class: 114
-      Script: {instanceID: 6506}
+      Script: {instanceID: 4638}
     - Class: 114
-      Script: {instanceID: 6646}
+      Script: {instanceID: 4944}
     - Class: 114
-      Script: {instanceID: 6700}
+      Script: {instanceID: 5158}
     - Class: 114
-      Script: {instanceID: 7528}
+      Script: {instanceID: 5826}
     - Class: 114
-      Script: {instanceID: 8328}
+      Script: {instanceID: 6110}
     - Class: 114
-      Script: {instanceID: 46034}
+      Script: {instanceID: 6514}
     - Class: 114
-      Script: {instanceID: 68652}
+      Script: {instanceID: 6654}
+    - Class: 114
+      Script: {instanceID: 6684}
+    - Class: 114
+      Script: {instanceID: 6710}
+    - Class: 114
+      Script: {instanceID: 7538}
+    - Class: 114
+      Script: {instanceID: 8338}
+    - Class: 114
+      Script: {instanceID: 8400}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -146,6 +176,10 @@ ScriptsOnlyBuild:
     - Class: 157
       Script: {instanceID: 0}
     - Class: 196
+      Script: {instanceID: 0}
+    - Class: 198
+      Script: {instanceID: 0}
+    - Class: 199
       Script: {instanceID: 0}
     - Class: 213
       Script: {instanceID: 0}
@@ -326,6 +360,12 @@ ScriptsOnlyBuild:
     className: CinemachineVirtualCamera
   - hash:
       serializedVersion: 2
+      Hash: 52f13f8259712eed6193a0b30737641e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Spawnpoint
+  - hash:
+      serializedVersion: 2
       Hash: cc4274b586df3c02688bac01b88bd16c
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
@@ -438,6 +478,12 @@ ScriptsOnlyBuild:
     assemblyName: Cinemachine.dll
     namespaceName: 
     className: CinemachineTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 220bd265f54cc4cee8f1539ad2b2c64a
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ObjectSpawn
   - hash:
       serializedVersion: 2
       Hash: 8a253660259bd5543e76d37ca287fae7
@@ -582,6 +628,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnCollisionExit2DMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: b393b9683e962d759d706eee8f13eabe
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: KaitlynSO
+  - hash:
+      serializedVersion: 2
+      Hash: b242c80beb2c0eb5e855c7d550cebc80
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Grabbable
   - hash:
       serializedVersion: 2
       Hash: 2574ac7d50617d23cdefe4ad22f5e1ad
@@ -794,7 +852,7 @@ ScriptsOnlyBuild:
     className: UnityOnPointerClickMessageListener
   - hash:
       serializedVersion: 2
-      Hash: 6e83f286a6322192e7f29e9caa470594
+      Hash: da8340d7d8ea8c24ee2f2368296aa78d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Breakable
@@ -944,7 +1002,7 @@ ScriptsOnlyBuild:
     className: GroupTrack
   - hash:
       serializedVersion: 2
-      Hash: b11af5f0ab427551d95e1c338095ea16
+      Hash: 0a6631b40ae41b601aa9a40097fbff4e
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Player
@@ -1044,6 +1102,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Camera
+  - hash:
+      serializedVersion: 2
+      Hash: 5498d665dd1d4fad0bab90ad32c79171
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: HUD
   - hash:
       serializedVersion: 2
       Hash: 760787567e1b60d64a3e421ab83ee14a
@@ -1304,6 +1368,12 @@ ScriptsOnlyBuild:
     className: ScrollRect
   - hash:
       serializedVersion: 2
+      Hash: 5a6759f543e3bb988975f02488a0ba45
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PhysicsButton
+  - hash:
+      serializedVersion: 2
       Hash: fcf4e94a697865870f940e8198f3b024
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
@@ -1416,19 +1486,7 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
-  - hash:
-      serializedVersion: 2
-      Hash: 525faf41f2ed80f80d858566ba819995
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Grabbable
-  - hash:
-      serializedVersion: 2
-      Hash: 5a6759f543e3bb988975f02488a0ba45
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: PhysicsButton
   platform: 19
   scenePathNames:
   - Assets/Scenes/TestScene1.unity
-  playerPath: C:/Users/Tyson/Documents/The-Vault/The Vault/Builds/The Vault.exe
+  playerPath: C:/Users/s0521385/Documents/GitHub/The-Vault/The Vault/Builds/The Vault.exe

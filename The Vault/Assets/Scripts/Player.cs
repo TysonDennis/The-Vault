@@ -65,6 +65,12 @@ public class Player : MonoBehaviour
     //holds the world spawn Kaitlyn starts at
     [SerializeField]
     private Transform worldSpawn;
+    //communicates to the script for the HUD
+    [SerializeField]
+    private HUD HUDScript;
+    //gets the particle system for Kaitlyn's blood
+    [SerializeField]
+    private ParticleSystem blood;
 
     //gets Kaitlyn's rigidbody, collider, and controls, while setting her HP to max
     void Awake()
@@ -138,6 +144,11 @@ public class Player : MonoBehaviour
         }
         //calls the LookAt() function
         LookAt();
+        //calls the Kill function if Kaitlyn's HP is 0
+        if(kaitlyn.HP <= 0)
+        {
+            Kill();
+        }
     }
 
     //bases Kaitlyn's X-axis off the camera's
@@ -310,5 +321,31 @@ public class Player : MonoBehaviour
     {
         kaitlyn.Spawnpoint = null;
         this.transform.position = worldSpawn.position;
+    }
+
+    //allows Kaitlyn to take damage
+    public void TakeDamage(int damage)
+    {
+        kaitlyn.HP -= damage;
+        HUDScript.hurtSprite();
+        blood.Play();
+        StartCoroutine(StopBleeding());
+    }
+
+    //stops the bleeding after a bit
+    private IEnumerator StopBleeding()
+    {
+        yield return new WaitForSeconds(0.1f);
+        blood.Stop();
+    }
+
+    //runs the function for if Kaitlyn is killed
+    private void Kill()
+    {
+        HUDScript.hurtSprite();
+        blood.Play();
+        StartCoroutine(StopBleeding());
+        this.transform.position = kaitlyn.Spawnpoint.position;
+        kaitlyn.HP = kaitlyn.maxHP;
     }
 }
