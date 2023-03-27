@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -49,6 +51,20 @@ public class Player : MonoBehaviour
     private KaitlynSO kaitlyn;
     //stores the bool for checking if the game's paused
     public bool IsPaused;
+    //holds the HUD
+    public GameObject HUD;
+    //holds the UI raycaster
+    [SerializeField]
+    private GraphicRaycaster graphicRaycaster;
+    //holds the pointer event data
+    [SerializeField]
+    private PointerEventData click_data;
+    //holds the results of the click
+    [SerializeField]
+    List<RaycastResult> click_results;
+    //holds the world spawn Kaitlyn starts at
+    [SerializeField]
+    private Transform worldSpawn;
 
     //gets Kaitlyn's rigidbody, collider, and controls, while setting her HP to max
     void Awake()
@@ -58,6 +74,9 @@ public class Player : MonoBehaviour
         capsule = GetComponent<CapsuleCollider>();
         kaitlyn.HP = kaitlyn.maxHP;
         IsPaused = false;
+        graphicRaycaster = HUD.GetComponent<GraphicRaycaster>();
+        click_data = new PointerEventData(EventSystem.current);
+        click_results = new List<RaycastResult>();
     }
 
     //enables Kaitlyn's moveset
@@ -276,6 +295,20 @@ public class Player : MonoBehaviour
     //clicks on buttons on the pause menu UI
     private void DoClick(InputAction.CallbackContext obj)
     {
+        click_data.position = Mouse.current.position.ReadValue();
+        click_results.Clear();
+        graphicRaycaster.Raycast(click_data, click_results);
+        foreach(RaycastResult result in click_results)
+        {
+            GameObject ui_element = result.gameObject;
+            Debug.Log(ui_element.name);
+        }
+    }
 
+    //deletes saved data
+    public void Delete()
+    {
+        kaitlyn.Spawnpoint = null;
+        this.transform.position = worldSpawn.position;
     }
 }

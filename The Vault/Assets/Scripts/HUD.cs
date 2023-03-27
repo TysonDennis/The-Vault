@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class HUD : MonoBehaviour
@@ -26,11 +27,15 @@ public class HUD : MonoBehaviour
     //stores the text that displays if the game is paused
     [SerializeField]
     private TextMeshProUGUI pause;
+    //stores the button for deleting saved data
+    [SerializeField]
+    private GameObject deleteButton;
 
     //is called at the start
     private void Awake()
     {
         pause.gameObject.SetActive(false);
+        deleteButton.gameObject.SetActive(false);
     }
 
     //displays Kaitlyn's stats
@@ -40,10 +45,12 @@ public class HUD : MonoBehaviour
         if(player.IsPaused == true)
         {
             pause.gameObject.SetActive(true);
+            deleteButton.gameObject.SetActive(true);
         }
         else
         {
             pause.gameObject.SetActive(false);
+            deleteButton.gameObject.SetActive(false);
         }
     }
 }
