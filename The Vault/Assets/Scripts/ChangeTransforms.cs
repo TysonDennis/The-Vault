@@ -10,54 +10,59 @@ public class ChangeTransforms : MonoBehaviour
     //holds the object's finishing position
     [SerializeField]
     private Transform fPos;
-    //holds the object's x-position rate
+    //holds the object's move speed
     [SerializeField]
-    private float xRate;
-    //holds the object's y-position rate
+    private float speed;
+    //holds the object's rotation speed
     [SerializeField]
-    private float yRate;
-    //holds the object's z-position rate
+    private float rotationSpeed;
+    //holds the delays
     [SerializeField]
-    private float zRate;
-    //holds the object's x-rotation rate
+    private float StartDelay;
     [SerializeField]
-    private float xRot;
-    //holds the object's y-rotation rate
-    [SerializeField]
-    private float yRot;
-    //holds the object's z-rotation rate
-    [SerializeField]
-    private float zRot;
+    private float FinishDelay;
 
     //sets the position and rotation to the start upon starting
     private void Awake()
     {
-        this.transform.SetPositionAndRotation(sPos.position, sPos.rotation);
+        //this.transform.SetPositionAndRotation(sPos.position, sPos.rotation);
     }
 
     //goes from starting position to finishing position
     public void GoToFinish()
     {
-        if(this.transform.position != fPos.position)
-        {
-            transform.Translate(xRate * Time.deltaTime, yRate * Time.deltaTime, zRate * Time.deltaTime);
-        }
-        if(this.transform.rotation != fPos.rotation)
-        {
-            transform.Rotate(xRot * Time.deltaTime, yRot * Time.deltaTime, zRot * Time.deltaTime);
-        }
+        StartCoroutine(PointB());
     }
 
     //goes from finishing position to starting position
     public void GoToStart()
     {
-        if (this.transform.position != sPos.position)
+        StartCoroutine(PointA());
+    }
+
+    //holds the contents and the delay
+    public IEnumerator PointB()
+    {
+        yield return new WaitForSeconds(StartDelay);
+        this.transform.position = Vector3.MoveTowards(this.transform.position, fPos.position, speed);
+        this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, fPos.rotation, rotationSpeed);
+        //checks if the position of the object and its destination are approximately equal
+        if(Vector3.Distance(this.transform.position, fPos.position) < 0.001f)
         {
-            transform.Translate(-xRate * Time.deltaTime, -yRate * Time.deltaTime, -zRate * Time.deltaTime);
+            this.transform.position = fPos.position;
         }
-        if (this.transform.rotation != sPos.rotation)
+    }
+
+    //holds the contents and the delay
+    public IEnumerator PointA()
+    {
+        yield return new WaitForSeconds(FinishDelay);
+        this.transform.position = Vector3.MoveTowards(this.transform.position, sPos.position, speed);
+        this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, sPos.rotation, rotationSpeed);
+        //checks if the position of the object and its destination are approximately equal
+        if (Vector3.Distance(this.transform.position, sPos.position) < 0.001f)
         {
-            transform.Rotate(-xRot * Time.deltaTime, -yRot * Time.deltaTime, -zRot * Time.deltaTime);
+            this.transform.position = sPos.position;
         }
     }
 }
