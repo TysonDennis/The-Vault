@@ -71,8 +71,10 @@ public class Player : MonoBehaviour
     //gets the particle system for Kaitlyn's blood
     [SerializeField]
     private ParticleSystem blood;
+    //holds Kaitlyn's animator
+    private Animator animator;
 
-    //gets Kaitlyn's rigidbody, collider, and controls, while setting her HP to max
+    //gets Kaitlyn's rigidbody, collider, animator, and controls, while setting her HP to max
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -83,6 +85,7 @@ public class Player : MonoBehaviour
         graphicRaycaster = HUD.GetComponent<GraphicRaycaster>();
         click_data = new PointerEventData(EventSystem.current);
         click_results = new List<RaycastResult>();
+        animator = GetComponent<Animator>();
     }
 
     //enables Kaitlyn's moveset
@@ -189,6 +192,7 @@ public class Player : MonoBehaviour
         if (IsGrounded())
         {
             forceDirection += Vector3.up * JumpForce;
+            animator.SetTrigger("JumpTrigger");
         }
     }
 
@@ -215,6 +219,7 @@ public class Player : MonoBehaviour
         capsule.height = 1.5f;
         WalkSpeed = 1f;
         movementForce = 1f;
+        animator.SetBool("CrouchBool", true);
     }
 
     //lets Kaitlyn stand up straight after crouching or sprinting, resetting her height, top speed, and acceleration
@@ -223,6 +228,8 @@ public class Player : MonoBehaviour
         capsule.height = 3f;
         WalkSpeed = 2f;
         movementForce = 1f;
+        animator.SetTrigger("IdleTrigger");
+        animator.SetBool("CrouchBool", false);
     }
 
     //allows Kaitlyn to run, increasing her top speed and acceleration
@@ -230,6 +237,7 @@ public class Player : MonoBehaviour
     {
         WalkSpeed = 10f;
         movementForce = 2.5f;
+        animator.SetTrigger("RunTrigger");
     }
 
     //lets Kaitlyn attack and throw
