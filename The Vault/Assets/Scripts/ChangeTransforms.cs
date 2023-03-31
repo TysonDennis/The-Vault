@@ -21,11 +21,46 @@ public class ChangeTransforms : MonoBehaviour
     private float StartDelay;
     [SerializeField]
     private float FinishDelay;
+    //holds the bools for if they move
+    [SerializeField]
+    private bool StartMove;
+    [SerializeField]
+    private bool FinishMove;
 
-    //sets the position and rotation to the start upon starting
+    //sets the bools to false
     private void Awake()
     {
-        //this.transform.SetPositionAndRotation(sPos.position, sPos.rotation);
+        StartMove = false;
+        FinishMove = false;
+    }
+
+    //holds the movement
+    private void FixedUpdate()
+    {
+        if(StartMove == true)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, fPos.position, speed * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, fPos.rotation, rotationSpeed * Time.deltaTime);
+            //checks if the position of the object and its destination are approximately equal
+            if (Vector3.Distance(transform.position, fPos.position) < 0.001f && Quaternion.Angle(transform.rotation, fPos.rotation) < 0.001f)
+            {
+                transform.position = fPos.position;
+                transform.rotation = fPos.rotation;
+                StartMove = false;
+            }
+        }
+        else if(FinishMove == true)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, sPos.position, speed * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, sPos.rotation, rotationSpeed * Time.deltaTime);
+            //checks if the position of the object and its destination are approximately equal
+            if (Vector3.Distance(transform.position, sPos.position) < 0.001f && Quaternion.Angle(transform.rotation, sPos.rotation) < 0.001f)
+            {
+                transform.position = sPos.position;
+                transform.rotation = sPos.rotation;
+                FinishMove = false;
+            }
+        }
     }
 
     //goes from starting position to finishing position
@@ -44,25 +79,15 @@ public class ChangeTransforms : MonoBehaviour
     public IEnumerator PointB()
     {
         yield return new WaitForSeconds(StartDelay);
-        this.transform.position = Vector3.MoveTowards(this.transform.position, fPos.position, speed);
-        this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, fPos.rotation, rotationSpeed);
-        //checks if the position of the object and its destination are approximately equal
-        if(Vector3.Distance(this.transform.position, fPos.position) < 0.001f)
-        {
-            this.transform.position = fPos.position;
-        }
+        StartMove = true;
+        FinishMove = false;
     }
 
     //holds the contents and the delay
     public IEnumerator PointA()
     {
         yield return new WaitForSeconds(FinishDelay);
-        this.transform.position = Vector3.MoveTowards(this.transform.position, sPos.position, speed);
-        this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, sPos.rotation, rotationSpeed);
-        //checks if the position of the object and its destination are approximately equal
-        if (Vector3.Distance(this.transform.position, sPos.position) < 0.001f)
-        {
-            this.transform.position = sPos.position;
-        }
+        StartMove = false;
+        FinishMove = true;
     }
 }

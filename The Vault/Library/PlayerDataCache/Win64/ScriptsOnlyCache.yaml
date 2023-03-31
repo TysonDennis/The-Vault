@@ -3,6 +3,7 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - Breakable
     - Camera
+    - ChangeTransforms
     - Grabbable
     - HUD
     - KaitlynSO
@@ -25,6 +26,16 @@ ScriptsOnlyBuild:
     - TMPro.TMP_SpriteAsset
     - TMPro.TMP_StyleSheet
     - TMPro.TextMeshProUGUI
+    UnityEditor.Graphs.dll:
+    - UnityEditor.Graphs.AnimationBlendTree.Graph
+    - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationBlendTree.Node
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
+    - UnityEditor.Graphs.AnimationStateMachine.Graph
+    - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateMachineNode
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
+    - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -78,11 +89,11 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.SpriteState
   methodsToPreserve:
   - assembly: Assembly-CSharp
-    fullTypeName: Player
-    methodName: TakeDamage
+    fullTypeName: ChangeTransforms
+    methodName: GoToFinish
   - assembly: Assembly-CSharp
-    fullTypeName: Player
-    methodName: Delete
+    fullTypeName: ChangeTransforms
+    methodName: GoToStart
   sceneClasses:
     Assets/Scenes/TestScene1.unity:
     - Class: 1
@@ -111,58 +122,68 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 65
       Script: {instanceID: 0}
+    - Class: 74
+      Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
     - Class: 89
+      Script: {instanceID: 0}
+    - Class: 90
+      Script: {instanceID: 0}
+    - Class: 91
+      Script: {instanceID: 0}
+    - Class: 95
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1596}
+      Script: {instanceID: 1700}
     - Class: 114
-      Script: {instanceID: 2310}
+      Script: {instanceID: 2414}
     - Class: 114
-      Script: {instanceID: 2740}
+      Script: {instanceID: 2844}
     - Class: 114
-      Script: {instanceID: 2810}
+      Script: {instanceID: 2914}
     - Class: 114
-      Script: {instanceID: 3052}
+      Script: {instanceID: 3156}
     - Class: 114
-      Script: {instanceID: 3204}
+      Script: {instanceID: 3308}
     - Class: 114
-      Script: {instanceID: 3398}
+      Script: {instanceID: 3502}
     - Class: 114
-      Script: {instanceID: 4006}
+      Script: {instanceID: 4110}
     - Class: 114
-      Script: {instanceID: 4064}
+      Script: {instanceID: 4168}
     - Class: 114
-      Script: {instanceID: 4152}
+      Script: {instanceID: 4256}
     - Class: 114
-      Script: {instanceID: 4638}
+      Script: {instanceID: 4440}
     - Class: 114
-      Script: {instanceID: 4944}
+      Script: {instanceID: 4744}
     - Class: 114
-      Script: {instanceID: 5158}
+      Script: {instanceID: 5050}
     - Class: 114
-      Script: {instanceID: 5826}
+      Script: {instanceID: 5264}
     - Class: 114
-      Script: {instanceID: 6110}
+      Script: {instanceID: 5932}
     - Class: 114
-      Script: {instanceID: 6514}
+      Script: {instanceID: 6216}
     - Class: 114
-      Script: {instanceID: 6654}
+      Script: {instanceID: 6620}
     - Class: 114
-      Script: {instanceID: 6684}
+      Script: {instanceID: 6760}
     - Class: 114
-      Script: {instanceID: 6710}
+      Script: {instanceID: 6790}
     - Class: 114
-      Script: {instanceID: 7538}
+      Script: {instanceID: 6816}
     - Class: 114
-      Script: {instanceID: 8338}
+      Script: {instanceID: 7644}
     - Class: 114
-      Script: {instanceID: 8400}
+      Script: {instanceID: 8444}
+    - Class: 114
+      Script: {instanceID: 8506}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -676,6 +697,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.InputSystem.dll
     namespaceName: UnityEngine.InputSystem.Editor
     className: InputActionDebuggerWindow
+  - hash:
+      serializedVersion: 2
+      Hash: e7e32097e303048bc6981d72b0d2d431
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ChangeTransforms
   - hash:
       serializedVersion: 2
       Hash: aba7b2852ef61d175dd9602e7723d5e5
@@ -1489,4 +1516,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/TestScene1.unity
-  playerPath: C:/Users/s0521385/Documents/GitHub/The-Vault/The Vault/Builds/The Vault.exe
+  playerPath: C:/Users/Tyson/Documents/The-Vault/The Vault/Builds/The Vault.exe

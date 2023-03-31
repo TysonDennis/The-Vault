@@ -73,6 +73,7 @@ public class Player : MonoBehaviour
     private ParticleSystem blood;
     //holds Kaitlyn's animator
     private Animator animator;
+    int speedHash = Animator.StringToHash("Speed");
 
     //gets Kaitlyn's rigidbody, collider, animator, and controls, while setting her HP to max
     void Awake()
@@ -126,6 +127,7 @@ public class Player : MonoBehaviour
     //called once a frame
     private void FixedUpdate()
     {
+        animator.SetFloat(speedHash, rb.velocity.magnitude / WalkSpeed);
         //holds Kaitlyn's movement
         forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCamera) * movementForce;
         forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCamera) * movementForce;
@@ -228,7 +230,7 @@ public class Player : MonoBehaviour
         capsule.height = 3f;
         WalkSpeed = 2f;
         movementForce = 1f;
-        animator.SetTrigger("IdleTrigger");
+        //animator.SetTrigger("IdleTrigger");
         animator.SetBool("CrouchBool", false);
     }
 
@@ -237,7 +239,7 @@ public class Player : MonoBehaviour
     {
         WalkSpeed = 10f;
         movementForce = 2.5f;
-        animator.SetTrigger("RunTrigger");
+        //animator.SetTrigger("RunTrigger");
     }
 
     //lets Kaitlyn attack and throw
