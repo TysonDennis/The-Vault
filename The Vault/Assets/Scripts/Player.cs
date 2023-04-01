@@ -75,13 +75,18 @@ public class Player : MonoBehaviour
     private Animator animator;
     int speedHash = Animator.StringToHash("Speed");
 
-    //gets Kaitlyn's rigidbody, collider, animator, and controls, while setting her HP to max
+    //gets Kaitlyn's rigidbody, collider, animator, and controls, while setting her stats
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         controls = new PlayerControls();
         capsule = GetComponent<CapsuleCollider>();
+        kaitlyn.maxHP = 100 + kaitlyn.HealthPickup * 100;
+        strength = 5 + kaitlyn.StrengthPickup;
         kaitlyn.HP = kaitlyn.maxHP;
+        JumpForce = 7 + kaitlyn.HighJump;
+        movementForce = 1 + kaitlyn.Sprint;
+        WalkSpeed = 2 + 2 * kaitlyn.Sprint;
         IsPaused = false;
         graphicRaycaster = HUD.GetComponent<GraphicRaycaster>();
         click_data = new PointerEventData(EventSystem.current);
@@ -218,7 +223,7 @@ public class Player : MonoBehaviour
     //lets Kaitlyn crouch, reducing her height and top speed
     private void DoCrouch(InputAction.CallbackContext obj)
     {
-        capsule.height = 1.5f;
+        capsule.height = (float)(1.5f - (.75 * kaitlyn.SqueezeThrough));
         WalkSpeed = 1f;
         movementForce = 1f;
         animator.SetBool("CrouchBool", true);
@@ -228,8 +233,8 @@ public class Player : MonoBehaviour
     private void DoStand(InputAction.CallbackContext obj)
     {
         capsule.height = 3f;
-        WalkSpeed = 2f;
-        movementForce = 1f;
+        WalkSpeed = 2f + 2 * kaitlyn.Sprint;
+        movementForce = 1f + kaitlyn.Sprint;
         //animator.SetTrigger("IdleTrigger");
         animator.SetBool("CrouchBool", false);
     }
@@ -237,8 +242,8 @@ public class Player : MonoBehaviour
     //allows Kaitlyn to run, increasing her top speed and acceleration
     private void DoSprint(InputAction.CallbackContext obj)
     {
-        WalkSpeed = 10f;
-        movementForce = 2.5f;
+        WalkSpeed = 10f + 10 * kaitlyn.Sprint;
+        movementForce = (float)(2.5f + 2.5 * kaitlyn.Sprint);
         //animator.SetTrigger("RunTrigger");
     }
 
@@ -326,11 +331,32 @@ public class Player : MonoBehaviour
         }
     }
 
-    //deletes saved data
+    //deletes saved data, and sets everything to zero
     public void Delete()
     {
         kaitlyn.Spawnpoint = null;
         this.transform.position = worldSpawn.position;
+        kaitlyn.HealthPickup = 0;
+        kaitlyn.StrengthPickup = 0;
+        kaitlyn.Sprint = 0;
+        kaitlyn.HighJump = 0;
+        kaitlyn.WaterGun = 0;
+        kaitlyn.StretchArm = 0;
+        kaitlyn.Flamethrower = 0;
+        kaitlyn.FrostBreath = 0;
+        kaitlyn.Lightningbolt = 0;
+        kaitlyn.WaterRespiration = 0;
+        kaitlyn.HeatResistance = 0;
+        kaitlyn.ColdResistance = 0;
+        kaitlyn.ElectricityResistance = 0;
+        kaitlyn.ThermalVision = 0;
+        kaitlyn.HammerStrike = 0;
+        kaitlyn.Invisible = 0;
+        kaitlyn.TimeDilation = 0;
+        kaitlyn.SqueezeThrough = 0;
+        kaitlyn.Dig = 0;
+        kaitlyn.Flight = 0;
+        kaitlyn.Regeneration = 0;
     }
 
     //allows Kaitlyn to take damage
