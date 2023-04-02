@@ -46,7 +46,7 @@ public class KaitlynSO : ScriptableObject
     //stores time dilation power-ups
     public int TimeDilation;
     //stores squeeze through power-ups
-    public float SqueezeThrough;
+    public int SqueezeThrough;
     //stores dig power-ups
     public int Dig;
     //stores flight power-ups

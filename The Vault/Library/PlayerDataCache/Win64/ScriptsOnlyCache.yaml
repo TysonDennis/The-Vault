@@ -4,6 +4,9 @@ ScriptsOnlyBuild:
     - Breakable
     - Camera
     - ChangeTransforms
+    - Diggable
+    - EventsSO
+    - GameManager
     - Grabbable
     - HUD
     - KaitlynSO
@@ -29,12 +32,8 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationBlendTree.Node
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateMachineNode
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -94,6 +93,9 @@ ScriptsOnlyBuild:
   - assembly: Assembly-CSharp
     fullTypeName: ChangeTransforms
     methodName: GoToStart
+  - assembly: Assembly-CSharp
+    fullTypeName: Player
+    methodName: Delete
   sceneClasses:
     Assets/Scenes/TestScene1.unity:
     - Class: 1
@@ -125,8 +127,6 @@ ScriptsOnlyBuild:
     - Class: 74
       Script: {instanceID: 0}
     - Class: 81
-      Script: {instanceID: 0}
-    - Class: 89
       Script: {instanceID: 0}
     - Class: 90
       Script: {instanceID: 0}
@@ -184,6 +184,12 @@ ScriptsOnlyBuild:
       Script: {instanceID: 8444}
     - Class: 114
       Script: {instanceID: 8506}
+    - Class: 114
+      Script: {instanceID: 27358}
+    - Class: 114
+      Script: {instanceID: 35188}
+    - Class: 114
+      Script: {instanceID: 35560}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -501,7 +507,7 @@ ScriptsOnlyBuild:
     className: CinemachineTrack
   - hash:
       serializedVersion: 2
-      Hash: 220bd265f54cc4cee8f1539ad2b2c64a
+      Hash: 6d98601e9258eef3b949f9fc5361c4b1
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ObjectSpawn
@@ -651,7 +657,7 @@ ScriptsOnlyBuild:
     className: UnityOnCollisionExit2DMessageListener
   - hash:
       serializedVersion: 2
-      Hash: b393b9683e962d759d706eee8f13eabe
+      Hash: 457f9ea557db403fead53f72484ceeb2
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: KaitlynSO
@@ -1029,7 +1035,7 @@ ScriptsOnlyBuild:
     className: GroupTrack
   - hash:
       serializedVersion: 2
-      Hash: 0a6631b40ae41b601aa9a40097fbff4e
+      Hash: d4d562c71d8070561c3eb7cbccab24f8
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Player
@@ -1513,6 +1519,24 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: fe3139311764f55579631c4fb287fdce
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Diggable
+  - hash:
+      serializedVersion: 2
+      Hash: 3a14086c304c7ef90a1aa49313890364
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GameManager
+  - hash:
+      serializedVersion: 2
+      Hash: 1ec56ce6b98eff47f4728b3897585303
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: EventsSO
   platform: 19
   scenePathNames:
   - Assets/Scenes/TestScene1.unity

@@ -23,7 +23,7 @@ public class Grabbable : MonoBehaviour
     [SerializeField]
     private GameObject player;
 
-    //gets the grabbable object's rigidbody
+    //gets the grabbable object's rigidbody and the player
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();

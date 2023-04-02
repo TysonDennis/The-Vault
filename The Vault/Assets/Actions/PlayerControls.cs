@@ -107,6 +107,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HighJump"",
+                    ""type"": ""Button"",
+                    ""id"": ""edc41605-ddb2-42a6-a7f8-bfa6d06e296e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -296,6 +305,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""6e803d4f-1e98-472e-976f-0395364449d1"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HighJump"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""b92bd44c-d00d-43a0-aa9d-60021ee22269"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HighJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""bc2adfa8-070a-44a3-9db4-c3fa361e0f64"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HighJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -361,6 +403,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Kaitlyn_Attack = m_Kaitlyn.FindAction("Attack", throwIfNotFound: true);
         m_Kaitlyn_Grab = m_Kaitlyn.FindAction("Grab", throwIfNotFound: true);
         m_Kaitlyn_Pause = m_Kaitlyn.FindAction("Pause", throwIfNotFound: true);
+        m_Kaitlyn_HighJump = m_Kaitlyn.FindAction("HighJump", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Pause = m_Menu.FindAction("Pause", throwIfNotFound: true);
@@ -433,6 +476,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Kaitlyn_Attack;
     private readonly InputAction m_Kaitlyn_Grab;
     private readonly InputAction m_Kaitlyn_Pause;
+    private readonly InputAction m_Kaitlyn_HighJump;
     public struct KaitlynActions
     {
         private @PlayerControls m_Wrapper;
@@ -446,6 +490,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_Kaitlyn_Attack;
         public InputAction @Grab => m_Wrapper.m_Kaitlyn_Grab;
         public InputAction @Pause => m_Wrapper.m_Kaitlyn_Pause;
+        public InputAction @HighJump => m_Wrapper.m_Kaitlyn_HighJump;
         public InputActionMap Get() { return m_Wrapper.m_Kaitlyn; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -482,6 +527,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnPause;
+                @HighJump.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnHighJump;
+                @HighJump.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnHighJump;
+                @HighJump.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnHighJump;
             }
             m_Wrapper.m_KaitlynActionsCallbackInterface = instance;
             if (instance != null)
@@ -513,6 +561,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @HighJump.started += instance.OnHighJump;
+                @HighJump.performed += instance.OnHighJump;
+                @HighJump.canceled += instance.OnHighJump;
             }
         }
     }
@@ -569,6 +620,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnGrab(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnHighJump(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

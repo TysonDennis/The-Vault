@@ -74,6 +74,11 @@ public class Player : MonoBehaviour
     //holds Kaitlyn's animator
     private Animator animator;
     int speedHash = Animator.StringToHash("Speed");
+    //stores the bool for if Kaitlyn is digging
+    public bool IsDigging;
+    //accesses the EventsSO scriptable object
+    [SerializeField]
+    private EventsSO eventsSO;
 
     //gets Kaitlyn's rigidbody, collider, animator, and controls, while setting her stats
     void Awake()
@@ -92,6 +97,7 @@ public class Player : MonoBehaviour
         click_data = new PointerEventData(EventSystem.current);
         click_results = new List<RaycastResult>();
         animator = GetComponent<Animator>();
+        IsDigging = false;
     }
 
     //enables Kaitlyn's moveset
@@ -105,6 +111,7 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Attack.started += DoAttack;
         controls.Kaitlyn.Grab.started += DoGrab;
         controls.Kaitlyn.Pause.started += DoPause;
+        controls.Kaitlyn.HighJump.started += DoHighJump;
         controls.Menu.Pause.started += DoPause;
         controls.Menu.Click.started += DoClick;
         move = controls.Kaitlyn.Move;
@@ -123,6 +130,7 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Attack.started -= DoAttack;
         controls.Kaitlyn.Grab.started -= DoGrab;
         controls.Kaitlyn.Pause.started -= DoPause;
+        controls.Kaitlyn.HighJump.started -= DoHighJump;
         controls.Menu.Pause.started -= DoPause;
         controls.Menu.Click.started -= DoClick;
         controls.Kaitlyn.Disable();
@@ -227,6 +235,11 @@ public class Player : MonoBehaviour
         WalkSpeed = 1f;
         movementForce = 1f;
         animator.SetBool("CrouchBool", true);
+        //lets Kaitlyn dig, only if she has the Dig power-up
+        if(kaitlyn.Dig >= 1)
+        {
+            IsDigging = true;
+        }
     }
 
     //lets Kaitlyn stand up straight after crouching or sprinting, resetting her height, top speed, and acceleration
@@ -357,6 +370,7 @@ public class Player : MonoBehaviour
         kaitlyn.Dig = 0;
         kaitlyn.Flight = 0;
         kaitlyn.Regeneration = 0;
+        eventsSO.ZeroBool = false;
     }
 
     //allows Kaitlyn to take damage
@@ -383,5 +397,16 @@ public class Player : MonoBehaviour
         StartCoroutine(StopBleeding());
         this.transform.position = kaitlyn.Spawnpoint.position;
         kaitlyn.HP = kaitlyn.maxHP;
+    }
+
+    //runs the function for high jumping
+    private void DoHighJump(InputAction.CallbackContext obj)
+    {
+        //only lets Kaitlyn high jump if she's in contact with the ground, and has collected at least one High Jump power-up
+        if (IsGrounded() && kaitlyn.HighJump >= 1)
+        {
+            forceDirection += Vector3.up * JumpForce * 2;
+            animator.SetTrigger("JumpTrigger");
+        }
     }
 }
