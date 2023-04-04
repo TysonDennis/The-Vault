@@ -56,20 +56,22 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.unity.settings-manager@1.0.3\Editor\Settings.cs" />
-    <Compile Include="Library\PackageCache\com.unity.settings-manager@1.0.3\Editor\UserSettingsProvider.cs" />
-    <Compile Include="Library\PackageCache\com.unity.settings-manager@1.0.3\Editor\PackageSettingsRepository.cs" />
-    <Compile Include="Library\PackageCache\com.unity.settings-manager@1.0.3\Editor\Attributes.cs" />
-    <Compile Include="Library\PackageCache\com.unity.settings-manager@1.0.3\Editor\UserSetting.cs" />
-    <Compile Include="Library\PackageCache\com.unity.settings-manager@1.0.3\Editor\SettingsDictionary.cs" />
-    <Compile Include="Library\PackageCache\com.unity.settings-manager@1.0.3\Editor\UserSettingsRepository.cs" />
-    <Compile Include="Library\PackageCache\com.unity.settings-manager@1.0.3\Editor\ISettingsRepository.cs" />
-    <Compile Include="Library\PackageCache\com.unity.settings-manager@1.0.3\Editor\UserSettings.cs" />
-    <Compile Include="Library\PackageCache\com.unity.settings-manager@1.0.3\Editor\ValueWrapper.cs" />
-    <Compile Include="Library\PackageCache\com.unity.settings-manager@1.0.3\Editor\SettingsGUILayout.cs" />
+    <Compile Include="Library\PackageCache\com.unity.settings-manager@2.0.1\Editor\Settings.cs" />
+    <Compile Include="Library\PackageCache\com.unity.settings-manager@2.0.1\Editor\ISettingsRepository.cs" />
+    <Compile Include="Library\PackageCache\com.unity.settings-manager@2.0.1\Editor\UserSettings.cs" />
+    <Compile Include="Library\PackageCache\com.unity.settings-manager@2.0.1\Editor\SettingsGUILayout.cs" />
+    <Compile Include="Library\PackageCache\com.unity.settings-manager@2.0.1\Editor\FileSettingsRepository.cs" />
+    <Compile Include="Library\PackageCache\com.unity.settings-manager@2.0.1\Editor\UserSettingsProvider.cs" />
+    <Compile Include="Library\PackageCache\com.unity.settings-manager@2.0.1\Editor\PackageSettingsRepository.cs" />
+    <Compile Include="Library\PackageCache\com.unity.settings-manager@2.0.1\Editor\Attributes.cs" />
+    <Compile Include="Library\PackageCache\com.unity.settings-manager@2.0.1\Editor\UserSetting.cs" />
+    <Compile Include="Library\PackageCache\com.unity.settings-manager@2.0.1\Editor\SettingsDictionary.cs" />
+    <Compile Include="Library\PackageCache\com.unity.settings-manager@2.0.1\Editor\ProjectUserSettings.cs" />
+    <Compile Include="Library\PackageCache\com.unity.settings-manager@2.0.1\Editor\UserSettingsRepository.cs" />
+    <Compile Include="Library\PackageCache\com.unity.settings-manager@2.0.1\Editor\ValueWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Library\PackageCache\com.unity.settings-manager@1.0.3\Editor\Unity.Settings.Editor.asmdef" />
+    <None Include="Library\PackageCache\com.unity.settings-manager@2.0.1\Editor\Unity.Settings.Editor.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -336,14 +338,29 @@
     <Reference Include="Unity.VisualScripting.YamlDotNet">
       <HintPath>Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Burst.Unsafe">
+      <HintPath>Library\PackageCache\com.unity.burst@1.6.5\Unity.Burst.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Cecil.Mdb">
+      <HintPath>Library\PackageCache\com.unity.burst@1.6.5\Unity.Burst.CodeGen\Unity.Burst.Cecil.Mdb.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualScripting.TextureAssets">
       <HintPath>Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\EditorAssetResources\Unity.VisualScripting.TextureAssets.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.IonicZip">
       <HintPath>Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Burst.Cecil.Pdb">
+      <HintPath>Library\PackageCache\com.unity.burst@1.6.5\Unity.Burst.CodeGen\Unity.Burst.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Cecil">
+      <HintPath>Library\PackageCache\com.unity.burst@1.6.5\Unity.Burst.CodeGen\Unity.Burst.Cecil.dll</HintPath>
+    </Reference>
     <Reference Include="log4netPlastic">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.17\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Cecil.Rocks">
+      <HintPath>Library\PackageCache\com.unity.burst@1.6.5\Unity.Burst.CodeGen\Unity.Burst.Cecil.Rocks.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>Library\PackageCache\com.unity.visualscripting@1.7.8\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
@@ -751,13 +768,13 @@
       <Project>{1AF5FDBF-BCFC-FB39-CE62-F673F24835D2}</Project>
       <Name>UnityEngine.UI</Name>
     </ProjectReference>
-    <ProjectReference Include="UnityEngine.TestRunner.csproj">
-      <Project>{69F715F6-0130-0DB8-BB93-A3F955CDF3DC}</Project>
-      <Name>UnityEngine.TestRunner</Name>
-    </ProjectReference>
     <ProjectReference Include="UnityEditor.TestRunner.csproj">
       <Project>{90358BC7-48EE-594C-11D9-023734005491}</Project>
       <Name>UnityEditor.TestRunner</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.TestRunner.csproj">
+      <Project>{69F715F6-0130-0DB8-BB93-A3F955CDF3DC}</Project>
+      <Name>UnityEngine.TestRunner</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

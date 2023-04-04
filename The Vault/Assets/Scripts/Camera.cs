@@ -45,7 +45,8 @@ public class Camera : MonoBehaviour
     private void OnEnable()
     {
         controls.Kaitlyn.Zoom.started += DoZoom;
-        controls.Kaitlyn.Rotate.started += DoRotate;
+        //controls.Kaitlyn.Rotate.started += DoRotate;
+        rotate = controls.Kaitlyn.Rotate;
         controls.Kaitlyn.Enable();
     }
 
@@ -53,27 +54,31 @@ public class Camera : MonoBehaviour
     private void OnDisable()
     {
         controls.Kaitlyn.Zoom.started -= DoZoom;
-        controls.Kaitlyn.Rotate.started -= DoRotate;
+        //controls.Kaitlyn.Rotate.started -= DoRotate;
         controls.Kaitlyn.Disable();
     }
 
-    // Update is called once per frame
+    //holds the camera's movement
     void Update()
     {
         //holds the sines and cosines of the camera's azimuth and altitude
         float sx = Mathf.Sin(xPos), sy = Mathf.Sin(yPos), cx = Mathf.Cos(xPos), cy = Mathf.Cos(yPos);
         //sets the position and rotation of the camera
         transform.SetPositionAndRotation(new Vector3(sy, sx, cx * cy) * zPos + player.transform.position, Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up));
+        float inputValueAzimuth = rotate.ReadValue<Vector2>().x * sensitivity * 17.45f * Time.deltaTime;
+        float inputValueAltitude = rotate.ReadValue<Vector2>().y * sensitivity * 17.45f * Time.deltaTime;
+        yPos += inputValueAzimuth;
+        xPos += inputValueAltitude;
     }
 
     //rotates the camera
-    private void DoRotate(InputAction.CallbackContext obj)
+    /*private void DoRotate(InputAction.CallbackContext obj)
     {
         float inputValueAzimuth = obj.ReadValue<Vector2>().x * sensitivity * 17.45f;
         float inputValueAltitude = obj.ReadValue<Vector2>().y * sensitivity * 17.45f;
         yPos += inputValueAzimuth;
         xPos += inputValueAltitude;
-    }
+    }*/
 
     //zooms the camera
     private void DoZoom (InputAction.CallbackContext obj)
