@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Grabbable : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class Grabbable : MonoBehaviour
     //holds Kaitlyn's transforms
     [SerializeField]
     private GameObject player;
+    //stores the events
+    public UnityEvent onGrab, onCarry, onDrop, onThrow;
 
     //gets the grabbable object's rigidbody and the player
     private void Awake()
@@ -37,6 +40,7 @@ public class Grabbable : MonoBehaviour
         rb.useGravity = false;
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+        onGrab.Invoke();
     }
 
     //keeps the grabbed object within the hold space
@@ -48,6 +52,7 @@ public class Grabbable : MonoBehaviour
             Vector3 newPosition = Vector3.Lerp(transform.position, holdSpace.position, Time.deltaTime * lerpSpeed);
             this.transform.rotation = holdSpace.rotation;
             rb.MovePosition(newPosition);
+            onCarry.Invoke();
         }
     }
 
@@ -56,6 +61,7 @@ public class Grabbable : MonoBehaviour
     {
         this.holdSpace = null;
         rb.useGravity = true;
+        onDrop.Invoke();
     }
 
     //throws the grabbed object by pressing X
@@ -67,5 +73,6 @@ public class Grabbable : MonoBehaviour
         Vector3 sidewaysDirection = player.transform.right;
         Vector3 ApplyForce = forceDirection * horizontalForce + transform.up * verticalForce + sidewaysDirection * sidewaysForce;
         rb.AddForce(ApplyForce, ForceMode.Impulse);
+        onThrow.Invoke();
     }
 }

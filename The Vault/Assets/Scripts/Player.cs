@@ -382,6 +382,12 @@ public class Player : MonoBehaviour
         StartCoroutine(StopBleeding());
     }
 
+    //holds Kaitlyn's elemental resistances
+    public void Resist()
+    {
+
+    }
+
     //stops the bleeding after a bit
     private IEnumerator StopBleeding()
     {
