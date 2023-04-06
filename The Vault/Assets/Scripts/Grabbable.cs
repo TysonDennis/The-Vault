@@ -24,13 +24,17 @@ public class Grabbable : MonoBehaviour
     [SerializeField]
     private GameObject player;
     //stores the events
-    public UnityEvent onGrab, onCarry, onDrop, onThrow;
+    public UnityEvent onGrab, onCarry, onThrow;
+    //stores the bool that checks if the object has been thrown or dropped
+    [SerializeField]
+    private bool released;
 
     //gets the grabbable object's rigidbody and the player
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player");
+        released = false;
     }
 
     //places the object within the hold space, once grabbed
@@ -61,7 +65,8 @@ public class Grabbable : MonoBehaviour
     {
         this.holdSpace = null;
         rb.useGravity = true;
-        onDrop.Invoke();
+        //onDrop.Invoke();
+        released = true;
     }
 
     //throws the grabbed object by pressing X
@@ -73,6 +78,24 @@ public class Grabbable : MonoBehaviour
         Vector3 sidewaysDirection = player.transform.right;
         Vector3 ApplyForce = forceDirection * horizontalForce + transform.up * verticalForce + sidewaysDirection * sidewaysForce;
         rb.AddForce(ApplyForce, ForceMode.Impulse);
-        onThrow.Invoke();
+        //onThrow.Invoke();
+        released = true;
+    }
+
+    //holds the function for if the object is thrown into something
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(released == true)
+        {
+            onThrow.Invoke();
+        }
+    }
+
+    //sets the game object's components to inactive
+    public void SetInactive()
+    {
+        gameObject.GetComponent<Collider>().enabled = false;
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        rb.isKinematic = true;
     }
 }

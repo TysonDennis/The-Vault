@@ -140,12 +140,22 @@ MonoBehaviour:
   onCarry:
     m_PersistentCalls:
       m_Calls: []
-  onDrop:
-    m_PersistentCalls:
-      m_Calls: []
   onThrow:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6781863924300602749}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  released: 0
 --- !u!1 &6781863924300602749
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,6 +168,7 @@ GameObject:
   - component: {fileID: 6009602286924024996}
   - component: {fileID: 5324944344937736359}
   - component: {fileID: 407358291526608090}
+  - component: {fileID: 8878860730112575459}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: ElectricEffect
@@ -4972,3 +4983,34 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &8878860730112575459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6781863924300602749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 087666b079293f44ba372adc1a4bfce2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  lifespan: 1
+  kaitlyn: {fileID: 11400000, guid: 144f9e609fae3504587a5c8c05e4b5ee, type: 2}
+  baseDamage: 10
+  onExplode:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5376620493280719724}
+        m_TargetAssemblyTypeName: Grabbable, Assembly-CSharp
+        m_MethodName: SetInactive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
