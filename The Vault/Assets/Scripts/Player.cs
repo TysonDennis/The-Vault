@@ -376,10 +376,14 @@ public class Player : MonoBehaviour
     //allows Kaitlyn to take damage
     public void TakeDamage(int damage)
     {
-        kaitlyn.HP -= damage;
-        HUDScript.hurtSprite();
-        blood.Play();
-        StartCoroutine(StopBleeding());
+        //checks if Kaitlyn has taken damage
+        if(damage > 0)
+        {
+            kaitlyn.HP -= damage;
+            HUDScript.hurtSprite();
+            blood.Play();
+            StartCoroutine(StopBleeding());
+        }
     }
 
     //stops the bleeding after a bit
