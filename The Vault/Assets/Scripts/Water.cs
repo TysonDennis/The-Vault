@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Water : MonoBehaviour
 {
-    //holds the force of buoyancy
-    [SerializeField]
-    private float buoyancy;
     //holds the rigidbody of whatever comes into contact with it
     [SerializeField]
     private Rigidbody rb;
@@ -14,7 +11,7 @@ public class Water : MonoBehaviour
     public float waterDensity;
     //gets the player script
     [SerializeField]
-    private Player player;
+    private Aquatic aquatic;
     //gets the grabbable script
     [SerializeField]
     private Grabbable grabbable;
@@ -22,27 +19,41 @@ public class Water : MonoBehaviour
     //gets the rigidbody of objects put in water
     private void Awake()
     {
-        rb = gameObject.GetComponent<Rigidbody>();
+        /*rb = gameObject.GetComponent<Rigidbody>();
         player = gameObject.GetComponent<Player>();
-        grabbable = Object.FindObjectOfType<Grabbable>();
+        grabbable = Object.FindObjectOfType<Grabbable>();*/
     }
 
-    //applies force when the object enters the water
+    //applies force of buoyancy when the object enters the water
     private void OnTriggerEnter(Collider other)
     {
-        //applies buoyant force to the player
-        if(other.transform.TryGetComponent(out player))
+        if(other.TryGetComponent<Grabbable>(out Grabbable grabbable))
         {
-            rb = player.GetComponent<Rigidbody>();
-            buoyancy = (float) 9.81 * waterDensity / player.density;
-            rb.AddForce(Vector3.up * buoyancy, ForceMode.Force);
+            //Grabbable submergeCheck = other.GetComponent<Grabbable>();
+            grabbable.isSubmerged = true;
+            other.transform.gameObject.SendMessage("FloatInWater", waterDensity);
         }
-        //applies buoyant force to a grabbable object
-        if (other.transform.TryGetComponent(out grabbable))
+        else if(other.TryGetComponent<Aquatic>(out Aquatic aquatic))
         {
-            rb = grabbable.GetComponent<Rigidbody>();
-            buoyancy = (float) 9.81 * waterDensity / grabbable.density;
-            rb.AddForce(Vector3.up * buoyancy, ForceMode.Force);
+            //Aquatic playerHead = other.GetComponent<Aquatic>();
+            aquatic.isSubmerged = true;
+            other.transform.gameObject.SendMessage("FloatInWater", waterDensity);
         }
+    }
+
+    //removes force of buoyancy when the object exits the water
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.TryGetComponent<Grabbable>(out Grabbable grabbable))
+        {
+            //Grabbable submergeCheck = other.GetComponent<Grabbable>();
+            grabbable.isSubmerged = false;
+        }
+        else if(other.TryGetComponent<Aquatic>(out Aquatic aquatic))
+        {
+            //Aquatic playerHead = other.GetComponent<Aquatic>();
+            aquatic.isSubmerged = false;
+        }
+        
     }
 }

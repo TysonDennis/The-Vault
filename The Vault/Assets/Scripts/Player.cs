@@ -81,6 +81,9 @@ public class Player : MonoBehaviour
     private EventsSO eventsSO;
     //holds Kaitlyn's density
     public float density;
+    //holds the aquatic script
+    [SerializeField]
+    private Aquatic aquatic;
 
     //gets Kaitlyn's rigidbody, collider, animator, and controls, while setting her stats
     void Awake()
@@ -211,6 +214,12 @@ public class Player : MonoBehaviour
             forceDirection += Vector3.up * JumpForce;
             animator.SetTrigger("JumpTrigger");
         }
+        //makes Kaitlyn swim upwards if she's in water
+        else if (aquatic.isSubmerged == true)
+        {
+            forceDirection += Vector3.up * JumpForce * 0.5f;
+            animator.SetTrigger("JumpTrigger");
+        }
     }
 
     //checks if Kaitlyn is standing on solid ground
@@ -233,10 +242,19 @@ public class Player : MonoBehaviour
     //lets Kaitlyn crouch, reducing her height and top speed
     private void DoCrouch(InputAction.CallbackContext obj)
     {
-        capsule.height = (float)(1.5f - (.75 * kaitlyn.SqueezeThrough));
-        WalkSpeed = 1f;
-        movementForce = 1f;
-        animator.SetBool("CrouchBool", true);
+        //makes Kaitlyn crouch on dry land
+        if(aquatic.isSubmerged == false)
+        {
+            capsule.height = (float)(1.5f - (.75 * kaitlyn.SqueezeThrough));
+            WalkSpeed = 1f;
+            movementForce = 1f;
+            animator.SetBool("CrouchBool", true);
+        }
+        //makes Kaitlyn dive in water
+        else
+        {
+            forceDirection += Vector3.down * JumpForce * 0.5f;
+        }
         //lets Kaitlyn dig, only if she has the Dig power-up
         if(kaitlyn.Dig >= 1)
         {

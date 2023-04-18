@@ -1,6 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - Aquatic
     - Breakable
     - Camera
     - ChangeTransforms
@@ -15,6 +16,7 @@ ScriptsOnlyBuild:
     - PhysicsButton
     - Player
     - Spawnpoint
+    - Water
     Unity.InputSystem.dll:
     - UnityEngine.InputSystem.InputActionAsset
     - UnityEngine.InputSystem.InputActionReference
@@ -163,35 +165,35 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Toggle/ToggleEvent
   methodsToPreserve:
   - assembly: Assembly-CSharp
-    fullTypeName: Grabbable
-    methodName: SetInactive
-  - assembly: UnityEngine.CoreModule
-    fullTypeName: UnityEngine.GameObject
-    methodName: SetActive
-  - assembly: Assembly-CSharp
-    fullTypeName: Grabbable
-    methodName: SetInactive
-  - assembly: UnityEngine.CoreModule
-    fullTypeName: UnityEngine.GameObject
-    methodName: SetActive
-  - assembly: Assembly-CSharp
-    fullTypeName: Grabbable
-    methodName: SetInactive
-  - assembly: UnityEngine.CoreModule
-    fullTypeName: UnityEngine.GameObject
-    methodName: SetActive
-  - assembly: Assembly-CSharp
-    fullTypeName: Grabbable
-    methodName: SetInactive
-  - assembly: UnityEngine.CoreModule
-    fullTypeName: UnityEngine.GameObject
-    methodName: SetActive
-  - assembly: Assembly-CSharp
     fullTypeName: ChangeTransforms
     methodName: GoToFinish
   - assembly: Assembly-CSharp
     fullTypeName: ChangeTransforms
     methodName: GoToStart
+  - assembly: UnityEngine.CoreModule
+    fullTypeName: UnityEngine.GameObject
+    methodName: SetActive
+  - assembly: UnityEngine.CoreModule
+    fullTypeName: UnityEngine.GameObject
+    methodName: SetActive
+  - assembly: UnityEngine.CoreModule
+    fullTypeName: UnityEngine.GameObject
+    methodName: SetActive
+  - assembly: UnityEngine.CoreModule
+    fullTypeName: UnityEngine.GameObject
+    methodName: SetActive
+  - assembly: Assembly-CSharp
+    fullTypeName: Grabbable
+    methodName: SetInactive
+  - assembly: Assembly-CSharp
+    fullTypeName: Grabbable
+    methodName: SetInactive
+  - assembly: Assembly-CSharp
+    fullTypeName: Grabbable
+    methodName: SetInactive
+  - assembly: Assembly-CSharp
+    fullTypeName: Grabbable
+    methodName: SetInactive
   - assembly: Assembly-CSharp
     fullTypeName: Player
     methodName: Delete
@@ -271,139 +273,143 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 7140}
+      Script: {instanceID: 7228}
     - Class: 114
-      Script: {instanceID: 7180}
+      Script: {instanceID: 7268}
     - Class: 114
-      Script: {instanceID: 7290}
+      Script: {instanceID: 7378}
     - Class: 114
-      Script: {instanceID: 7880}
+      Script: {instanceID: 7968}
     - Class: 114
-      Script: {instanceID: 8604}
+      Script: {instanceID: 8692}
     - Class: 114
-      Script: {instanceID: 8718}
+      Script: {instanceID: 8806}
     - Class: 114
-      Script: {instanceID: 8786}
+      Script: {instanceID: 8874}
     - Class: 114
-      Script: {instanceID: 8936}
+      Script: {instanceID: 9024}
     - Class: 114
-      Script: {instanceID: 9026}
+      Script: {instanceID: 9114}
     - Class: 114
-      Script: {instanceID: 9064}
+      Script: {instanceID: 9152}
     - Class: 114
-      Script: {instanceID: 9296}
+      Script: {instanceID: 9384}
     - Class: 114
-      Script: {instanceID: 9490}
+      Script: {instanceID: 9580}
     - Class: 114
-      Script: {instanceID: 9498}
+      Script: {instanceID: 9588}
     - Class: 114
-      Script: {instanceID: 9596}
+      Script: {instanceID: 9686}
     - Class: 114
-      Script: {instanceID: 9918}
+      Script: {instanceID: 10008}
     - Class: 114
-      Script: {instanceID: 10290}
+      Script: {instanceID: 10380}
     - Class: 114
-      Script: {instanceID: 10348}
+      Script: {instanceID: 10438}
     - Class: 114
-      Script: {instanceID: 10412}
+      Script: {instanceID: 10502}
     - Class: 114
-      Script: {instanceID: 10590}
+      Script: {instanceID: 10680}
     - Class: 114
-      Script: {instanceID: 10608}
+      Script: {instanceID: 10698}
     - Class: 114
-      Script: {instanceID: 10632}
+      Script: {instanceID: 10722}
     - Class: 114
-      Script: {instanceID: 11100}
+      Script: {instanceID: 11190}
     - Class: 114
-      Script: {instanceID: 11106}
+      Script: {instanceID: 11196}
     - Class: 114
-      Script: {instanceID: 11170}
+      Script: {instanceID: 11260}
     - Class: 114
-      Script: {instanceID: 11270}
+      Script: {instanceID: 11360}
     - Class: 114
-      Script: {instanceID: 11344}
+      Script: {instanceID: 11434}
     - Class: 114
-      Script: {instanceID: 11744}
+      Script: {instanceID: 11834}
     - Class: 114
-      Script: {instanceID: 11754}
+      Script: {instanceID: 11844}
     - Class: 114
-      Script: {instanceID: 11800}
+      Script: {instanceID: 11890}
     - Class: 114
-      Script: {instanceID: 12312}
+      Script: {instanceID: 12402}
     - Class: 114
-      Script: {instanceID: 12648}
+      Script: {instanceID: 12738}
     - Class: 114
-      Script: {instanceID: 13586}
+      Script: {instanceID: 13004}
     - Class: 114
-      Script: {instanceID: 13648}
+      Script: {instanceID: 13678}
     - Class: 114
-      Script: {instanceID: 13782}
+      Script: {instanceID: 13740}
     - Class: 114
-      Script: {instanceID: 13918}
+      Script: {instanceID: 13874}
     - Class: 114
-      Script: {instanceID: 13966}
+      Script: {instanceID: 14010}
     - Class: 114
-      Script: {instanceID: 14150}
+      Script: {instanceID: 14058}
     - Class: 114
-      Script: {instanceID: 14244}
+      Script: {instanceID: 14242}
     - Class: 114
-      Script: {instanceID: 14510}
+      Script: {instanceID: 14336}
     - Class: 114
-      Script: {instanceID: 14618}
+      Script: {instanceID: 14602}
     - Class: 114
-      Script: {instanceID: 14916}
+      Script: {instanceID: 14710}
     - Class: 114
-      Script: {instanceID: 14946}
+      Script: {instanceID: 15008}
     - Class: 114
-      Script: {instanceID: 15024}
+      Script: {instanceID: 15038}
     - Class: 114
-      Script: {instanceID: 15174}
+      Script: {instanceID: 15116}
     - Class: 114
-      Script: {instanceID: 15178}
+      Script: {instanceID: 15266}
     - Class: 114
-      Script: {instanceID: 15288}
+      Script: {instanceID: 15270}
     - Class: 114
-      Script: {instanceID: 15558}
+      Script: {instanceID: 15380}
     - Class: 114
-      Script: {instanceID: 15632}
+      Script: {instanceID: 15650}
     - Class: 114
-      Script: {instanceID: 16302}
+      Script: {instanceID: 15724}
     - Class: 114
-      Script: {instanceID: 16356}
+      Script: {instanceID: 16394}
     - Class: 114
-      Script: {instanceID: 16536}
+      Script: {instanceID: 16448}
     - Class: 114
-      Script: {instanceID: 16616}
+      Script: {instanceID: 16628}
     - Class: 114
-      Script: {instanceID: 16796}
+      Script: {instanceID: 16708}
     - Class: 114
-      Script: {instanceID: 16892}
+      Script: {instanceID: 16888}
     - Class: 114
-      Script: {instanceID: 16992}
+      Script: {instanceID: 16984}
     - Class: 114
-      Script: {instanceID: 17022}
+      Script: {instanceID: 17084}
     - Class: 114
-      Script: {instanceID: 17118}
+      Script: {instanceID: 17114}
     - Class: 114
-      Script: {instanceID: 17246}
+      Script: {instanceID: 17210}
     - Class: 114
-      Script: {instanceID: 17342}
+      Script: {instanceID: 17338}
     - Class: 114
-      Script: {instanceID: 17436}
+      Script: {instanceID: 17434}
     - Class: 114
-      Script: {instanceID: 17572}
+      Script: {instanceID: 17528}
     - Class: 114
-      Script: {instanceID: 17876}
+      Script: {instanceID: 17664}
     - Class: 114
-      Script: {instanceID: 18012}
+      Script: {instanceID: 17968}
     - Class: 114
-      Script: {instanceID: 18350}
+      Script: {instanceID: 18104}
     - Class: 114
-      Script: {instanceID: 18368}
+      Script: {instanceID: 18442}
     - Class: 114
-      Script: {instanceID: 18404}
+      Script: {instanceID: 18460}
     - Class: 114
-      Script: {instanceID: 18836}
+      Script: {instanceID: 18496}
+    - Class: 114
+      Script: {instanceID: 18928}
+    - Class: 114
+      Script: {instanceID: 55502}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -759,7 +765,7 @@ ScriptsOnlyBuild:
     className: KaitlynSO
   - hash:
       serializedVersion: 2
-      Hash: 38b553b0f31836709c456c058332ff61
+      Hash: e01f0d0091b531313ca11117cdba12e1
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Grabbable
@@ -829,6 +835,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.RenderPipelines.Universal.Runtime.dll
     namespaceName: UnityEngine.Rendering.Universal
     className: MotionBlur
+  - hash:
+      serializedVersion: 2
+      Hash: 9482d769ff0e65f7e446a54710ad4a59
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ElementDamageZone
   - hash:
       serializedVersion: 2
       Hash: cd1e91f5afed259a1512bbf18dc12bd7
@@ -1041,7 +1053,7 @@ ScriptsOnlyBuild:
     className: ColorCurves
   - hash:
       serializedVersion: 2
-      Hash: d4d562c71d8070561c3eb7cbccab24f8
+      Hash: ddaa8ba932e0b0b21b3dcfe86f7b513c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Player
@@ -1375,6 +1387,12 @@ ScriptsOnlyBuild:
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
     className: CinemachineBasicMultiChannelPerlin
+  - hash:
+      serializedVersion: 2
+      Hash: 7260be28d1a16e26153c07a88720a9e1
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Water
   - hash:
       serializedVersion: 2
       Hash: 8220b46879dc5e37db1b940c938f5744
@@ -2311,7 +2329,13 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 8d63dd704f3d2d36072f145950dadc8d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Aquatic
   platform: 19
   scenePathNames:
   - Assets/Scenes/TestScene1.unity
-  playerPath: C:/Users/s0521385/Documents/GitHub/The-Vault/The Vault/Builds/The Vault.exe
+  playerPath: C:/Users/Tyson/Documents/The-Vault/The Vault/Builds/The Vault.exe

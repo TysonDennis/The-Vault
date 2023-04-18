@@ -14,7 +14,7 @@ public class ObjectSpawn : MonoBehaviour
     {
         if(spawnCondition == true)
         {
-            Instantiate(prefab, transform.position, Quaternion.identity);
+            Instantiate(prefab, transform.position, transform.rotation);
         }
     }
 }
