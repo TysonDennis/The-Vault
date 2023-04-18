@@ -829,9 +829,10 @@ GameObject:
   - component: {fileID: 107966753}
   - component: {fileID: 107966752}
   - component: {fileID: 107966755}
+  - component: {fileID: 107966756}
   m_Layer: 4
   m_Name: Water
-  m_TagString: Untagged
+  m_TagString: WaterEffect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -914,6 +915,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6, y: 6.0000014, z: 6.0000014}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &107966756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107966751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f215a99a4bd39714fad0411218f546a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buoyancy: 0
+  rb: {fileID: 0}
+  waterDensity: 2000
+  player: {fileID: 0}
+  grabbable: {fileID: 0}
 --- !u!43 &130229003
 Mesh:
   m_ObjectHideFlags: 0
@@ -23706,6 +23724,7 @@ MonoBehaviour:
   blood: {fileID: 1440002220}
   IsDigging: 0
   eventsSO: {fileID: 11400000, guid: f0527991afef546438dd11aafe133829, type: 2}
+  density: 1078
 --- !u!43 &1440075823
 Mesh:
   m_ObjectHideFlags: 0

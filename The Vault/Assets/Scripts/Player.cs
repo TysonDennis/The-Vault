@@ -79,6 +79,8 @@ public class Player : MonoBehaviour
     //accesses the EventsSO scriptable object
     [SerializeField]
     private EventsSO eventsSO;
+    //holds Kaitlyn's density
+    public float density;
 
     //gets Kaitlyn's rigidbody, collider, animator, and controls, while setting her stats
     void Awake()

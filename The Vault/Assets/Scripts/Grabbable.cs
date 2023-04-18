@@ -28,6 +28,8 @@ public class Grabbable : MonoBehaviour
     //stores the bool that checks if the object has been thrown or dropped
     [SerializeField]
     private bool released;
+    //holds the density of the grabbable
+    public float density;
 
     //gets the grabbable object's rigidbody and the player
     private void Awake()
