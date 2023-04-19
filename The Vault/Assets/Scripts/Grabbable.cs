@@ -6,8 +6,7 @@ using UnityEngine.Events;
 public class Grabbable : MonoBehaviour
 {
     //holds the grabbable object's rigidbody
-    [SerializeField]
-    private Rigidbody rb;
+    public Rigidbody rb;
     //gets Kaitlyn's hold space
     [SerializeField]
     private Transform holdSpace;
@@ -38,6 +37,8 @@ public class Grabbable : MonoBehaviour
     //holds the water script
     [SerializeField]
     private Water water;
+    //holds the force of the current
+    public Vector3 currentForce;
 
     //gets the grabbable object's rigidbody and the player
     private void Awake()
@@ -74,6 +75,8 @@ public class Grabbable : MonoBehaviour
         {
             rb.AddForce(buoyancy, ForceMode.Force);
         }
+        //applies force of current
+        rb.AddForce(currentForce, ForceMode.Force);
     }
 
     //drops the grabbed object by pressing C
@@ -119,5 +122,12 @@ public class Grabbable : MonoBehaviour
     public void FloatInWater(float waterDensity)
     {
         buoyancy = 9.81f * Vector3.up * waterDensity / density;
+    }
+
+    //allows the object to be pushed by currents
+    public void Current(Vector3 CurrentForce)
+    {
+        //rb.AddForce(CurrentForce, ForceMode.Force);
+        currentForce = CurrentForce;
     }
 }

@@ -38,6 +38,12 @@ public class HUD : MonoBehaviour
     //stores Kaitlyn's killed sprite
     [SerializeField]
     private Sprite KilledSprite;
+    //holds the oxygen display
+    [SerializeField]
+    private TextMeshProUGUI O2Display;
+    //gets the aquatic script
+    [SerializeField]
+    private Aquatic aquatic;
 
     //is called at the start to set the sprites and set the pause menu inactive
     private void Awake()
@@ -46,6 +52,7 @@ public class HUD : MonoBehaviour
         pause.gameObject.SetActive(false);
         deleteButton.gameObject.SetActive(false);
         StartCoroutine(ResetSprite());
+        O2Display.gameObject.SetActive(false);
     }
 
     //displays Kaitlyn's stats
@@ -53,6 +60,7 @@ public class HUD : MonoBehaviour
     {
         //icon.sprite = BaseSprite;
         HPDisplay.text = "Health: " + kaitlyn.HP + "/" + kaitlyn.maxHP;
+        O2Display.text = "O2: " + aquatic.oxygen + "/" + aquatic.maxO2;
         //calls the pause menu
         if(player.IsPaused == true)
         {
@@ -64,6 +72,19 @@ public class HUD : MonoBehaviour
         {
             pause.gameObject.SetActive(false);
             deleteButton.gameObject.SetActive(false);
+        }
+        //displays oxygen meter when Kaitlyn's underwater, or if her oxygen meter isn't full
+        if(aquatic.isSubmerged == true)
+        {
+            O2Display.gameObject.SetActive(true);
+        }
+        else if(aquatic.oxygen < aquatic.maxO2)
+        {
+            O2Display.gameObject.SetActive(true);
+        }
+        else
+        {
+            O2Display.gameObject.SetActive(false);
         }
     }
 

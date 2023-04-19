@@ -8,8 +8,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     //holds the rigidbody
-    [SerializeField]
-    Rigidbody rb;
+    public Rigidbody rb;
     //holds Kaitlyn's max speed while walking
     [SerializeField]
     float WalkSpeed;
@@ -84,6 +83,8 @@ public class Player : MonoBehaviour
     //holds the aquatic script
     [SerializeField]
     private Aquatic aquatic;
+    //holds the force of a current
+    public Vector3 currentForce;
 
     //gets Kaitlyn's rigidbody, collider, animator, and controls, while setting her stats
     void Awake()
@@ -172,6 +173,7 @@ public class Player : MonoBehaviour
         {
             Kill();
         }
+        rb.AddForce(currentForce, ForceMode.Force);
     }
 
     //bases Kaitlyn's X-axis off the camera's
@@ -217,7 +219,7 @@ public class Player : MonoBehaviour
         //makes Kaitlyn swim upwards if she's in water
         else if (aquatic.isSubmerged == true)
         {
-            forceDirection += Vector3.up * JumpForce * 0.5f;
+            forceDirection += Vector3.up * JumpForce * 0.5f * (kaitlyn.WaterRespiration + 1);
             animator.SetTrigger("JumpTrigger");
         }
     }
@@ -253,7 +255,7 @@ public class Player : MonoBehaviour
         //makes Kaitlyn dive in water
         else
         {
-            forceDirection += Vector3.down * JumpForce * 0.5f;
+            forceDirection += Vector3.down * JumpForce * 0.5f * (kaitlyn.WaterRespiration + 1);
         }
         //lets Kaitlyn dig, only if she has the Dig power-up
         if(kaitlyn.Dig >= 1)
@@ -265,9 +267,20 @@ public class Player : MonoBehaviour
     //lets Kaitlyn stand up straight after crouching or sprinting, resetting her height, top speed, and acceleration
     private void DoStand(InputAction.CallbackContext obj)
     {
-        capsule.height = 3f;
-        WalkSpeed = 2f + 2 * kaitlyn.Sprint;
-        movementForce = 1f + kaitlyn.Sprint;
+        //holds Kaitlyn's terrestrial speed
+        if(aquatic.isSubmerged == false)
+        {
+            capsule.height = 3f;
+            WalkSpeed = 2f + 2 * kaitlyn.Sprint;
+            movementForce = 1f + kaitlyn.Sprint;
+        }
+        //holds Kaitlyn's aquatic speed
+        else
+        {
+            capsule.height = 3f;
+            WalkSpeed = 2f + kaitlyn.Sprint + kaitlyn.WaterRespiration;
+            movementForce = (1f + kaitlyn.Sprint) * .5f + kaitlyn.WaterRespiration;
+        }
         //animator.SetTrigger("IdleTrigger");
         animator.SetBool("CrouchBool", false);
     }
@@ -275,8 +288,18 @@ public class Player : MonoBehaviour
     //allows Kaitlyn to run, increasing her top speed and acceleration
     private void DoSprint(InputAction.CallbackContext obj)
     {
-        WalkSpeed = 10f + 10 * kaitlyn.Sprint;
-        movementForce = (float)(2.5f + 2.5 * kaitlyn.Sprint);
+        //holds Kaitlyn's terrestrial speed
+        if(aquatic.isSubmerged == false)
+        {
+            WalkSpeed = 10f + 10 * kaitlyn.Sprint;
+            movementForce = (float)(2.5f + 2.5 * kaitlyn.Sprint);
+        }
+        //holds Kaitlyn's aquatic speed
+        else
+        {
+            WalkSpeed = 5f + 5 * kaitlyn.Sprint + kaitlyn.WaterRespiration;
+            movementForce = (float)(1f + kaitlyn.Sprint + kaitlyn.WaterRespiration);
+        }
         //animator.SetTrigger("RunTrigger");
     }
 
@@ -432,5 +455,11 @@ public class Player : MonoBehaviour
             forceDirection += Vector3.up * JumpForce * 2;
             animator.SetTrigger("JumpTrigger");
         }
+    }
+
+    //allows Kaitlyn to be pushed by currents
+    public void Current(Vector3 CurrentForce)
+    {
+        currentForce = CurrentForce;
     }
 }
