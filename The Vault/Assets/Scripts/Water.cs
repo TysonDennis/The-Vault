@@ -34,6 +34,25 @@ public class Water : MonoBehaviour
     //holds the current torque
     [SerializeField]
     private Vector3 CurrentTorque;
+    //gets the steam particles
+    [SerializeField]
+    private ParticleSystem steam;
+    //holds the ice
+    [SerializeField]
+    private GameObject ice;
+    //holds the ice's dimensions
+    [SerializeField]
+    private float iceX;
+    [SerializeField]
+    private float iceY;
+    [SerializeField]
+    private float iceZ;
+    //holds the starting torque
+    [SerializeField]
+    private Vector3 InitialTorque;
+    //gets water flow particles
+    [SerializeField]
+    private ParticleSystem flow;
 
     //gets the rigidbody of objects put in water, and sets the force of the current
     private void Awake()
@@ -41,23 +60,51 @@ public class Water : MonoBehaviour
         aquatic = Object.FindObjectOfType<Aquatic>();
         player = Object.FindObjectOfType<Player>();
         CurrentForce = xForce * Vector3.right + yForce * Vector3.up + zForce * Vector3.forward;
+        CurrentTorque = InitialTorque;
     }
 
     //applies force of buoyancy when the object enters the water
     private void OnTriggerEnter(Collider other)
     {
+        //releases steam if exposed to fire
+        if(other.gameObject.tag == "FireEffect")
+        {
+            steam.Play();
+            StartCoroutine(StopParticles());
+            CurrentForce = xForce * Vector3.right + yForce * Vector3.up + zForce * Vector3.forward;
+            CurrentTorque = InitialTorque;
+            flow.Play();
+        }
+        //freezes if exposed to ice
+        else if(other.gameObject.tag == "IceEffect")
+        {
+            GameObject newobject = Instantiate(ice, transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
+            newobject.transform.localScale = new Vector3(iceX, iceY, iceZ);
+            CurrentForce = Vector3.zero;
+            CurrentTorque = Vector3.zero;
+            flow.Stop();
+        }
+        //applies buoyancy
         if(other.TryGetComponent<Grabbable>(out Grabbable grabbable))
         {
-            //applies the force of the current
-            other.transform.gameObject.SendMessage("Current", CurrentForce);
             //applise buoyancy
             grabbable.isSubmerged = true;
             other.transform.gameObject.SendMessage("FloatInWater", waterDensity);
         }
-        else if(other.TryGetComponent<Aquatic>(out Aquatic aquatic))
+        else if (other.TryGetComponent<Aquatic>(out Aquatic aquatic))
         {
             aquatic.isSubmerged = true;
             other.transform.gameObject.SendMessage("FloatInWater", waterDensity);
+        }
+    }
+
+    //stops water wheels and currents if frozen
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.TryGetComponent<Grabbable>(out Grabbable grabbable))
+        {
+            //applies the force of the current
+            other.transform.gameObject.SendMessage("Current", CurrentForce);
         }
         //applies current force to the player
         else if(other.TryGetComponent<Player>(out Player player))
@@ -75,7 +122,7 @@ public class Water : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if(other.TryGetComponent<Grabbable>(out Grabbable grabbable))
-        {;
+        {
             grabbable.isSubmerged = false;
             grabbable.currentForce = Vector3.zero;
         }
@@ -91,5 +138,12 @@ public class Water : MonoBehaviour
         {
             waterWheel.currentTorque = Vector3.zero;
         }
+    }
+
+    //stops the particles
+    private IEnumerator StopParticles()
+    {
+        yield return new WaitForSeconds(1f);
+        steam.Stop();
     }
 }

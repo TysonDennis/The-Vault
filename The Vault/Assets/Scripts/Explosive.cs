@@ -19,17 +19,22 @@ public class Explosive : MonoBehaviour
     private int baseDamage;
     //holds the event for when the object explodes
     public UnityEvent onExplode;
+    //holds the script for ice
+    [SerializeField]
+    private Ice ice;
 
     //calls the coroutine that holds the explosion's lifespan
     private void Awake()
     {
         StartCoroutine(Duration());
         onExplode.Invoke();
+        //Ice ice = GameObject.GetComponent<Ice>();
     }
 
-    //holds the function for damaging
+    //holds the function for if something's caught in the blast
     private void OnTriggerEnter(Collider other)
     {
+        //holds the function for damaging Kaitlyn
         if(other.transform.gameObject.tag == "Player")
         {
             //applies damage based on Kaitlyn's heat resistance
@@ -56,6 +61,13 @@ public class Explosive : MonoBehaviour
                 damage = baseDamage;
                 other.transform.gameObject.SendMessage("TakeDamage", damage);
             }
+        }
+
+        //holds the function for interacting with ice
+        if(other.transform.gameObject.tag == "DestroyedByFire" && gameObject.tag == "FireEffect")
+        {
+            //ice.Melting();
+            ice.GetComponent<Ice>().Melting();
         }
     }
 

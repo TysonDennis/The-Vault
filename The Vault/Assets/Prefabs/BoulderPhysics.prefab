@@ -93,7 +93,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1889427240899939334}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 7eda21781be96d2408d3a2bd9bfbd8d1, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -144,3 +144,7 @@ MonoBehaviour:
       m_Calls: []
   released: 0
   density: 2450
+  isSubmerged: 0
+  buoyancy: {x: 0, y: 0, z: 0}
+  water: {fileID: 0}
+  currentForce: {x: 0, y: 0, z: 0}

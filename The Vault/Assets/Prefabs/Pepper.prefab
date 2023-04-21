@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6613896623479631038}
   - component: {fileID: 5028026402275552113}
   - component: {fileID: 7205811485279379516}
+  - component: {fileID: 3883541360861068477}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: FireEffect
@@ -46,7 +47,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &6613896623479631038
 ParticleSystem:
@@ -4858,6 +4859,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ice: {fileID: 0}
+--- !u!54 &3883541360861068477
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2817065580782193693}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &3682670446898368054
 GameObject:
   m_ObjectHideFlags: 0
@@ -4869,9 +4887,9 @@ GameObject:
   - component: {fileID: 8099056098654936744}
   - component: {fileID: 1761022399338725580}
   - component: {fileID: 7470194502979377297}
-  - component: {fileID: 4757594536846780074}
   - component: {fileID: 9093490423779599323}
   - component: {fileID: 2108316895875246143}
+  - component: {fileID: 7230117281324671801}
   m_Layer: 0
   m_Name: Pepper
   m_TagString: Untagged
@@ -4946,20 +4964,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4757594536846780074
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3682670446898368054}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 6187883067242612374, guid: a48f4902ddaf944479cdfe8abe408337, type: 3}
 --- !u!54 &9093490423779599323
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5017,3 +5021,20 @@ MonoBehaviour:
         m_CallState: 2
   released: 0
   density: 987
+  isSubmerged: 0
+  buoyancy: {x: 0, y: 0, z: 0}
+  water: {fileID: 0}
+  currentForce: {x: 0, y: 0, z: 0}
+--- !u!135 &7230117281324671801
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3682670446898368054}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
