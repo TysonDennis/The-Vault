@@ -90,11 +90,23 @@ public class Water : MonoBehaviour
             //applise buoyancy
             grabbable.isSubmerged = true;
             other.transform.gameObject.SendMessage("FloatInWater", waterDensity);
+            //applies the force of the current
+            other.transform.gameObject.SendMessage("Current", CurrentForce);
         }
         else if (other.TryGetComponent<Aquatic>(out Aquatic aquatic))
         {
             aquatic.isSubmerged = true;
             other.transform.gameObject.SendMessage("FloatInWater", waterDensity);
+        }
+        //applies current force to the player
+        else if (other.TryGetComponent<Player>(out Player player))
+        {
+            other.transform.gameObject.SendMessage("Current", CurrentForce);
+        }
+        //applies current force to water wheel
+        else if (other.TryGetComponent<WaterWheel>(out WaterWheel waterWheel))
+        {
+            other.transform.gameObject.SendMessage("Current", CurrentTorque);
         }
     }
 
