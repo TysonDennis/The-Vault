@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 4034049954873136787}
   - component: {fileID: 4034049954873136796}
   - component: {fileID: 4034049954873136797}
-  - component: {fileID: 4034049954873136798}
+  - component: {fileID: 1292624088342671095}
   m_Layer: 0
   m_Name: WaterFlow
-  m_TagString: Untagged
+  m_TagString: WaterEffect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4827,7 +4827,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &4034049954873136798
+--- !u!114 &1292624088342671095
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4836,7 +4836,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4034049954873136799}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f215a99a4bd39714fad0411218f546a3, type: 3}
+  m_Script: {fileID: 11500000, guid: 029456e4c28d74149bfdd85750b9c22b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
@@ -4850,10 +4850,10 @@ MonoBehaviour:
   CurrentForce: {x: 0, y: 0, z: 0}
   waterWheel: {fileID: 0}
   CurrentTorque: {x: 0, y: 0, z: 0}
-  steam: {fileID: 0}
+  flow: {fileID: 4034049954873136796}
   ice: {fileID: 5745978484271083735, guid: 37a268616ee2afb4aa6d31666874cb8c, type: 3}
   iceX: 0.1
   iceY: 0.1
   iceZ: 0.1
   InitialTorque: {x: 0, y: -10, z: 0}
-  flow: {fileID: 4034049954873136796}
+  IsFrozen: 0
