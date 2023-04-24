@@ -63,12 +63,16 @@ public class ElementDamageZone : MonoBehaviour
                 StartCoroutine(DamageDelay());
             }
         }
+        else
+        {
+            damage = 0;
+        }
     }
 
     //activates if the player is in the damaging area
     private void OnTriggerEnter(Collider other)
     {
-        if(other.transform.gameObject.tag == "Player")
+        if(other.TryGetComponent<Player>(out Player player))
         {
             isIn = true;
         }
@@ -77,7 +81,7 @@ public class ElementDamageZone : MonoBehaviour
     //activates once the player leaves the damaging area
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.gameObject.tag == "Player")
+        if (other.TryGetComponent<Player>(out Player player))
         {
             isIn = false;
         }
