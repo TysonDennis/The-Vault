@@ -11,6 +11,8 @@ public class KaitlynSO : ScriptableObject
     public int maxHP;
     //stores Kaitlyn's HP
     public int HP;
+    //stores an approximate decimal value to Kaitlyn's HP
+    public float floatHP;
     //stores number of health power-ups Kaitlyn has collected
     public int HealthPickup;
     //stores number of strength power-ups Kaitlyn has collected
