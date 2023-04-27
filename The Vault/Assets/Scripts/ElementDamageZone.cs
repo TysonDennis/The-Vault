@@ -18,12 +18,17 @@ public class ElementDamageZone : MonoBehaviour
     private KaitlynSO kaitlyn;
     //holds the player
     [SerializeField]
-    private Player player;
+    private GameObject player;
+    //holds the player's HUD
+    [SerializeField]
+    private HUD hud;
 
-    //starts with isIn set to false
+    //starts with isIn set to false, and gets the player and the HUD
     private void Awake()
     {
         isIn = false;
+        player = GameObject.FindGameObjectWithTag("Player");
+        hud = GameObject.FindObjectOfType<HUD>();
     }
 
     //deals continuous damage
@@ -39,6 +44,10 @@ public class ElementDamageZone : MonoBehaviour
                 {
                     damage = 0;
                 }
+                else if(damage > 0)
+                {
+                    hud.hurtSprite();
+                }
                 kaitlyn.floatHP -= damage * Time.fixedDeltaTime;
                 kaitlyn.HP = Mathf.RoundToInt(kaitlyn.floatHP);
             }
@@ -49,6 +58,10 @@ public class ElementDamageZone : MonoBehaviour
                 if (damage < 0)
                 {
                     damage = 0;
+                }
+                else if (damage > 0)
+                {
+                    hud.hurtSprite();
                 }
                 kaitlyn.floatHP -= damage * Time.fixedDeltaTime;
                 kaitlyn.HP = Mathf.RoundToInt(kaitlyn.floatHP);
@@ -61,12 +74,17 @@ public class ElementDamageZone : MonoBehaviour
                {
                    damage = 0;
                }
+               else if (damage > 0)
+               {
+                   hud.hurtSprite();
+               }
                kaitlyn.floatHP -= damage * Time.fixedDeltaTime;
                kaitlyn.HP = Mathf.RoundToInt(kaitlyn.floatHP);
             }
             //applies damage without Kaitlyn's resistances
             else
             {
+               hud.hurtSprite();
                damage = baseDamage;
                kaitlyn.floatHP -= damage * Time.fixedDeltaTime;
                kaitlyn.HP = Mathf.RoundToInt(kaitlyn.floatHP);

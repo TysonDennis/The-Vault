@@ -104,6 +104,7 @@ public class Player : MonoBehaviour
         click_results = new List<RaycastResult>();
         animator = GetComponent<Animator>();
         IsDigging = false;
+        kaitlyn.floatHP = kaitlyn.HP;
     }
 
     //enables Kaitlyn's moveset
@@ -426,6 +427,7 @@ public class Player : MonoBehaviour
             HUDScript.hurtSprite();
             blood.Play();
             StartCoroutine(StopBleeding());
+            kaitlyn.floatHP = kaitlyn.HP;
         }
     }
 
@@ -444,6 +446,7 @@ public class Player : MonoBehaviour
         StartCoroutine(StopBleeding());
         this.transform.position = kaitlyn.Spawnpoint.position;
         kaitlyn.HP = kaitlyn.maxHP;
+        kaitlyn.floatHP = kaitlyn.HP;
     }
 
     //runs the function for high jumping
