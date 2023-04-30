@@ -14,9 +14,9 @@ public class Generator : MonoBehaviour
     //holds the current charge of the generator
     [SerializeField]
     private float charge;
-    //holds the materials
+    //holds the material for the display
     [SerializeField]
-    private Material[] display;
+    private Material display;
     //holds the mesh renderer
     [SerializeField]
     private MeshRenderer renderer;
@@ -26,8 +26,7 @@ public class Generator : MonoBehaviour
     {
         renderer = GetComponent<MeshRenderer>();
         charge = 0;
-        //display = GetComponent<MeshRenderer>().material.[0];
-        //display.SetColor("_Color", Color.black);
+        display = GetComponent<MeshRenderer>().materials[0];
     }
 
     //determines what event plays, depending on how much charge there is left
@@ -39,7 +38,7 @@ public class Generator : MonoBehaviour
             //makes the charge run out over time
             charge -= Time.fixedDeltaTime;
             //sets the color to green when it has power
-            //display.SetColor("_Color", Color.green);
+            GetComponent<Renderer>().materials[2] = display;
         }
         else
         {
@@ -47,7 +46,7 @@ public class Generator : MonoBehaviour
             //prevents the charge from falling below 0
             charge = 0;
             //sets the color to black when out of power
-            //display.SetColor("_Color", Color.black);
+            GetComponent<Renderer>().materials[0] = display;
         }
     }
 
