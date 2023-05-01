@@ -85,6 +85,9 @@ public class Player : MonoBehaviour
     private Aquatic aquatic;
     //holds the force of a current
     public Vector3 currentForce;
+    //holds the list for abilities Kaitlyn can swap between
+    [SerializeField]
+    private List<GameObject> rangedAttacks = new List<GameObject>();
 
     //gets Kaitlyn's rigidbody, collider, animator, and controls, while setting her stats
     void Awake()
@@ -349,6 +352,10 @@ public class Player : MonoBehaviour
                     grabbable.Grab(holdSpace);
                 }
             }
+            else
+            {
+                Shoot();
+            }
         }
         //if Kaitlyn is holding something, she drops it
         else
@@ -464,5 +471,11 @@ public class Player : MonoBehaviour
     public void Current(Vector3 CurrentForce)
     {
         currentForce = CurrentForce;
+    }
+
+    //allows Kaitlyn to shoot
+    private void Shoot()
+    {
+
     }
 }
