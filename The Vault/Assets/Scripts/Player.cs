@@ -85,9 +85,12 @@ public class Player : MonoBehaviour
     private Aquatic aquatic;
     //holds the force of a current
     public Vector3 currentForce;
-    //holds the list for abilities Kaitlyn can swap between
+    //contains the numbers of Kaitlyn's held abilities
     [SerializeField]
-    private List<GameObject> rangedAttacks = new List<GameObject>();
+    private int AbilityNumber;
+    //contains the highest ability that Kaitlyn can have
+    [SerializeField]
+    private int NumCap = 4;
 
     //gets Kaitlyn's rigidbody, collider, animator, and controls, while setting her stats
     void Awake()
@@ -108,6 +111,7 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         IsDigging = false;
         kaitlyn.floatHP = kaitlyn.HP;
+        AbilityNumber = 0;
     }
 
     //enables Kaitlyn's moveset
@@ -122,6 +126,7 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Grab.started += DoGrab;
         controls.Kaitlyn.Pause.started += DoPause;
         controls.Kaitlyn.HighJump.started += DoHighJump;
+        controls.Kaitlyn.Change.started += DoChange;
         controls.Menu.Pause.started += DoPause;
         controls.Menu.Click.started += DoClick;
         move = controls.Kaitlyn.Move;
@@ -141,6 +146,7 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Grab.started -= DoGrab;
         controls.Kaitlyn.Pause.started -= DoPause;
         controls.Kaitlyn.HighJump.started -= DoHighJump;
+        controls.Kaitlyn.Change.started -= DoChange;
         controls.Menu.Pause.started -= DoPause;
         controls.Menu.Click.started -= DoClick;
         controls.Kaitlyn.Disable();
@@ -476,6 +482,60 @@ public class Player : MonoBehaviour
     //allows Kaitlyn to shoot
     private void Shoot()
     {
+        //allows Kaitlyn to fire the Water Gun, provided that she has collected it
+        if(AbilityNumber == 0)
+        {
+            if(kaitlyn.WaterGun > 0)
+            {
 
+            }
+        }
+        //allows Kaitlyn to fire the Lightning Bolt, provided that she has collected it
+        else if(AbilityNumber == 1)
+        {
+            if(kaitlyn.Lightningbolt > 0)
+            {
+
+            }
+        }
+        //allows Kaitlyn to fire the Stretch Arm, provided that she has collected it
+        else if(AbilityNumber == 2)
+        {
+            if(kaitlyn.StretchArm > 0)
+            {
+
+            }
+        }
+        //allows Kaitlyn to fire the Frost Breath, provided that she has collected it
+        else if(AbilityNumber == 3)
+        {
+            if(kaitlyn.FrostBreath > 0)
+            {
+
+            }
+        }
+        //allows Kaitlyn to fire the Flamethrower, provided that she has collected it
+        else
+        {
+            if(kaitlyn.Flamethrower > 0)
+            {
+
+            }
+        }
+    }
+
+    //runs the function for Kaitlyn changing her abilities
+    private void DoChange(InputAction.CallbackContext obj)
+    {
+        int inputValue = obj.ReadValue<int>();
+        AbilityNumber += inputValue;
+        if(AbilityNumber > NumCap)
+        {
+            AbilityNumber = 0;
+        }
+        else if(AbilityNumber < 0)
+        {
+            AbilityNumber = NumCap;
+        }
     }
 }

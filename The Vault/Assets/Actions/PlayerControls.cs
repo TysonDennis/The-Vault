@@ -116,6 +116,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Change"",
+                    ""type"": ""Value"",
+                    ""id"": ""891ec883-4eac-4c3b-95ce-23ec50c43ece"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -338,6 +347,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""HighJump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""5c40674c-1fd4-4cea-9ecf-57b015224d1b"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""2fe1158f-5dec-4d7e-afde-e5475d95d21c"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""969074a5-d2c5-405c-b2bf-297c18056529"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -404,6 +446,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Kaitlyn_Grab = m_Kaitlyn.FindAction("Grab", throwIfNotFound: true);
         m_Kaitlyn_Pause = m_Kaitlyn.FindAction("Pause", throwIfNotFound: true);
         m_Kaitlyn_HighJump = m_Kaitlyn.FindAction("HighJump", throwIfNotFound: true);
+        m_Kaitlyn_Change = m_Kaitlyn.FindAction("Change", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Pause = m_Menu.FindAction("Pause", throwIfNotFound: true);
@@ -477,6 +520,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Kaitlyn_Grab;
     private readonly InputAction m_Kaitlyn_Pause;
     private readonly InputAction m_Kaitlyn_HighJump;
+    private readonly InputAction m_Kaitlyn_Change;
     public struct KaitlynActions
     {
         private @PlayerControls m_Wrapper;
@@ -491,6 +535,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Grab => m_Wrapper.m_Kaitlyn_Grab;
         public InputAction @Pause => m_Wrapper.m_Kaitlyn_Pause;
         public InputAction @HighJump => m_Wrapper.m_Kaitlyn_HighJump;
+        public InputAction @Change => m_Wrapper.m_Kaitlyn_Change;
         public InputActionMap Get() { return m_Wrapper.m_Kaitlyn; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -530,6 +575,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @HighJump.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnHighJump;
                 @HighJump.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnHighJump;
                 @HighJump.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnHighJump;
+                @Change.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnChange;
+                @Change.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnChange;
+                @Change.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnChange;
             }
             m_Wrapper.m_KaitlynActionsCallbackInterface = instance;
             if (instance != null)
@@ -564,6 +612,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @HighJump.started += instance.OnHighJump;
                 @HighJump.performed += instance.OnHighJump;
                 @HighJump.canceled += instance.OnHighJump;
+                @Change.started += instance.OnChange;
+                @Change.performed += instance.OnChange;
+                @Change.canceled += instance.OnChange;
             }
         }
     }
@@ -621,6 +672,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnGrab(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnHighJump(InputAction.CallbackContext context);
+        void OnChange(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {
