@@ -87,10 +87,20 @@ public class Player : MonoBehaviour
     //holds the force of a current
     public Vector3 currentForce;
     //contains the numbers of Kaitlyn's held abilities
-    public int AbilityNumber;
+    public float AbilityNumber;
     //contains the highest ability that Kaitlyn can have
     [SerializeField]
     private int NumCap = 4;
+    //holds the projectile for Kaitlyn's water gun
+    public GameObject waterGun;
+    //holds the projectile for Kaitlyn's lightningbolt
+    public GameObject lightningBolt;
+    //holds the projectile for Kaitlyn's stretch arm
+    public GameObject stretchArm;
+    //holds the projectile for Kaitlyn's frost breath
+    public GameObject frostBreath;
+    //holds the projectile for Kaitlyn's flamethrower
+    public GameObject flamethrower;
 
     //gets Kaitlyn's rigidbody, collider, animator, and controls, while setting her stats
     void Awake()
@@ -238,7 +248,7 @@ public class Player : MonoBehaviour
     private bool IsGrounded()
     {
         //contains the ground check raycast's origin and direction
-        Ray ray = new Ray(this.transform.position + Vector3.up, Vector3.down);
+        Ray ray = new Ray(transform.position + Vector3.up, Vector3.down);
         //sets to true if the raycast hits something
         if (Physics.Raycast(ray, out RaycastHit hit, 3f))
         {
@@ -487,7 +497,12 @@ public class Player : MonoBehaviour
         {
             if(kaitlyn.WaterGun > 0)
             {
-                //HUDScript.abilityIcon = WaterSprite;
+                //stores the speed of the water gun
+                float speed = 10f;
+                //fires the water right ahead of Kaitlyn
+                Ray ray = new Ray(transform.position, transform.forward);
+                Instantiate(waterGun, transform.position + Vector3.up, Quaternion.LookRotation(ray.direction));
+                waterGun.transform.position += waterGun.transform.forward * speed * Time.deltaTime;
             }
         }
         //allows Kaitlyn to fire the Lightning Bolt, provided that she has collected it
@@ -495,7 +510,12 @@ public class Player : MonoBehaviour
         {
             if(kaitlyn.Lightningbolt > 0)
             {
-                //HUDScript.abilityIcon = LightningSprite;
+                //stores the speed of the lightning bolt
+                float speed = 10f;
+                //fires the electricity right ahead of Kaitlyn
+                Ray ray = new Ray(transform.position, transform.forward);
+                Instantiate(lightningBolt, transform.position + Vector3.up, Quaternion.LookRotation(ray.direction));
+                lightningBolt.transform.position += lightningBolt.transform.forward * speed * Time.deltaTime;
             }
         }
         //allows Kaitlyn to fire the Stretch Arm, provided that she has collected it
@@ -503,7 +523,12 @@ public class Player : MonoBehaviour
         {
             if(kaitlyn.StretchArm > 0)
             {
-                //HUDScript.abilityIcon = StretchSprite;
+                //stores the speed of the stretch arm
+                float speed = 10f;
+                //extends Kaitlyn's arm right ahead of her
+                Ray ray = new Ray(transform.position, transform.forward);
+                Instantiate(stretchArm, transform.position + Vector3.up, Quaternion.LookRotation(ray.direction));
+                stretchArm.transform.position += stretchArm.transform.forward * speed * Time.deltaTime;
             }
         }
         //allows Kaitlyn to fire the Frost Breath, provided that she has collected it
@@ -511,7 +536,12 @@ public class Player : MonoBehaviour
         {
             if(kaitlyn.FrostBreath > 0)
             {
-                //HUDScript.abilityIcon = FrostSprite;
+                //stores the speed of the frost breath
+                float speed = 10f;
+                //fires the ultracold gas right ahead of Kaitlyn
+                Ray ray = new Ray(transform.position, transform.forward);
+                Instantiate(frostBreath, transform.position + Vector3.up, Quaternion.LookRotation(ray.direction));
+                frostBreath.transform.position += frostBreath.transform.forward * speed * Time.deltaTime;
             }
         }
         //allows Kaitlyn to fire the Flamethrower, provided that she has collected it
@@ -519,7 +549,12 @@ public class Player : MonoBehaviour
         {
             if(kaitlyn.Flamethrower > 0)
             {
-                //HUDScript.abilityIcon = FlameSprite;
+                //stores the speed of the flamethrower
+                float speed = 10f;
+                //fires the well, fire right ahead of Kaitlyn
+                Ray ray = new Ray(transform.position, transform.forward);
+                Instantiate(flamethrower, transform.position + Vector3.up, Quaternion.LookRotation(ray.direction));
+                flamethrower.transform.position += flamethrower.transform.forward * speed * Time.deltaTime;
             }
         }
     }
@@ -527,7 +562,7 @@ public class Player : MonoBehaviour
     //runs the function for Kaitlyn changing her abilities
     private void DoChange(InputAction.CallbackContext obj)
     {
-        int inputValue = obj.ReadValue<int>();
+        float inputValue = controls.Kaitlyn.Change.ReadValue<float>();
         AbilityNumber += inputValue;
         if(AbilityNumber > NumCap)
         {
