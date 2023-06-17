@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -86,8 +87,7 @@ public class Player : MonoBehaviour
     //holds the force of a current
     public Vector3 currentForce;
     //contains the numbers of Kaitlyn's held abilities
-    [SerializeField]
-    private int AbilityNumber;
+    public int AbilityNumber;
     //contains the highest ability that Kaitlyn can have
     [SerializeField]
     private int NumCap = 4;
@@ -487,7 +487,7 @@ public class Player : MonoBehaviour
         {
             if(kaitlyn.WaterGun > 0)
             {
-
+                //HUDScript.abilityIcon = WaterSprite;
             }
         }
         //allows Kaitlyn to fire the Lightning Bolt, provided that she has collected it
@@ -495,7 +495,7 @@ public class Player : MonoBehaviour
         {
             if(kaitlyn.Lightningbolt > 0)
             {
-
+                //HUDScript.abilityIcon = LightningSprite;
             }
         }
         //allows Kaitlyn to fire the Stretch Arm, provided that she has collected it
@@ -503,7 +503,7 @@ public class Player : MonoBehaviour
         {
             if(kaitlyn.StretchArm > 0)
             {
-
+                //HUDScript.abilityIcon = StretchSprite;
             }
         }
         //allows Kaitlyn to fire the Frost Breath, provided that she has collected it
@@ -511,7 +511,7 @@ public class Player : MonoBehaviour
         {
             if(kaitlyn.FrostBreath > 0)
             {
-
+                //HUDScript.abilityIcon = FrostSprite;
             }
         }
         //allows Kaitlyn to fire the Flamethrower, provided that she has collected it
@@ -519,7 +519,7 @@ public class Player : MonoBehaviour
         {
             if(kaitlyn.Flamethrower > 0)
             {
-
+                //HUDScript.abilityIcon = FlameSprite;
             }
         }
     }

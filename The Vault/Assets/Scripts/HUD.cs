@@ -44,6 +44,18 @@ public class HUD : MonoBehaviour
     //gets the aquatic script
     [SerializeField]
     private Aquatic aquatic;
+    //stores the icon for Kaitlyn's ability
+    public Image abilityIcon;
+    //stores the sprite for Water Gun
+    public Sprite WaterSprite;
+    //stores the sprite for Lightningbolt
+    public Sprite LightningSprite;
+    //stores the sprite for Stretch Arm
+    public Sprite StretchSprite;
+    //stores the sprite for Frost Breath
+    public Sprite FrostSprite;
+    //stores the sprite for Flamethrower
+    public Sprite FlameSprite;
 
     //is called at the start to set the sprites and set the pause menu inactive
     private void Awake()
@@ -85,6 +97,42 @@ public class HUD : MonoBehaviour
         else
         {
             O2Display.gameObject.SetActive(false);
+        }
+        //changes the sprite for Kaitlyn's selected ability
+        if(player.AbilityNumber == 0)
+        {
+            if(kaitlyn.WaterGun > 0)
+            {
+                abilityIcon.sprite = WaterSprite;
+            }
+        }
+        else if(player.AbilityNumber == 1)
+        {
+            if(kaitlyn.Lightningbolt > 0)
+            {
+                abilityIcon.sprite = LightningSprite;
+            }
+        }
+        else if (player.AbilityNumber == 2)
+        {
+            if (kaitlyn.StretchArm > 0)
+            {
+                abilityIcon.sprite = StretchSprite;
+            }
+        }
+        else if (player.AbilityNumber == 3)
+        {
+            if (kaitlyn.FrostBreath > 0)
+            {
+                abilityIcon.sprite = FrostSprite;
+            }
+        }
+        else
+        {
+            if(kaitlyn.Flamethrower > 0)
+            {
+                abilityIcon.sprite = FlameSprite;
+            }
         }
     }
 
