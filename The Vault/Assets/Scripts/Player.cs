@@ -415,7 +415,7 @@ public class Player : MonoBehaviour
     public void Delete()
     {
         kaitlyn.Spawnpoint = null;
-        this.transform.position = worldSpawn.position;
+        transform.position = worldSpawn.position;
         kaitlyn.HealthPickup = 0;
         kaitlyn.StrengthPickup = 0;
         kaitlyn.Sprint = 0;
@@ -467,7 +467,7 @@ public class Player : MonoBehaviour
         HUDScript.hurtSprite();
         blood.Play();
         StartCoroutine(StopBleeding());
-        this.transform.position = kaitlyn.Spawnpoint.position;
+        transform.position = kaitlyn.Spawnpoint.position;
         kaitlyn.HP = kaitlyn.maxHP;
         kaitlyn.floatHP = kaitlyn.HP;
     }

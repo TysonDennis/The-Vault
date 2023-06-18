@@ -25,7 +25,7 @@ public class Breakable : MonoBehaviour
     void Update()
     {
         //checks if health is zero
-        if(health == 0)
+        if(health <= 0)
         {
             //despawns if health is zero
             gameObject.GetComponent<Collider>().enabled = false;
