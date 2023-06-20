@@ -47,6 +47,7 @@ public class ElementDamageZone : MonoBehaviour
                 else if(damage > 0)
                 {
                     hud.hurtSprite();
+                    player.GetComponent<Player>().IsInvisible = false;
                 }
                 kaitlyn.floatHP -= damage * Time.fixedDeltaTime;
                 kaitlyn.HP = Mathf.RoundToInt(kaitlyn.floatHP);
@@ -62,6 +63,7 @@ public class ElementDamageZone : MonoBehaviour
                 else if (damage > 0)
                 {
                     hud.hurtSprite();
+                    player.GetComponent<Player>().IsInvisible = false;
                 }
                 kaitlyn.floatHP -= damage * Time.fixedDeltaTime;
                 kaitlyn.HP = Mathf.RoundToInt(kaitlyn.floatHP);
@@ -77,6 +79,7 @@ public class ElementDamageZone : MonoBehaviour
                else if (damage > 0)
                {
                    hud.hurtSprite();
+                   player.GetComponent<Player>().IsInvisible = false;
                }
                kaitlyn.floatHP -= damage * Time.fixedDeltaTime;
                kaitlyn.HP = Mathf.RoundToInt(kaitlyn.floatHP);
@@ -88,6 +91,7 @@ public class ElementDamageZone : MonoBehaviour
                damage = baseDamage;
                kaitlyn.floatHP -= damage * Time.fixedDeltaTime;
                kaitlyn.HP = Mathf.RoundToInt(kaitlyn.floatHP);
+               player.GetComponent<Player>().IsInvisible = false;
             }
         }
     }

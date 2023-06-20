@@ -55,6 +55,7 @@ public class Aquatic : MonoBehaviour
             {
                 oxygen = 0;
                 player.transform.gameObject.SendMessage("TakeDamage", damage);
+                player.GetComponent<Player>().IsInvisible = false;
                 StartCoroutine(DamageDelay());
             }
         }

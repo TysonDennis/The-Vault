@@ -21,13 +21,18 @@ public class PlayerProjectile : MonoBehaviour
     //holds the reference to Kaitlyn's scriptable object
     [SerializeField]
     private KaitlynSO kaitlyn;
+    //communicates to the grabbable script
+    public Grabbable grabbable;
+    //gets the holdspace
+    public Transform holdSpace;
 
     //assigns the rigidbody of the projectile, and the damage the projectile does
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         player = Object.FindObjectOfType<Player>();
-        //assigns damage values based on the ability Kaitlyn has selected
+        holdSpace = player.holdSpace;
+        //assigns damage values based on the ability Kaitlyn has selected, her strength, and her ability level
         if(player.AbilityNumber == 0)
         {
             damage = 2 + kaitlyn.StrengthPickup + kaitlyn.WaterGun;
@@ -65,10 +70,18 @@ public class PlayerProjectile : MonoBehaviour
     //Holds the projectile's interactions
     private void OnTriggerEnter(Collider other)
     {
+        //makes the projectile damage objects and terminate
         if(other.tag == "Damageable")
         {
             other.transform.gameObject.SendMessage("TakeDamage", damage);
             Destroy(gameObject);
+        }
+        //lets the stretch arm grab grabbable objects
+        if(player.AbilityNumber == 2 && other.transform.TryGetComponent(out grabbable))
+        {
+            other.GetComponent<Grabbable>();
+            //player.grabbable.Grab(holdSpace: player.holdSpace);
+            grabbable.Grab(holdSpace);
         }
     }
 }

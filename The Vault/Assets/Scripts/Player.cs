@@ -44,8 +44,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     Rigidbody _heldObject;
     //communicates to the grabbable script
-    [SerializeField]
-    private Grabbable grabbable;
+    public Grabbable grabbable;
     //stores the KaitlynSO
     [SerializeField]
     private KaitlynSO kaitlyn;
@@ -101,6 +100,53 @@ public class Player : MonoBehaviour
     public GameObject frostBreath;
     //holds the projectile for Kaitlyn's flamethrower
     public GameObject flamethrower;
+    //holds the counter for how many times Kaitlyn can flap
+    [SerializeField]
+    private int flapCount;
+    //holds the bool for if Kaitlyn is gliding
+    [SerializeField]
+    private bool IsGliding;
+    //holds the skinned mesh renderers
+    [SerializeField]
+    private SkinnedMeshRenderer bodyMesh;
+    [SerializeField]
+    private SkinnedMeshRenderer hairMesh;
+    [SerializeField]
+    private SkinnedMeshRenderer antennaMesh;
+    [SerializeField]
+    private SkinnedMeshRenderer rightEyeMesh;
+    [SerializeField]
+    private SkinnedMeshRenderer leftEyeMesh;
+    [SerializeField]
+    private SkinnedMeshRenderer stringMesh;
+    [SerializeField]
+    private SkinnedMeshRenderer necklaceMesh;
+    [SerializeField]
+    private SkinnedMeshRenderer wingMesh;
+    //holds the child objects for Kaitlyn's model
+    [SerializeField]
+    private GameObject body;
+    [SerializeField]
+    private GameObject hair;
+    [SerializeField]
+    private GameObject antenna;
+    [SerializeField]
+    private GameObject rightEye;
+    [SerializeField]
+    private GameObject leftEye;
+    [SerializeField]
+    private GameObject necklaceString;
+    [SerializeField]
+    private GameObject necklace;
+    [SerializeField]
+    private GameObject wings;
+    //holds the bool for if Kaitlyn is invisible
+    public bool IsInvisible;
+    //holds the cooldown time for Kaitlyn's abilities
+    [SerializeField]
+    private float cooldown;
+    [SerializeField]
+    private float timeCooldown;
 
     //gets Kaitlyn's rigidbody, collider, animator, and controls, while setting her stats
     void Awake()
@@ -122,6 +168,19 @@ public class Player : MonoBehaviour
         IsDigging = false;
         kaitlyn.floatHP = kaitlyn.HP;
         AbilityNumber = 0;
+        flapCount = kaitlyn.Flight;
+        IsGliding = false;
+        IsInvisible = false;
+        bodyMesh = body.GetComponent<SkinnedMeshRenderer>();
+        hairMesh = hair.GetComponent<SkinnedMeshRenderer>();
+        antennaMesh = antenna.GetComponent<SkinnedMeshRenderer>();
+        leftEyeMesh = leftEye.GetComponent<SkinnedMeshRenderer>();
+        rightEyeMesh = rightEye.GetComponent<SkinnedMeshRenderer>();
+        stringMesh = necklaceString.GetComponent<SkinnedMeshRenderer>();
+        necklaceMesh = necklace.GetComponent<SkinnedMeshRenderer>();
+        wingMesh = wings.GetComponent<SkinnedMeshRenderer>();
+        cooldown = 0f;
+        timeCooldown = 0f;
     }
 
     //enables Kaitlyn's moveset
@@ -137,6 +196,9 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Pause.started += DoPause;
         controls.Kaitlyn.HighJump.started += DoHighJump;
         controls.Kaitlyn.Change.started += DoChange;
+        controls.Kaitlyn.Invisible.started += DoInvisible;
+        controls.Kaitlyn.Regenerate.started += DoRegenerate;
+        controls.Kaitlyn.TimeDilation.started += DoTimeDilation;
         controls.Menu.Pause.started += DoPause;
         controls.Menu.Click.started += DoClick;
         move = controls.Kaitlyn.Move;
@@ -157,6 +219,9 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Pause.started -= DoPause;
         controls.Kaitlyn.HighJump.started -= DoHighJump;
         controls.Kaitlyn.Change.started -= DoChange;
+        controls.Kaitlyn.Invisible.started -= DoInvisible;
+        controls.Kaitlyn.Regenerate.started -= DoRegenerate;
+        controls.Kaitlyn.TimeDilation.started += DoTimeDilation;
         controls.Menu.Pause.started -= DoPause;
         controls.Menu.Click.started -= DoClick;
         controls.Kaitlyn.Disable();
@@ -194,6 +259,56 @@ public class Player : MonoBehaviour
             Kill();
         }
         rb.AddForce(currentForce, ForceMode.Force);
+        //resets Kaitlyn's flap count when she lands
+        if (IsGrounded())
+        {
+            flapCount = kaitlyn.Flight;
+            IsGliding = false;
+        }
+        //makes Kaitlyn fall slower if she's gliding
+        if(IsGliding == true)
+        {
+            Vector3 glideForce = 4.9f * Vector3.up;
+            rb.AddForce(glideForce, ForceMode.Force);
+        }
+        //makes Kaitlyn turn invisible if she should be invisible
+        if(IsInvisible == true)
+        {
+            bodyMesh.enabled = false;
+            hairMesh.enabled = false;
+            antennaMesh.enabled = false;
+            leftEyeMesh.enabled = false;
+            rightEyeMesh.enabled = false;
+            stringMesh.enabled = false;
+            necklaceMesh.enabled = false;
+            wingMesh.enabled = false;
+        }
+        //makes Kaitlyn visible when she turns back
+        else
+        {
+            bodyMesh.enabled = true;
+            hairMesh.enabled = true;
+            antennaMesh.enabled = true;
+            leftEyeMesh.enabled = true;
+            rightEyeMesh.enabled = true;
+            stringMesh.enabled = true;
+            necklaceMesh.enabled = true;
+            wingMesh.enabled = true;
+        }
+        //reduces Kaitlyn's regeneration cooldown time
+        cooldown -= Time.fixedDeltaTime;
+        //stops Kaitlyn's regeneration cooldown time from going into the negatives
+        if(cooldown < 0)
+        {
+            cooldown = 0;
+        }
+        //reduces the cooldown time of Kaitlyn's time dilation
+        timeCooldown -= Time.fixedDeltaTime;
+        //stops Kaitlyn's time dilation cooldown time from going into the negatives
+        if(timeCooldown < 0)
+        {
+            timeCooldown = 0;
+        }
     }
 
     //bases Kaitlyn's X-axis off the camera's
@@ -242,6 +357,14 @@ public class Player : MonoBehaviour
             forceDirection += Vector3.up * JumpForce * 0.5f * (kaitlyn.WaterRespiration + 1);
             animator.SetTrigger("JumpTrigger");
         }
+        //allows Kaitlyn to fly and glide
+        else if (flapCount > 0)
+        {
+            forceDirection += Vector3.up * JumpForce;
+            flapCount -= 1;
+            animator.SetTrigger("JumpTrigger");
+            IsGliding = true;
+        }
     }
 
     //checks if Kaitlyn is standing on solid ground
@@ -265,20 +388,35 @@ public class Player : MonoBehaviour
     private void DoCrouch(InputAction.CallbackContext obj)
     {
         //makes Kaitlyn crouch on dry land
-        if(aquatic.isSubmerged == false)
+        if(aquatic.isSubmerged == false && IsInvisible == false)
         {
             capsule.height = (float)(1.5f - (.75 * kaitlyn.SqueezeThrough));
             WalkSpeed = 1f;
             movementForce = 1f;
             animator.SetBool("CrouchBool", true);
+            IsGliding = false;
         }
         //makes Kaitlyn dive in water
-        else
+        else if(aquatic.isSubmerged == true && IsInvisible == false)
         {
             forceDirection += Vector3.down * JumpForce * 0.5f * (kaitlyn.WaterRespiration + 1);
         }
+        //makes Kaitlyn crouch on dry land while invisible
+        if (aquatic.isSubmerged == false && IsInvisible == true)
+        {
+            capsule.height = (float)(1.5f - (.75 * kaitlyn.SqueezeThrough));
+            WalkSpeed = .5f;
+            movementForce = .25f;
+            animator.SetBool("CrouchBool", true);
+            IsGliding = false;
+        }
+        //makes Kaitlyn dive in water while invisible
+        else if (aquatic.isSubmerged == true && IsInvisible == true)
+        {
+            forceDirection += Vector3.down * JumpForce * 0.25f * (kaitlyn.WaterRespiration + 1);
+        }
         //lets Kaitlyn dig, only if she has the Dig power-up
-        if(kaitlyn.Dig >= 1)
+        if (kaitlyn.Dig >= 1)
         {
             IsDigging = true;
         }
@@ -287,19 +425,33 @@ public class Player : MonoBehaviour
     //lets Kaitlyn stand up straight after crouching or sprinting, resetting her height, top speed, and acceleration
     private void DoStand(InputAction.CallbackContext obj)
     {
-        //holds Kaitlyn's terrestrial speed
-        if(aquatic.isSubmerged == false)
+        //holds Kaitlyn's visible terrestrial speed
+        if(aquatic.isSubmerged == false && IsInvisible == false)
         {
             capsule.height = 3f;
             WalkSpeed = 2f + 2 * kaitlyn.Sprint;
             movementForce = 1f + kaitlyn.Sprint;
         }
-        //holds Kaitlyn's aquatic speed
-        else
+        //holds Kaitlyn's visible aquatic speed
+        else if(aquatic.isSubmerged == true && IsInvisible == false)
         {
             capsule.height = 3f;
             WalkSpeed = 2f + kaitlyn.Sprint + kaitlyn.WaterRespiration;
             movementForce = (1f + kaitlyn.Sprint) * .5f + kaitlyn.WaterRespiration;
+        }
+        //holds Kaitlyn's invisible terrestrial speed
+        else if(aquatic.isSubmerged == false && IsInvisible == true)
+        {
+            capsule.height = 3f;
+            WalkSpeed = 1f + kaitlyn.Sprint;
+            movementForce = .5f + .5f * kaitlyn.Sprint;
+        }
+        //holds Kaitlyn's invisible aquatic speed
+        else
+        {
+            capsule.height = 3f;
+            WalkSpeed = 1f + .5f * kaitlyn.Sprint + .5f * kaitlyn.WaterRespiration;
+            movementForce = (1f + kaitlyn.Sprint) * .25f + .5f * kaitlyn.WaterRespiration;
         }
         //animator.SetTrigger("IdleTrigger");
         animator.SetBool("CrouchBool", false);
@@ -308,24 +460,37 @@ public class Player : MonoBehaviour
     //allows Kaitlyn to run, increasing her top speed and acceleration
     private void DoSprint(InputAction.CallbackContext obj)
     {
-        //holds Kaitlyn's terrestrial speed
-        if(aquatic.isSubmerged == false)
+        //holds Kaitlyn's terrestrial visible speed
+        if(aquatic.isSubmerged == false && IsInvisible == false)
         {
-            WalkSpeed = 10f + 10 * kaitlyn.Sprint;
-            movementForce = (float)(2.5f + 2.5 * kaitlyn.Sprint);
+            WalkSpeed = 10f + 10f * kaitlyn.Sprint;
+            movementForce = 2.5f + 2.5f * kaitlyn.Sprint;
         }
-        //holds Kaitlyn's aquatic speed
+        //holds Kaitlyn's aquatic visible speed
+        else if(aquatic.isSubmerged == true && IsInvisible == false)
+        {
+            WalkSpeed = 5f + 5f * kaitlyn.Sprint + kaitlyn.WaterRespiration;
+            movementForce = 1f + kaitlyn.Sprint + kaitlyn.WaterRespiration;
+        }
+        //holds Kaitlyn's terrestrial invisible speed
+        else if (aquatic.isSubmerged == false && IsInvisible == true)
+        {
+            WalkSpeed = 5f + 5f * kaitlyn.Sprint;
+            movementForce = 1f + kaitlyn.Sprint;
+        }
+        //holds Kaitlyn's aquatic invisible speed
         else
         {
-            WalkSpeed = 5f + 5 * kaitlyn.Sprint + kaitlyn.WaterRespiration;
-            movementForce = (float)(1f + kaitlyn.Sprint + kaitlyn.WaterRespiration);
+            WalkSpeed = 2.5f + 2.5f * kaitlyn.Sprint + .5f* kaitlyn.WaterRespiration;
+            movementForce = .5f + .5f * kaitlyn.Sprint + .5f * kaitlyn.WaterRespiration;
         }
-        //animator.SetTrigger("RunTrigger");
     }
 
     //lets Kaitlyn attack and throw
     private void DoAttack(InputAction.CallbackContext obj)
     {
+        //turns Kaitlyn visible
+        IsInvisible = false;
         //checks if Kaitlyn's hands are empty
         if(grabbable == null) 
         { 
@@ -354,6 +519,8 @@ public class Player : MonoBehaviour
     //lets Kaitlyn grab, carry, and drop objects
     private void DoGrab(InputAction.CallbackContext obj)
     {
+        //turns Kaitlyn visible
+        IsInvisible = false;
         //checks if Kaitlyn's holding something
         if(grabbable == null) 
         { 
@@ -443,6 +610,8 @@ public class Player : MonoBehaviour
     //allows Kaitlyn to take damage
     public void TakeDamage(int damage)
     {
+        //turns Kaitlyn visible
+        IsInvisible = false;
         //checks if Kaitlyn has taken damage
         if(damage > 0)
         {
@@ -572,5 +741,53 @@ public class Player : MonoBehaviour
         {
             AbilityNumber = NumCap;
         }
+    }
+
+    //lets Kaitlyn become invisible
+    private void DoInvisible(InputAction.CallbackContext obj)
+    {
+        //turns Kaitlyn invisible
+        if(kaitlyn.Invisible > 0 && IsInvisible == false)
+        {
+            IsInvisible = true;
+        }
+        //turns Kaitlyn visible again
+        else if(kaitlyn.Invisible > 0 && IsInvisible == true)
+        {
+            IsInvisible = false;
+        }
+    }
+
+    //lets Kaitlyn heal herself
+    private void DoRegenerate(InputAction.CallbackContext obj)
+    {
+        if(kaitlyn.Regeneration > 0 && cooldown == 0)
+        {
+            kaitlyn.HP += 25 * kaitlyn.Regeneration;
+            cooldown = 150f;
+            //prevents Kaitlyn's HP from overflowing
+            if(kaitlyn.HP > kaitlyn.maxHP)
+            {
+                kaitlyn.HP = kaitlyn.maxHP;
+            }
+        }
+    }
+
+    //lets Kaitlyn slow down time, if she has the ability
+    private void DoTimeDilation(InputAction.CallbackContext obj)
+    {
+        if(kaitlyn.TimeDilation > 0 && timeCooldown == 0)
+        {
+            Time.timeScale = .5f;
+            timeCooldown = 30f;
+            StartCoroutine(SlowMo());
+        }
+    }
+
+    //holds the duration of Kaitlyn's slowed time
+    private IEnumerator SlowMo()
+    {
+        yield return new WaitForSeconds(5f);
+        Time.timeScale = 1;
     }
 }

@@ -125,6 +125,33 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Invisible"",
+                    ""type"": ""Button"",
+                    ""id"": ""23363e98-9610-4a36-8685-a5e3e9ce686e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Regenerate"",
+                    ""type"": ""Button"",
+                    ""id"": ""8aa69f98-1ce8-48b2-aeaf-cddcceb995c7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TimeDilation"",
+                    ""type"": ""Button"",
+                    ""id"": ""a06193b2-e3ca-4bf2-864b-e106ee509c46"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -380,6 +407,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Change"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""99853ff4-6255-448c-8447-065d73e0e4c0"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Invisible"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5e379dd0-e8ec-4a48-8a4a-6ac4d9d4bbde"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Regenerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c22db472-8553-4d2f-aa70-b1621cec47f5"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TimeDilation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -447,6 +507,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Kaitlyn_Pause = m_Kaitlyn.FindAction("Pause", throwIfNotFound: true);
         m_Kaitlyn_HighJump = m_Kaitlyn.FindAction("HighJump", throwIfNotFound: true);
         m_Kaitlyn_Change = m_Kaitlyn.FindAction("Change", throwIfNotFound: true);
+        m_Kaitlyn_Invisible = m_Kaitlyn.FindAction("Invisible", throwIfNotFound: true);
+        m_Kaitlyn_Regenerate = m_Kaitlyn.FindAction("Regenerate", throwIfNotFound: true);
+        m_Kaitlyn_TimeDilation = m_Kaitlyn.FindAction("TimeDilation", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Pause = m_Menu.FindAction("Pause", throwIfNotFound: true);
@@ -521,6 +584,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Kaitlyn_Pause;
     private readonly InputAction m_Kaitlyn_HighJump;
     private readonly InputAction m_Kaitlyn_Change;
+    private readonly InputAction m_Kaitlyn_Invisible;
+    private readonly InputAction m_Kaitlyn_Regenerate;
+    private readonly InputAction m_Kaitlyn_TimeDilation;
     public struct KaitlynActions
     {
         private @PlayerControls m_Wrapper;
@@ -536,6 +602,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_Kaitlyn_Pause;
         public InputAction @HighJump => m_Wrapper.m_Kaitlyn_HighJump;
         public InputAction @Change => m_Wrapper.m_Kaitlyn_Change;
+        public InputAction @Invisible => m_Wrapper.m_Kaitlyn_Invisible;
+        public InputAction @Regenerate => m_Wrapper.m_Kaitlyn_Regenerate;
+        public InputAction @TimeDilation => m_Wrapper.m_Kaitlyn_TimeDilation;
         public InputActionMap Get() { return m_Wrapper.m_Kaitlyn; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -578,6 +647,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Change.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnChange;
                 @Change.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnChange;
                 @Change.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnChange;
+                @Invisible.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnInvisible;
+                @Invisible.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnInvisible;
+                @Invisible.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnInvisible;
+                @Regenerate.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnRegenerate;
+                @Regenerate.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnRegenerate;
+                @Regenerate.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnRegenerate;
+                @TimeDilation.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnTimeDilation;
+                @TimeDilation.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnTimeDilation;
+                @TimeDilation.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnTimeDilation;
             }
             m_Wrapper.m_KaitlynActionsCallbackInterface = instance;
             if (instance != null)
@@ -615,6 +693,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Change.started += instance.OnChange;
                 @Change.performed += instance.OnChange;
                 @Change.canceled += instance.OnChange;
+                @Invisible.started += instance.OnInvisible;
+                @Invisible.performed += instance.OnInvisible;
+                @Invisible.canceled += instance.OnInvisible;
+                @Regenerate.started += instance.OnRegenerate;
+                @Regenerate.performed += instance.OnRegenerate;
+                @Regenerate.canceled += instance.OnRegenerate;
+                @TimeDilation.started += instance.OnTimeDilation;
+                @TimeDilation.performed += instance.OnTimeDilation;
+                @TimeDilation.canceled += instance.OnTimeDilation;
             }
         }
     }
@@ -673,6 +760,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnHighJump(InputAction.CallbackContext context);
         void OnChange(InputAction.CallbackContext context);
+        void OnInvisible(InputAction.CallbackContext context);
+        void OnRegenerate(InputAction.CallbackContext context);
+        void OnTimeDilation(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {
