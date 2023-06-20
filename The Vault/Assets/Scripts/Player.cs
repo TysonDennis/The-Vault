@@ -148,6 +148,9 @@ public class Player : MonoBehaviour
     private float cooldown;
     [SerializeField]
     private float timeCooldown;
+    //holds the scripts for stakes and handles
+    public Stake stake;
+    public Handle handle;
 
     //gets Kaitlyn's stats when she enters the scene
     void Awake()
@@ -375,6 +378,14 @@ public class Player : MonoBehaviour
             animator.SetTrigger("JumpTrigger");
             IsGliding = true;
         }
+        //allows Kaitlyn to ledge jump
+        else if (handle != null)
+        {
+            handle.Release();
+            handle = null;
+            forceDirection += Vector3.up * JumpForce;
+            animator.SetTrigger("JumpTrigger");
+        }
     }
 
     //checks if Kaitlyn is standing on solid ground
@@ -502,7 +513,7 @@ public class Player : MonoBehaviour
         //turns Kaitlyn visible
         IsInvisible = false;
         //checks if Kaitlyn's hands are empty
-        if(grabbable == null)
+        if(grabbable == null && handle == null)
         {
            //sets the origin at the player's position and the direction at in front of Kaitlyn
            Ray ray = new Ray(this.transform.position, this.transform.forward);
@@ -519,10 +530,16 @@ public class Player : MonoBehaviour
            }
         }
         //throws if Kaitlyn is holding something
-        else
+        else if(grabbable != null && handle == null)
         {
             grabbable.Throw();
             grabbable = null;
+        }
+        //lets go of the handle
+        else if(grabbable == null && handle != null)
+        {
+            handle.Release();
+            handle = null;
         }
     }
 
@@ -532,7 +549,7 @@ public class Player : MonoBehaviour
         //turns Kaitlyn visible
         IsInvisible = false;
         //checks if Kaitlyn's holding something
-        if(grabbable == null) 
+        if(grabbable == null && handle == null) 
         { 
             //sets the origin at the player's position and the direction at in front of Kaitlyn
             Ray ray = new Ray(this.transform.position, this.transform.forward);
@@ -544,6 +561,11 @@ public class Player : MonoBehaviour
                 {
                     grabbable.Grab(holdSpace);
                 }
+                //grabs handles
+                else if(hit.transform.TryGetComponent(out handle))
+                {
+                    handle.Grab(holdSpace);
+                }
             }
             else
             {
@@ -551,10 +573,16 @@ public class Player : MonoBehaviour
             }
         }
         //if Kaitlyn is holding something, she drops it
-        else
+        else if(grabbable != null && handle == null)
         {
             grabbable.Drop();
             grabbable = null;
+        }
+        //if Kaitlyn is holding onto a handle, she lets go
+        else if (grabbable == null && handle != null)
+        {
+            handle.Release();
+            handle = null;
         }
     }
 
@@ -810,9 +838,9 @@ public class Player : MonoBehaviour
         if (grabbable == null)
         {
             //sets the origin ahead and above the player, with the direction being downwards
-            Ray ray = new Ray(this.transform.position + Vector3.forward + Vector3.up, Vector3.down);
+            Ray ray = new Ray(this.transform.position, Vector3.down);
             //checks if there's something in range
-            if (Physics.Raycast(ray, out RaycastHit hit, 2f))
+            if (Physics.Raycast(ray, out RaycastHit hit, 1.665f))
             {
                 //calculates the damage
                 int damage = strength * (kaitlyn.HammerStrike + 1);
@@ -822,6 +850,12 @@ public class Player : MonoBehaviour
                 if (hit.transform.gameObject.tag == "Damageable")
                 {
                     hit.transform.gameObject.SendMessage("TakeDamage", damage);
+                }
+                //checks if there's a stake beneath Kaitlyn
+                if(hit.transform.gameObject.TryGetComponent(out stake))
+                {
+                    hit.transform.GetComponent<Stake>();
+                    stake.PoundDown();
                 }
             }
         }

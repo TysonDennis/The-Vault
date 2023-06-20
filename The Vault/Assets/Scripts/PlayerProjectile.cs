@@ -25,6 +25,8 @@ public class PlayerProjectile : MonoBehaviour
     public Grabbable grabbable;
     //gets the holdspace
     public Transform holdSpace;
+    //connumicates with handles
+    public Handle handle;
 
     //assigns the rigidbody of the projectile, and the damage the projectile does
     private void Awake()
@@ -80,8 +82,13 @@ public class PlayerProjectile : MonoBehaviour
         if(player.AbilityNumber == 2 && other.transform.TryGetComponent(out grabbable))
         {
             other.GetComponent<Grabbable>();
-            //player.grabbable.Grab(holdSpace: player.holdSpace);
             grabbable.Grab(holdSpace);
+        }
+        //lets the stretch arm grab handles
+        else if (player.AbilityNumber == 2 && other.transform.TryGetComponent(out handle))
+        {
+            other.GetComponent<Handle>();
+            handle.Grab(holdSpace);
         }
     }
 }
