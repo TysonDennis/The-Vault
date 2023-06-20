@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class Camera : MonoBehaviour
 {
@@ -31,6 +32,22 @@ public class Camera : MonoBehaviour
     private InputAction zoom;
     [SerializeField]
     private InputAction rotate;
+    //holds Kaitlyn's scriptable object
+    [SerializeField]
+    private KaitlynSO kaitlyn;
+    //holds the bool for if thermal vision is on or off
+    [SerializeField]
+    private bool thermal;
+    //holds the cameras
+    [SerializeField]
+    private Camera visibleSpectrum;
+    [SerializeField]
+    private Camera infraredSpectrum;
+    //holds the post processing volumes
+    /*[SerializeField]
+    private GameObject environment;
+    [SerializeField]
+    private GameObject hot;*/
 
     //activates upon start
     private void Awake()
@@ -39,13 +56,18 @@ public class Camera : MonoBehaviour
         controls = new PlayerControls();
         //sets the initial position of the camera relative to Kaitlyn
         transform.position = player.transform.position + new Vector3(0f, 3f, -3f);
+        //sets certain things to inactive and active
+        visibleSpectrum.enabled = true;
+        infraredSpectrum.enabled = false;
+        /*environment.SetActive(false);
+        hot.SetActive(false);*/
     }
 
     //enables the functions of the input actions
     private void OnEnable()
     {
         controls.Kaitlyn.Zoom.started += DoZoom;
-        //controls.Kaitlyn.Rotate.started += DoRotate;
+        controls.Kaitlyn.ThermalVision.started += DoThermalVision;
         rotate = controls.Kaitlyn.Rotate;
         controls.Kaitlyn.Enable();
     }
@@ -54,7 +76,7 @@ public class Camera : MonoBehaviour
     private void OnDisable()
     {
         controls.Kaitlyn.Zoom.started -= DoZoom;
-        //controls.Kaitlyn.Rotate.started -= DoRotate;
+        controls.Kaitlyn.ThermalVision.started -= DoThermalVision;
         controls.Kaitlyn.Disable();
     }
 
@@ -69,6 +91,21 @@ public class Camera : MonoBehaviour
         float inputValueAltitude = rotate.ReadValue<Vector2>().y * sensitivity * 17.45f * Time.deltaTime;
         yPos += inputValueAzimuth;
         xPos += inputValueAltitude;
+        //shows the view of what camera is selected
+        if(thermal == true)
+        {
+            visibleSpectrum.enabled = false;
+            infraredSpectrum.enabled = true;
+            /*environment.SetActive(true);
+            hot.SetActive(true);*/
+        }
+        else
+        {
+            visibleSpectrum.enabled = true;
+            infraredSpectrum.enabled = false;
+            /*environment.SetActive(false);
+            hot.SetActive(false);*/
+        }
     }
 
     //rotates the camera
@@ -86,5 +123,21 @@ public class Camera : MonoBehaviour
         float inputValue = obj.ReadValue<float>() * sensitivity;
         zPos += inputValue;
         zPos = Mathf.Clamp(zPos, minZ, maxZ);
+    }
+
+    //lets Kaitlyn alternate between thermal and normal vision, if she has the ability
+    private void DoThermalVision(InputAction.CallbackContext obj)
+    {
+        if (kaitlyn.ThermalVision > 0)
+        {
+            if(thermal == false)
+            {
+                thermal = true;
+            }
+            else
+            {
+                thermal = false;
+            }
+        }
     }
 }

@@ -152,6 +152,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ThermalVision"",
+                    ""type"": ""Button"",
+                    ""id"": ""4cd977fd-ecf5-4c14-b9ab-3627d108db89"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HammerStrike"",
+                    ""type"": ""Button"",
+                    ""id"": ""413d7335-ac8e-4cb8-bf6b-2ddcb565b8c8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -313,7 +331,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""27dfb58e-5b6a-4699-8204-4d7197a6d74d"",
                     ""path"": ""<Keyboard>/x"",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold(duration=0.3),Tap(duration=0.3)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",
@@ -440,6 +458,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""TimeDilation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""313447d7-bc79-41bf-8d0a-0ed9e247917d"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ThermalVision"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0121daa4-4f27-434f-bac6-92ea44892db8"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HammerStrike"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -510,6 +550,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Kaitlyn_Invisible = m_Kaitlyn.FindAction("Invisible", throwIfNotFound: true);
         m_Kaitlyn_Regenerate = m_Kaitlyn.FindAction("Regenerate", throwIfNotFound: true);
         m_Kaitlyn_TimeDilation = m_Kaitlyn.FindAction("TimeDilation", throwIfNotFound: true);
+        m_Kaitlyn_ThermalVision = m_Kaitlyn.FindAction("ThermalVision", throwIfNotFound: true);
+        m_Kaitlyn_HammerStrike = m_Kaitlyn.FindAction("HammerStrike", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Pause = m_Menu.FindAction("Pause", throwIfNotFound: true);
@@ -587,6 +629,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Kaitlyn_Invisible;
     private readonly InputAction m_Kaitlyn_Regenerate;
     private readonly InputAction m_Kaitlyn_TimeDilation;
+    private readonly InputAction m_Kaitlyn_ThermalVision;
+    private readonly InputAction m_Kaitlyn_HammerStrike;
     public struct KaitlynActions
     {
         private @PlayerControls m_Wrapper;
@@ -605,6 +649,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Invisible => m_Wrapper.m_Kaitlyn_Invisible;
         public InputAction @Regenerate => m_Wrapper.m_Kaitlyn_Regenerate;
         public InputAction @TimeDilation => m_Wrapper.m_Kaitlyn_TimeDilation;
+        public InputAction @ThermalVision => m_Wrapper.m_Kaitlyn_ThermalVision;
+        public InputAction @HammerStrike => m_Wrapper.m_Kaitlyn_HammerStrike;
         public InputActionMap Get() { return m_Wrapper.m_Kaitlyn; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -656,6 +702,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @TimeDilation.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnTimeDilation;
                 @TimeDilation.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnTimeDilation;
                 @TimeDilation.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnTimeDilation;
+                @ThermalVision.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnThermalVision;
+                @ThermalVision.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnThermalVision;
+                @ThermalVision.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnThermalVision;
+                @HammerStrike.started -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnHammerStrike;
+                @HammerStrike.performed -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnHammerStrike;
+                @HammerStrike.canceled -= m_Wrapper.m_KaitlynActionsCallbackInterface.OnHammerStrike;
             }
             m_Wrapper.m_KaitlynActionsCallbackInterface = instance;
             if (instance != null)
@@ -702,6 +754,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @TimeDilation.started += instance.OnTimeDilation;
                 @TimeDilation.performed += instance.OnTimeDilation;
                 @TimeDilation.canceled += instance.OnTimeDilation;
+                @ThermalVision.started += instance.OnThermalVision;
+                @ThermalVision.performed += instance.OnThermalVision;
+                @ThermalVision.canceled += instance.OnThermalVision;
+                @HammerStrike.started += instance.OnHammerStrike;
+                @HammerStrike.performed += instance.OnHammerStrike;
+                @HammerStrike.canceled += instance.OnHammerStrike;
             }
         }
     }
@@ -763,6 +821,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnInvisible(InputAction.CallbackContext context);
         void OnRegenerate(InputAction.CallbackContext context);
         void OnTimeDilation(InputAction.CallbackContext context);
+        void OnThermalVision(InputAction.CallbackContext context);
+        void OnHammerStrike(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

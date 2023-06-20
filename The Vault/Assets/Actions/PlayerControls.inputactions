@@ -130,6 +130,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ThermalVision",
+                    "type": "Button",
+                    "id": "4cd977fd-ecf5-4c14-b9ab-3627d108db89",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HammerStrike",
+                    "type": "Button",
+                    "id": "413d7335-ac8e-4cb8-bf6b-2ddcb565b8c8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -291,7 +309,7 @@
                     "name": "",
                     "id": "27dfb58e-5b6a-4699-8204-4d7197a6d74d",
                     "path": "<Keyboard>/x",
-                    "interactions": "",
+                    "interactions": "Hold(duration=0.3),Tap(duration=0.3)",
                     "processors": "",
                     "groups": "",
                     "action": "Attack",
@@ -416,6 +434,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "TimeDilation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "313447d7-bc79-41bf-8d0a-0ed9e247917d",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ThermalVision",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0121daa4-4f27-434f-bac6-92ea44892db8",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HammerStrike",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

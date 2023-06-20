@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 using UnityEngine.UI;
 using TMPro;
 
@@ -148,29 +149,35 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float timeCooldown;
 
-    //gets Kaitlyn's rigidbody, collider, animator, and controls, while setting her stats
+    //gets Kaitlyn's stats when she enters the scene
     void Awake()
     {
+        //gets Kaitlyn's components
         rb = GetComponent<Rigidbody>();
         controls = new PlayerControls();
         capsule = GetComponent<CapsuleCollider>();
+        //sets Kaitlyn's stats
         kaitlyn.maxHP = 100 + kaitlyn.HealthPickup * 100;
         strength = 5 + kaitlyn.StrengthPickup;
         kaitlyn.HP = kaitlyn.maxHP;
         JumpForce = 7 + kaitlyn.HighJump;
         movementForce = 1 + kaitlyn.Sprint;
         WalkSpeed = 2 + 2 * kaitlyn.Sprint;
+        //sets up the menu
         IsPaused = false;
         graphicRaycaster = HUD.GetComponent<GraphicRaycaster>();
         click_data = new PointerEventData(EventSystem.current);
         click_results = new List<RaycastResult>();
+        //gets Kaitlyn's animator
         animator = GetComponent<Animator>();
+        //sets Kaitlyn's bools and stats
         IsDigging = false;
         kaitlyn.floatHP = kaitlyn.HP;
         AbilityNumber = 0;
         flapCount = kaitlyn.Flight;
         IsGliding = false;
         IsInvisible = false;
+        //gets Kaitlyn's meshes
         bodyMesh = body.GetComponent<SkinnedMeshRenderer>();
         hairMesh = hair.GetComponent<SkinnedMeshRenderer>();
         antennaMesh = antenna.GetComponent<SkinnedMeshRenderer>();
@@ -179,6 +186,7 @@ public class Player : MonoBehaviour
         stringMesh = necklaceString.GetComponent<SkinnedMeshRenderer>();
         necklaceMesh = necklace.GetComponent<SkinnedMeshRenderer>();
         wingMesh = wings.GetComponent<SkinnedMeshRenderer>();
+        //sets Kaitlyn's cooldown times at 0
         cooldown = 0f;
         timeCooldown = 0f;
     }
@@ -199,6 +207,7 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Invisible.started += DoInvisible;
         controls.Kaitlyn.Regenerate.started += DoRegenerate;
         controls.Kaitlyn.TimeDilation.started += DoTimeDilation;
+        controls.Kaitlyn.HammerStrike.started += DoHammerStrike;
         controls.Menu.Pause.started += DoPause;
         controls.Menu.Click.started += DoClick;
         move = controls.Kaitlyn.Move;
@@ -221,7 +230,8 @@ public class Player : MonoBehaviour
         controls.Kaitlyn.Change.started -= DoChange;
         controls.Kaitlyn.Invisible.started -= DoInvisible;
         controls.Kaitlyn.Regenerate.started -= DoRegenerate;
-        controls.Kaitlyn.TimeDilation.started += DoTimeDilation;
+        controls.Kaitlyn.TimeDilation.started -= DoTimeDilation;
+        controls.Kaitlyn.HammerStrike.started -= DoHammerStrike;
         controls.Menu.Pause.started -= DoPause;
         controls.Menu.Click.started -= DoClick;
         controls.Kaitlyn.Disable();
@@ -492,21 +502,21 @@ public class Player : MonoBehaviour
         //turns Kaitlyn visible
         IsInvisible = false;
         //checks if Kaitlyn's hands are empty
-        if(grabbable == null) 
-        { 
-            //sets the origin at the player's position and the direction at in front of Kaitlyn
-            Ray ray = new Ray(this.transform.position, this.transform.forward);
-            //checks if there's something 1.665 m in front of Kaitlyn
-            if (Physics.Raycast(ray, out RaycastHit hit, 1.665f))
-            {
-                //holds the rigidbody of the grabbable object
-                Rigidbody otherRB = hit.rigidbody;
-                //checks if that thing is tagged as damageable, and if so, communicates to the damageable script
-                if (hit.transform.gameObject.tag == "Damageable")
-                {
-                    hit.transform.gameObject.SendMessage("TakeDamage", strength);
-                }
-            }
+        if(grabbable == null)
+        {
+           //sets the origin at the player's position and the direction at in front of Kaitlyn
+           Ray ray = new Ray(this.transform.position, this.transform.forward);
+           //checks if there's something 1.665 m in front of Kaitlyn
+           if (Physics.Raycast(ray, out RaycastHit hit, 1.665f))
+           {
+              //holds the rigidbody of the grabbable object
+              Rigidbody otherRB = hit.rigidbody;
+              //checks if that thing is tagged as damageable, and if so, communicates to the damageable script
+              if (hit.transform.gameObject.tag == "Damageable")
+              {
+                  hit.transform.gameObject.SendMessage("TakeDamage", strength);
+              }
+           }
         }
         //throws if Kaitlyn is holding something
         else
@@ -789,5 +799,37 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         Time.timeScale = 1;
+    }
+
+    //lets Kaitlyn use Hammer Strike
+    private void DoHammerStrike(InputAction.CallbackContext obj)
+    {
+        //turns Kaitlyn visible
+        IsInvisible = false;
+        //checks if Kaitlyn's hands are empty
+        if (grabbable == null)
+        {
+            //sets the origin ahead and above the player, with the direction being downwards
+            Ray ray = new Ray(this.transform.position + Vector3.forward + Vector3.up, Vector3.down);
+            //checks if there's something in range
+            if (Physics.Raycast(ray, out RaycastHit hit, 2f))
+            {
+                //calculates the damage
+                int damage = strength * (kaitlyn.HammerStrike + 1);
+                //holds the rigidbody of the grabbable object
+                Rigidbody otherRB = hit.rigidbody;
+                //checks if that thing is tagged as damageable, and if so, communicates to the damageable script
+                if (hit.transform.gameObject.tag == "Damageable")
+                {
+                    hit.transform.gameObject.SendMessage("TakeDamage", damage);
+                }
+            }
+        }
+        //throws if Kaitlyn is holding something
+        else
+        {
+            grabbable.Throw();
+            grabbable = null;
+        }
     }
 }
