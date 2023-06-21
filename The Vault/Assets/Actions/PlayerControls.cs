@@ -331,7 +331,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""27dfb58e-5b6a-4699-8204-4d7197a6d74d"",
                     ""path"": ""<Keyboard>/x"",
-                    ""interactions"": ""Hold(duration=0.3),Tap(duration=0.3)"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",

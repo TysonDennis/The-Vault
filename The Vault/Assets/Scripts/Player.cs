@@ -151,6 +151,18 @@ public class Player : MonoBehaviour
     //holds the scripts for stakes and handles
     public Stake stake;
     public Handle handle;
+    //holds Kaitlyn's audio source
+    public AudioSource audio;
+    //holds Kaitlyn's audio clips
+    [SerializeField]
+    private AudioClip jumpAudio;
+    [SerializeField]
+    private AudioClip attackAudio;
+    [SerializeField]
+    private AudioClip hurtAudio;
+    [SerializeField]
+    private AudioClip swimAudio;
+    public AudioClip liftAudio;
 
     //gets Kaitlyn's stats when she enters the scene
     void Awake()
@@ -159,6 +171,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         controls = new PlayerControls();
         capsule = GetComponent<CapsuleCollider>();
+        audio = GetComponent<AudioSource>();
         //sets Kaitlyn's stats
         kaitlyn.maxHP = 100 + kaitlyn.HealthPickup * 100;
         strength = 5 + kaitlyn.StrengthPickup;
@@ -363,12 +376,14 @@ public class Player : MonoBehaviour
         {
             forceDirection += Vector3.up * JumpForce;
             animator.SetTrigger("JumpTrigger");
+            audio.PlayOneShot(jumpAudio, 1);
         }
         //makes Kaitlyn swim upwards if she's in water
         else if (aquatic.isSubmerged == true)
         {
             forceDirection += Vector3.up * JumpForce * 0.5f * (kaitlyn.WaterRespiration + 1);
             animator.SetTrigger("JumpTrigger");
+            audio.PlayOneShot(swimAudio, 1);
         }
         //allows Kaitlyn to fly and glide
         else if (flapCount > 0)
@@ -385,6 +400,7 @@ public class Player : MonoBehaviour
             handle = null;
             forceDirection += Vector3.up * JumpForce;
             animator.SetTrigger("JumpTrigger");
+            audio.PlayOneShot(jumpAudio, 1);
         }
     }
 
@@ -421,9 +437,10 @@ public class Player : MonoBehaviour
         else if(aquatic.isSubmerged == true && IsInvisible == false)
         {
             forceDirection += Vector3.down * JumpForce * 0.5f * (kaitlyn.WaterRespiration + 1);
+            audio.PlayOneShot(swimAudio, 1);
         }
         //makes Kaitlyn crouch on dry land while invisible
-        if (aquatic.isSubmerged == false && IsInvisible == true)
+        else if (aquatic.isSubmerged == false && IsInvisible == true)
         {
             capsule.height = (float)(1.5f - (.75 * kaitlyn.SqueezeThrough));
             WalkSpeed = .5f;
@@ -435,6 +452,7 @@ public class Player : MonoBehaviour
         else if (aquatic.isSubmerged == true && IsInvisible == true)
         {
             forceDirection += Vector3.down * JumpForce * 0.25f * (kaitlyn.WaterRespiration + 1);
+            audio.PlayOneShot(swimAudio, 1);
         }
         //lets Kaitlyn dig, only if she has the Dig power-up
         if (kaitlyn.Dig >= 1)
@@ -492,6 +510,7 @@ public class Player : MonoBehaviour
         {
             WalkSpeed = 5f + 5f * kaitlyn.Sprint + kaitlyn.WaterRespiration;
             movementForce = 1f + kaitlyn.Sprint + kaitlyn.WaterRespiration;
+            audio.PlayOneShot(swimAudio, 1);
         }
         //holds Kaitlyn's terrestrial invisible speed
         else if (aquatic.isSubmerged == false && IsInvisible == true)
@@ -504,6 +523,7 @@ public class Player : MonoBehaviour
         {
             WalkSpeed = 2.5f + 2.5f * kaitlyn.Sprint + .5f* kaitlyn.WaterRespiration;
             movementForce = .5f + .5f * kaitlyn.Sprint + .5f * kaitlyn.WaterRespiration;
+            audio.PlayOneShot(swimAudio, 1);
         }
     }
 
@@ -515,6 +535,7 @@ public class Player : MonoBehaviour
         //checks if Kaitlyn's hands are empty
         if(grabbable == null && handle == null)
         {
+           audio.PlayOneShot(attackAudio, 1);
            //sets the origin at the player's position and the direction at in front of Kaitlyn
            Ray ray = new Ray(this.transform.position, this.transform.forward);
            //checks if there's something 1.665 m in front of Kaitlyn
@@ -533,6 +554,7 @@ public class Player : MonoBehaviour
         else if(grabbable != null && handle == null)
         {
             grabbable.Throw();
+            audio.PlayOneShot(attackAudio, 1);
             grabbable = null;
         }
         //lets go of the handle
@@ -560,6 +582,7 @@ public class Player : MonoBehaviour
                 if(hit.transform.TryGetComponent(out grabbable))
                 {
                     grabbable.Grab(holdSpace);
+                    audio.PlayOneShot(liftAudio, 1);
                 }
                 //grabs handles
                 else if(hit.transform.TryGetComponent(out handle))
@@ -658,6 +681,7 @@ public class Player : MonoBehaviour
             blood.Play();
             StartCoroutine(StopBleeding());
             kaitlyn.floatHP = kaitlyn.HP;
+            audio.PlayOneShot(hurtAudio, 1);
         }
     }
 
@@ -687,6 +711,7 @@ public class Player : MonoBehaviour
         {
             forceDirection += Vector3.up * JumpForce * 2;
             animator.SetTrigger("JumpTrigger");
+            audio.PlayOneShot(jumpAudio, 1);
         }
     }
 
@@ -834,6 +859,7 @@ public class Player : MonoBehaviour
     {
         //turns Kaitlyn visible
         IsInvisible = false;
+        audio.PlayOneShot(attackAudio, 1);
         //checks if Kaitlyn's hands are empty
         if (grabbable == null)
         {

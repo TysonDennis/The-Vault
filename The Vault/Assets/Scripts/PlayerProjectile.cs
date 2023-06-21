@@ -25,8 +25,10 @@ public class PlayerProjectile : MonoBehaviour
     public Grabbable grabbable;
     //gets the holdspace
     public Transform holdSpace;
-    //connumicates with handles
+    //communicates with handles
     public Handle handle;
+    //holds the audio clip
+    public AudioClip liftAudio;
 
     //assigns the rigidbody of the projectile, and the damage the projectile does
     private void Awake()
@@ -82,6 +84,7 @@ public class PlayerProjectile : MonoBehaviour
         if(player.AbilityNumber == 2 && other.transform.TryGetComponent(out grabbable))
         {
             other.GetComponent<Grabbable>();
+            player.GetComponent<AudioSource>().PlayOneShot(liftAudio, 1);
             grabbable.Grab(holdSpace);
         }
         //lets the stretch arm grab handles
