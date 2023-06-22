@@ -19,8 +19,8 @@ GameObject:
   m_Name: Water
   m_TagString: WaterEffect
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 5
+  m_StaticEditorFlags: 40
   m_IsActive: 1
 --- !u!4 &3614203876503869747
 Transform:
@@ -129,6 +129,7 @@ MonoBehaviour:
   iceY: 1
   iceZ: 1
   InitialTorque: {x: 0, y: 0, z: 0}
+  IsFrozen: 0
 --- !u!198 &1532700277283660252
 ParticleSystem:
   m_ObjectHideFlags: 0
