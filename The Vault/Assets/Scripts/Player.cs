@@ -335,6 +335,15 @@ public class Player : MonoBehaviour
         {
             timeCooldown = 0;
         }
+        //sets Kaitlyn's animations for if she's in the water or not
+        if(aquatic.isSubmerged == true)
+        {
+            animator.SetBool("WaterBool", true);
+        }
+        else
+        {
+            animator.SetBool("WaterBool", false);
+        }
     }
 
     //bases Kaitlyn's X-axis off the camera's
@@ -427,30 +436,32 @@ public class Player : MonoBehaviour
         //makes Kaitlyn crouch on dry land
         if(aquatic.isSubmerged == false && IsInvisible == false)
         {
+            animator.SetBool("CrouchBool", true);
             capsule.height = (float)(1.5f - (.75 * kaitlyn.SqueezeThrough));
             WalkSpeed = 1f;
             movementForce = 1f;
-            animator.SetBool("CrouchBool", true);
             IsGliding = false;
         }
         //makes Kaitlyn dive in water
         else if(aquatic.isSubmerged == true && IsInvisible == false)
         {
+            animator.SetBool("CrouchBool", true);
             forceDirection += Vector3.down * JumpForce * 0.5f * (kaitlyn.WaterRespiration + 1);
             audio.PlayOneShot(swimAudio, 1);
         }
         //makes Kaitlyn crouch on dry land while invisible
         else if (aquatic.isSubmerged == false && IsInvisible == true)
         {
+            animator.SetBool("CrouchBool", true);
             capsule.height = (float)(1.5f - (.75 * kaitlyn.SqueezeThrough));
             WalkSpeed = .5f;
             movementForce = .25f;
-            animator.SetBool("CrouchBool", true);
             IsGliding = false;
         }
         //makes Kaitlyn dive in water while invisible
         else if (aquatic.isSubmerged == true && IsInvisible == true)
         {
+            animator.SetBool("CrouchBool", true);
             forceDirection += Vector3.down * JumpForce * 0.25f * (kaitlyn.WaterRespiration + 1);
             audio.PlayOneShot(swimAudio, 1);
         }
@@ -470,6 +481,7 @@ public class Player : MonoBehaviour
             capsule.height = 3f;
             WalkSpeed = 2f + 2 * kaitlyn.Sprint;
             movementForce = 1f + kaitlyn.Sprint;
+            animator.SetBool("WaterBool", false);
         }
         //holds Kaitlyn's visible aquatic speed
         else if(aquatic.isSubmerged == true && IsInvisible == false)
@@ -477,6 +489,7 @@ public class Player : MonoBehaviour
             capsule.height = 3f;
             WalkSpeed = 2f + kaitlyn.Sprint + kaitlyn.WaterRespiration;
             movementForce = (1f + kaitlyn.Sprint) * .5f + kaitlyn.WaterRespiration;
+            animator.SetBool("WaterBool", true);
         }
         //holds Kaitlyn's invisible terrestrial speed
         else if(aquatic.isSubmerged == false && IsInvisible == true)
@@ -484,6 +497,7 @@ public class Player : MonoBehaviour
             capsule.height = 3f;
             WalkSpeed = 1f + kaitlyn.Sprint;
             movementForce = .5f + .5f * kaitlyn.Sprint;
+            animator.SetBool("WaterBool", false);
         }
         //holds Kaitlyn's invisible aquatic speed
         else
@@ -491,8 +505,8 @@ public class Player : MonoBehaviour
             capsule.height = 3f;
             WalkSpeed = 1f + .5f * kaitlyn.Sprint + .5f * kaitlyn.WaterRespiration;
             movementForce = (1f + kaitlyn.Sprint) * .25f + .5f * kaitlyn.WaterRespiration;
+            animator.SetBool("WaterBool", true);
         }
-        //animator.SetTrigger("IdleTrigger");
         animator.SetBool("CrouchBool", false);
     }
 
@@ -504,6 +518,7 @@ public class Player : MonoBehaviour
         {
             WalkSpeed = 10f + 10f * kaitlyn.Sprint;
             movementForce = 2.5f + 2.5f * kaitlyn.Sprint;
+            animator.SetBool("WaterBool", false);
         }
         //holds Kaitlyn's aquatic visible speed
         else if(aquatic.isSubmerged == true && IsInvisible == false)
@@ -511,12 +526,14 @@ public class Player : MonoBehaviour
             WalkSpeed = 5f + 5f * kaitlyn.Sprint + kaitlyn.WaterRespiration;
             movementForce = 1f + kaitlyn.Sprint + kaitlyn.WaterRespiration;
             audio.PlayOneShot(swimAudio, 1);
+            animator.SetBool("WaterBool", true);
         }
         //holds Kaitlyn's terrestrial invisible speed
         else if (aquatic.isSubmerged == false && IsInvisible == true)
         {
             WalkSpeed = 5f + 5f * kaitlyn.Sprint;
             movementForce = 1f + kaitlyn.Sprint;
+            animator.SetBool("WaterBool", false);
         }
         //holds Kaitlyn's aquatic invisible speed
         else
@@ -524,6 +541,7 @@ public class Player : MonoBehaviour
             WalkSpeed = 2.5f + 2.5f * kaitlyn.Sprint + .5f* kaitlyn.WaterRespiration;
             movementForce = .5f + .5f * kaitlyn.Sprint + .5f * kaitlyn.WaterRespiration;
             audio.PlayOneShot(swimAudio, 1);
+            animator.SetBool("WaterBool", true);
         }
     }
 
@@ -536,6 +554,7 @@ public class Player : MonoBehaviour
         if(grabbable == null && handle == null)
         {
            audio.PlayOneShot(attackAudio, 1);
+           animator.SetTrigger("AttackTrigger");
            //sets the origin at the player's position and the direction at in front of Kaitlyn
            Ray ray = new Ray(this.transform.position, this.transform.forward);
            //checks if there's something 1.665 m in front of Kaitlyn
@@ -553,9 +572,11 @@ public class Player : MonoBehaviour
         //throws if Kaitlyn is holding something
         else if(grabbable != null && handle == null)
         {
+            animator.SetTrigger("ThrowTrigger");
             grabbable.Throw();
             audio.PlayOneShot(attackAudio, 1);
             grabbable = null;
+            animator.SetBool("HoldBool", false);
         }
         //lets go of the handle
         else if(grabbable == null && handle != null)
@@ -570,6 +591,7 @@ public class Player : MonoBehaviour
     {
         //turns Kaitlyn visible
         IsInvisible = false;
+        animator.SetTrigger("GrabTrigger");
         //checks if Kaitlyn's holding something
         if(grabbable == null && handle == null) 
         { 
@@ -583,6 +605,7 @@ public class Player : MonoBehaviour
                 {
                     grabbable.Grab(holdSpace);
                     audio.PlayOneShot(liftAudio, 1);
+                    animator.SetBool("HoldBool", true);
                 }
                 //grabs handles
                 else if(hit.transform.TryGetComponent(out handle))
@@ -598,8 +621,10 @@ public class Player : MonoBehaviour
         //if Kaitlyn is holding something, she drops it
         else if(grabbable != null && handle == null)
         {
+            animator.SetTrigger("DropTrigger");
             grabbable.Drop();
             grabbable = null;
+            animator.SetBool("HoldBool", false);
         }
         //if Kaitlyn is holding onto a handle, she lets go
         else if (grabbable == null && handle != null)
@@ -676,6 +701,7 @@ public class Player : MonoBehaviour
         //checks if Kaitlyn has taken damage
         if(damage > 0)
         {
+            animator.SetTrigger("DamageTrigger");
             kaitlyn.HP -= damage;
             HUDScript.hurtSprite();
             blood.Play();
@@ -695,9 +721,17 @@ public class Player : MonoBehaviour
     //runs the function for if Kaitlyn is killed
     private void Kill()
     {
+        animator.SetTrigger("DeathTrigger");
         HUDScript.hurtSprite();
         blood.Play();
         StartCoroutine(StopBleeding());
+        StartCoroutine(DespawnRespawn());
+    }
+
+    //despawns Kaitlyn, then respawns her
+    private IEnumerator DespawnRespawn()
+    {
+        yield return new WaitForSeconds(0.5f);
         transform.position = kaitlyn.Spawnpoint.position;
         kaitlyn.HP = kaitlyn.maxHP;
         kaitlyn.floatHP = kaitlyn.HP;
@@ -888,6 +922,7 @@ public class Player : MonoBehaviour
         //throws if Kaitlyn is holding something
         else
         {
+            animator.SetTrigger("ThrowTrigger");
             grabbable.Throw();
             grabbable = null;
         }
