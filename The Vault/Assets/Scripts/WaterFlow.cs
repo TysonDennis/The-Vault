@@ -53,6 +53,9 @@ public class WaterFlow : MonoBehaviour
     //holds the bool for if the water is frozen
     [SerializeField]
     private bool IsFrozen;
+    //holds the audio source
+    [SerializeField]
+    private AudioSource audio;
 
     //gets the rigidbody of objects put in water, and sets the force of the current
     private void Awake()
@@ -144,12 +147,14 @@ public class WaterFlow : MonoBehaviour
             CurrentForce = xForce * Vector3.right + yForce * Vector3.up + zForce * Vector3.forward;
             CurrentTorque = InitialTorque;
             flow.Play();
+            audio.Play();
         }
         else
         {
             CurrentForce = Vector3.zero;
             CurrentTorque = Vector3.zero;
             flow.Stop();
+            audio.Stop();
         }
     }
 }

@@ -14,11 +14,18 @@ public class Breakable : MonoBehaviour
     //stores the particle system
     [SerializeField]
     private ParticleSystem particle;
+    //stores the audio source, and its associated clip
+    [SerializeField]
+    private AudioSource audio;
+    [SerializeField]
+    private AudioClip clip;
 
-    //sets health to max health upon spawning
+    //sets health to max health upon spawning, and gets the components
     void OnEnable()
     {
         health = maxHealth;
+        particle = GetComponent<ParticleSystem>();
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -27,9 +34,7 @@ public class Breakable : MonoBehaviour
         //checks if health is zero
         if(health <= 0)
         {
-            //despawns if health is zero
-            gameObject.GetComponent<Collider>().enabled = false;
-            gameObject.GetComponent<MeshRenderer>().enabled = false;
+            StartCoroutine(Destroy());
         }
     }
 
@@ -39,6 +44,8 @@ public class Breakable : MonoBehaviour
         health -= damage;
         particle.Play();
         StartCoroutine(StopParticles());
+        //plays the sound of the rock breaking
+        audio.PlayOneShot(clip, 1);
     }
 
     //stops the particle system
@@ -46,5 +53,13 @@ public class Breakable : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         particle.Stop();
+    }
+
+    //holds the function for the rock being destroyed
+    private IEnumerator Destroy()
+    {
+        yield return new WaitForSeconds(1);
+        //despawns if health is zero
+        Destroy(gameObject);
     }
 }
