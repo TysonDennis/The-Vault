@@ -62,8 +62,10 @@ public class WaterFlow : MonoBehaviour
     {
         aquatic = Object.FindObjectOfType<Aquatic>();
         player = Object.FindObjectOfType<Player>();
+        audio = GetComponent<AudioSource>();
         IsFrozen = false;
         flow.Play();
+        audio.Play();
     }
 
     //applies force of buoyancy when the object enters the water
@@ -73,6 +75,7 @@ public class WaterFlow : MonoBehaviour
         if (other.gameObject.CompareTag("FireEffect"))
         {
             IsFrozen = false;
+            audio.Play();
         }
         //freezes if exposed to ice
         else if (other.gameObject.CompareTag("IceEffect"))
@@ -80,6 +83,7 @@ public class WaterFlow : MonoBehaviour
             GameObject newobject = Instantiate(ice, transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
             newobject.transform.localScale = new Vector3(iceX, iceY, iceZ);
             IsFrozen = true;
+            audio.Stop();
         }
         //applies buoyancy
         if (other.TryGetComponent<Grabbable>(out Grabbable grabbable))
@@ -147,14 +151,14 @@ public class WaterFlow : MonoBehaviour
             CurrentForce = xForce * Vector3.right + yForce * Vector3.up + zForce * Vector3.forward;
             CurrentTorque = InitialTorque;
             flow.Play();
-            audio.Play();
+            //audio.Play();
         }
         else
         {
             CurrentForce = Vector3.zero;
             CurrentTorque = Vector3.zero;
             flow.Stop();
-            audio.Stop();
+            //audio.Stop();
         }
     }
 }

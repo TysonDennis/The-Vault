@@ -26,12 +26,16 @@ public class ChangeTransforms : MonoBehaviour
     private bool StartMove;
     [SerializeField]
     private bool FinishMove;
+    //holds the sound of the object moving
+    [SerializeField]
+    private AudioSource audio;
 
-    //sets the bools to false
+    //sets the bools to false, gets the audio source
     private void Awake()
     {
         StartMove = false;
         FinishMove = false;
+        audio = GetComponent<AudioSource>();
     }
 
     //holds the movement
@@ -41,24 +45,30 @@ public class ChangeTransforms : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, fPos.position, speed * Time.deltaTime);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, fPos.rotation, rotationSpeed * Time.deltaTime);
+            //plays the audio while moving, stops it once stopped
+            audio.Play();
             //checks if the position of the object and its destination are approximately equal
             if (Vector3.Distance(transform.position, fPos.position) < 0.001f && Quaternion.Angle(transform.rotation, fPos.rotation) < 0.001f)
             {
                 transform.position = fPos.position;
                 transform.rotation = fPos.rotation;
                 StartMove = false;
+                audio.Stop();
             }
         }
         else if(FinishMove == true)
         {
             transform.position = Vector3.MoveTowards(transform.position, sPos.position, speed * Time.deltaTime);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, sPos.rotation, rotationSpeed * Time.deltaTime);
+            //plays the audio while moving, stops it once stopped
+            audio.Play();
             //checks if the position of the object and its destination are approximately equal
             if (Vector3.Distance(transform.position, sPos.position) < 0.001f && Quaternion.Angle(transform.rotation, sPos.rotation) < 0.001f)
             {
                 transform.position = sPos.position;
                 transform.rotation = sPos.rotation;
                 FinishMove = false;
+                audio.Stop();
             }
         }
     }

@@ -10,11 +10,15 @@ public class Diggable : MonoBehaviour
     //holds the particle system
     [SerializeField]
     private ParticleSystem particle;
+    //holds the audio source
+    [SerializeField]
+    private AudioSource audio;
 
     //gets the player
     private void Awake()
     {
         //player = gameObject.GetComponent<Player>();
+        audio = GetComponent<AudioSource>();
     }
 
     //holds the event for if the player collides with the diggable dirt
@@ -30,8 +34,9 @@ public class Diggable : MonoBehaviour
     //runs the function for if the player is digging when they touch the diggable
     private IEnumerator Dug()
     {
+        audio.Play();
         particle.Play();
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
 }
