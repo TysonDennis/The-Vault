@@ -767,7 +767,7 @@ public class Player : MonoBehaviour
                 float speed = 10f;
                 //fires the water right ahead of Kaitlyn
                 Ray ray = new Ray(transform.position, transform.forward);
-                Instantiate(waterGun, transform.position + Vector3.up, Quaternion.LookRotation(ray.direction));
+                Instantiate(waterGun, transform.position + Vector3.up + transform.forward, Quaternion.LookRotation(ray.direction));
                 waterGun.transform.position += waterGun.transform.forward * speed * Time.deltaTime;
             }
         }
@@ -780,7 +780,7 @@ public class Player : MonoBehaviour
                 float speed = 10f;
                 //fires the electricity right ahead of Kaitlyn
                 Ray ray = new Ray(transform.position, transform.forward);
-                Instantiate(lightningBolt, transform.position + Vector3.up, Quaternion.LookRotation(ray.direction));
+                Instantiate(lightningBolt, transform.position + Vector3.up + transform.forward, Quaternion.LookRotation(ray.direction));
                 lightningBolt.transform.position += lightningBolt.transform.forward * speed * Time.deltaTime;
             }
         }
@@ -793,7 +793,7 @@ public class Player : MonoBehaviour
                 float speed = 10f;
                 //extends Kaitlyn's arm right ahead of her
                 Ray ray = new Ray(transform.position, transform.forward);
-                Instantiate(stretchArm, transform.position + Vector3.up, Quaternion.LookRotation(ray.direction));
+                Instantiate(stretchArm, transform.position + Vector3.up + transform.forward, Quaternion.LookRotation(ray.direction));
                 stretchArm.transform.position += stretchArm.transform.forward * speed * Time.deltaTime;
             }
         }
@@ -806,7 +806,7 @@ public class Player : MonoBehaviour
                 float speed = 10f;
                 //fires the ultracold gas right ahead of Kaitlyn
                 Ray ray = new Ray(transform.position, transform.forward);
-                Instantiate(frostBreath, transform.position + Vector3.up, Quaternion.LookRotation(ray.direction));
+                Instantiate(frostBreath, transform.position + Vector3.up + transform.forward, Quaternion.LookRotation(ray.direction));
                 frostBreath.transform.position += frostBreath.transform.forward * speed * Time.deltaTime;
             }
         }
@@ -819,7 +819,7 @@ public class Player : MonoBehaviour
                 float speed = 10f;
                 //fires the well, fire right ahead of Kaitlyn
                 Ray ray = new Ray(transform.position, transform.forward);
-                Instantiate(flamethrower, transform.position + Vector3.up, Quaternion.LookRotation(ray.direction));
+                Instantiate(flamethrower, transform.position + Vector3.up + transform.forward, Quaternion.LookRotation(ray.direction));
                 flamethrower.transform.position += flamethrower.transform.forward * speed * Time.deltaTime;
             }
         }
