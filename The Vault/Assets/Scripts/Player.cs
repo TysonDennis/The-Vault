@@ -895,7 +895,7 @@ public class Player : MonoBehaviour
         IsInvisible = false;
         audio.PlayOneShot(attackAudio, 1);
         //checks if Kaitlyn's hands are empty
-        if (grabbable == null)
+        if (grabbable == null && kaitlyn.HammerStrike > 0)
         {
             //sets the origin ahead and above the player, with the direction being downwards
             Ray ray = new Ray(this.transform.position, Vector3.down);

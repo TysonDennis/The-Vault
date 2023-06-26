@@ -11,6 +11,10 @@ public class SeedSpittinSprout : MonoBehaviour
     private Transform leafSensor;
     [SerializeField]
     private GameObject seed;
+    [SerializeField]
+    private ParticleSystem particles;
+    [SerializeField]
+    private AudioSource audio;
     //holds the reference to the player
     public GameObject player;
     [SerializeField]
@@ -31,6 +35,8 @@ public class SeedSpittinSprout : MonoBehaviour
     {
         //gets the Seed-Spittin' Sprout's components
         animator = GetComponent<Animator>();
+        particles = GetComponent<ParticleSystem>();
+        audio = GetComponent<AudioSource>();
         //gets the player
         player = GameObject.FindGameObjectWithTag("Player");
         //sets the bool for if the player is within range to false, and sets cooldown at 0
@@ -76,7 +82,7 @@ public class SeedSpittinSprout : MonoBehaviour
         //kills the sprout
         if(health <= 0)
         {
-            Destroy(gameObject);
+            StartCoroutine(Kill());
         }
     }
 
@@ -97,12 +103,33 @@ public class SeedSpittinSprout : MonoBehaviour
     {
         Ray ray = new Ray(transform.position, transform.forward);
         cooldown = .83f;
+        animator.SetTrigger("ShootTrigger");
+        audio.Play();
         Instantiate(seed, transform.position + Vector3.up * 2 + transform.forward, Quaternion.LookRotation(ray.direction));
     }
 
     //holds the function for taking damage
     public void TakeDamage(int damage)
     {
+        animator.SetTrigger("DamageTrigger");
+        particles.Play();
         health -= damage;
+        StartCoroutine(StopParticles());
+    }
+
+    //stops the particles after a delay
+    private IEnumerator StopParticles()
+    {
+        yield return new WaitForSeconds(1f);
+        particles.Stop();
+    }
+
+    //holds the function for when the sprout is killed
+    private IEnumerator Kill()
+    {
+        animator.SetTrigger("DeathTrigger");
+        particles.Play();
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
     }
 }
