@@ -15,6 +15,8 @@ public class Panthera : MonoBehaviour
     public int attackStrength;
     [SerializeField]
     private bool inRange;
+    [SerializeField]
+    private bool hiss;
     //holds Panthera's components
     [SerializeField]
     private NavMeshAgent nva;
@@ -22,8 +24,19 @@ public class Panthera : MonoBehaviour
     private Transform attackHitbox;
     [SerializeField]
     private ParticleSystem particle;
+    [SerializeField]
+    private Animator animator;
+    [SerializeField]
+    private AudioSource audio;
     //holds the reference to the player
     public GameObject player;
+    //holds the sound effects
+    [SerializeField]
+    private AudioClip aggro;
+    [SerializeField]
+    private AudioClip attacking;
+    [SerializeField]
+    private AudioClip death;
 
     private void Awake()
     {
@@ -32,11 +45,14 @@ public class Panthera : MonoBehaviour
         //gets the components
         nva = GetComponent<NavMeshAgent>();
         particle = GetComponent<ParticleSystem>();
+        animator = GetComponent<Animator>();
+        audio = GetComponent<AudioSource>();
         //gets the player
         player = GameObject.FindGameObjectWithTag("Player");
         //sets Panthera to out of range
         inRange = false;
         attackHitbox.gameObject.SetActive(false);
+        hiss = true;
     }
 
     private void FixedUpdate()
@@ -50,6 +66,18 @@ public class Panthera : MonoBehaviour
         if(Vector3.Distance(transform.position, player.transform.position) <= detectionRange && player.GetComponent<Player>().IsInvisible == false)
         {
             nva.destination = player.transform.position;
+            animator.SetTrigger("MoveTrigger");
+            if(hiss == true)
+            {
+                audio.PlayOneShot(aggro, 1);
+                hiss = false;
+            }
+        }
+        //resets Panthera's movement
+        else
+        {
+            nva.ResetPath();
+            hiss = true;
         }
         //makes the Panthera attack Kaitlyn when in range
         if(inRange == true)
@@ -78,6 +106,7 @@ public class Panthera : MonoBehaviour
     //holds the function for taking damage
     public void TakeDamage(int damage)
     {
+        animator.SetTrigger("DamageTrigger");
         particle.Play();
         health -= damage;
         StartCoroutine(StopBleeding());
@@ -86,6 +115,8 @@ public class Panthera : MonoBehaviour
     //kills Panthera
     private IEnumerator Kill()
     {
+        audio.PlayOneShot(death, 1);
+        animator.SetTrigger("DeathTrigger");
         particle.Play();
         yield return new WaitForSeconds(.5f);
         Destroy(gameObject);
@@ -101,8 +132,10 @@ public class Panthera : MonoBehaviour
     //attacks Kaitlyn
     private IEnumerator ActivateAttack()
     {
+        audio.PlayOneShot(attacking, 1);
         attackHitbox.SendMessage("Damage", attackStrength);
         yield return new WaitForSeconds(.5f);
+        animator.SetTrigger("AttackTrigger");
         attackHitbox.gameObject.SetActive(true);
         yield return new WaitForSeconds(.5f);
         attackHitbox.gameObject.SetActive(false);
