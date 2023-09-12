@@ -167,6 +167,7 @@ public class Player : MonoBehaviour
     //gets Kaitlyn's stats when she enters the scene
     void Awake()
     {
+        DontDestroyOnLoad(this.gameObject);
         //gets Kaitlyn's components
         rb = GetComponent<Rigidbody>();
         controls = new PlayerControls();

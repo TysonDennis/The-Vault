@@ -60,6 +60,8 @@ public class HUD : MonoBehaviour
     //is called at the start to set the sprites and set the pause menu inactive
     private void Awake()
     {
+        //makes it universal
+        DontDestroyOnLoad(this.gameObject);
         icon = GetComponentInChildren<Image>();
         pause.gameObject.SetActive(false);
         deleteButton.gameObject.SetActive(false);
