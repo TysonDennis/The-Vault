@@ -52,6 +52,7 @@ public class Camera : MonoBehaviour
     //activates upon start
     private void Awake()
     {
+        DontDestroyOnLoad(this.gameObject);
         //accesses the action asset that controls Kaitlyn
         controls = new PlayerControls();
         //sets the initial position of the camera relative to Kaitlyn
