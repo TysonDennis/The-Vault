@@ -18,8 +18,7 @@ public class HUD : MonoBehaviour
     [SerializeField]
     private Image otherIcon;
     //stores the text for the speech
-    [SerializeField]
-    private TextMeshProUGUI speech;
+    public TextMeshProUGUI speech;
     //gets the player script
     [SerializeField]
     private Player player;
@@ -159,5 +158,17 @@ public class HUD : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         icon.sprite = BaseSprite;
+    }
+
+    //shows the text to the player
+    public void Speak(string text)
+    {
+        speech.text = text;
+    }
+
+    //clears the text
+    public void Clear(string clearText)
+    {
+        speech.text = null;
     }
 }
