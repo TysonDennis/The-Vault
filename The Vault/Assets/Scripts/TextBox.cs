@@ -26,6 +26,9 @@ public class TextBox : MonoBehaviour
     //checks if the text box is one-shot or not
     [SerializeField]
     private bool isOneShot;
+    //holds the bool for if it causes Kaitlyn to display the hurt sprite
+    [SerializeField]
+    private bool isKaitlynHurt;
     //holds the audio of the text box
     [SerializeField]
     private AudioSource audio;
@@ -51,6 +54,11 @@ public class TextBox : MonoBehaviour
             audio.Play();
             hud.transform.gameObject.SendMessage("Speak", text);
             isActive = true;
+            //makes Kaitlyn's hurt sprite appear if she's hurt
+            if(isKaitlynHurt == true)
+            {
+                hud.hurtSprite();
+            }
         }
     }
 
