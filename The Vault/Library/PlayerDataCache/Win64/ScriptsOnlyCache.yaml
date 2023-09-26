@@ -52,6 +52,7 @@ ScriptsOnlyBuild:
     - UnityEditor.Polybrush.BrushSettings
     - UnityEditor.Polybrush.BrushSettingsEditor
     - UnityEditor.Polybrush.ColorPalette
+    - UnityEditor.Polybrush.ColorPaletteEditor
     - UnityEditor.Polybrush.PrefabPalette
     Unity.Polybrush.dll:
     - UnityEngine.Polybrush.PolybrushMesh
@@ -241,14 +242,14 @@ ScriptsOnlyBuild:
     fullTypeName: Grabbable
     methodName: SetInactive
   - assembly: Assembly-CSharp
+    fullTypeName: Player
+    methodName: Delete
+  - assembly: Assembly-CSharp
     fullTypeName: SeedSpittinSprout
     methodName: EnterRange
   - assembly: Assembly-CSharp
     fullTypeName: SeedSpittinSprout
     methodName: ExitRange
-  - assembly: Assembly-CSharp
-    fullTypeName: Player
-    methodName: Delete
   - assembly: Unity.RenderPipelines.Core.Runtime
     fullTypeName: UnityEngine.Rendering.UI.DebugUIHandlerUIntField
     methodName: OnDecrement
@@ -288,6 +289,9 @@ ScriptsOnlyBuild:
   - assembly: Assembly-CSharp
     fullTypeName: ChangeTransforms
     methodName: GoToStart
+  - assembly: Assembly-CSharp
+    fullTypeName: ChangeTransforms
+    methodName: GoToFinish
   sceneClasses:
     Assets/Scenes/TestScene1.unity:
     - Class: 1
@@ -323,8 +327,6 @@ ScriptsOnlyBuild:
     - Class: 82
       Script: {instanceID: 0}
     - Class: 83
-      Script: {instanceID: 0}
-    - Class: 89
       Script: {instanceID: 0}
     - Class: 90
       Script: {instanceID: 0}
@@ -591,8 +593,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 83
       Script: {instanceID: 0}
-    - Class: 89
-      Script: {instanceID: 0}
     - Class: 90
       Script: {instanceID: 0}
     - Class: 91
@@ -635,6 +635,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14100}
     - Class: 114
       Script: {instanceID: 14332}
+    - Class: 114
+      Script: {instanceID: 14558}
     - Class: 114
       Script: {instanceID: 14694}
     - Class: 114

@@ -11,6 +11,12 @@ public class Spawnpoint : MonoBehaviour
     [SerializeField]
     private Transform transform;
 
+    //gets the spawnpoint's transforms upon awake
+    private void Awake()
+    {
+        transform = GetComponent<Transform>();
+    }
+
     //sets Kaitlyn's spawnpoint to the position of the spawnpoint
     private void OnTriggerEnter(Collider other)
     {
