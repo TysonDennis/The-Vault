@@ -197,6 +197,7 @@ public class Player : MonoBehaviour
         IsGliding = false;
         IsInvisible = false;
         IsSlowed = false;
+        aquatic.isSubmerged = false;
         //gets Kaitlyn's meshes
         bodyMesh = body.GetComponent<SkinnedMeshRenderer>();
         hairMesh = hair.GetComponent<SkinnedMeshRenderer>();
@@ -861,6 +862,7 @@ public class Player : MonoBehaviour
         transform.position = kaitlyn.Spawnpoint.position;
         kaitlyn.HP = kaitlyn.maxHP;
         kaitlyn.floatHP = kaitlyn.HP;
+        aquatic.isSubmerged = false;
     }
 
     //runs the function for high jumping
