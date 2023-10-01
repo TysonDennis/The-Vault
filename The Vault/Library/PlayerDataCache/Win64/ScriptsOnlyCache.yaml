@@ -47,12 +47,6 @@ ScriptsOnlyBuild:
     - UnityEngine.InputSystem.RemoteInputPlayerConnection
     - UnityEngine.InputSystem.UI.InputSystemUIInputModule
     Unity.Polybrush.Editor.dll:
-    - UnityEditor.Polybrush.BrushModePaint
-    - UnityEditor.Polybrush.BrushModeRaiseLower
-    - UnityEditor.Polybrush.BrushSettings
-    - UnityEditor.Polybrush.BrushSettingsEditor
-    - UnityEditor.Polybrush.ColorPalette
-    - UnityEditor.Polybrush.ColorPaletteEditor
     - UnityEditor.Polybrush.PrefabPalette
     Unity.Polybrush.dll:
     - UnityEngine.Polybrush.PolybrushMesh
@@ -328,6 +322,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 83
       Script: {instanceID: 0}
+    - Class: 89
+      Script: {instanceID: 0}
     - Class: 90
       Script: {instanceID: 0}
     - Class: 91
@@ -593,6 +589,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 83
       Script: {instanceID: 0}
+    - Class: 89
+      Script: {instanceID: 0}
     - Class: 90
       Script: {instanceID: 0}
     - Class: 91
@@ -606,6 +604,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 7338}
     - Class: 114
+      Script: {instanceID: 7812}
+    - Class: 114
       Script: {instanceID: 8766}
     - Class: 114
       Script: {instanceID: 9188}
@@ -616,7 +616,11 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 9696}
     - Class: 114
+      Script: {instanceID: 10080}
+    - Class: 114
       Script: {instanceID: 10082}
+    - Class: 114
+      Script: {instanceID: 10168}
     - Class: 114
       Script: {instanceID: 10372}
     - Class: 114
@@ -631,6 +635,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12942}
     - Class: 114
       Script: {instanceID: 12960}
+    - Class: 114
+      Script: {instanceID: 13090}
     - Class: 114
       Script: {instanceID: 14100}
     - Class: 114
